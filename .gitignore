@@ -1,0 +1,73 @@
+# Python virtual environments (local development/build isolation)
+.venv/
+venv/
+env/
+ENV/
+
+# Python bytecode, caches, and installed package metadata
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyright/
+.pyre/
+.hypothesis/
+.tox/
+.nox/
+
+# Test, coverage, and profiling output
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+junit.xml
+test-results/
+*.prof
+*.pstats
+
+# Build and distribution artifacts (including PyInstaller onedir output)
+/build/
+/dist/
+/artifacts/
+/releases/
+/output/
+pip-wheel-metadata/
+
+# Downloaded models and local runtime state
+/models/
+/model-cache/
+/downloads/
+/runtime/
+*.argosmodel
+
+# Local config, secrets, and logs
+.env
+.env.*
+!.env.example
+*.log
+/logs/
+*.tmp
+
+# IDE and editor-specific state
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+
+# Agentic Tools
+.agent/
+.codex/
+openspec/
