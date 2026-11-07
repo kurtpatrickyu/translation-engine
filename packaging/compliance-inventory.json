@@ -1,0 +1,2326 @@
+{
+  "schema_version": 1,
+  "scope": "preparatory-only",
+  "candidate": {
+    "worker": "dist/diagnostic-20261107-133601/translation-engine-worker",
+    "audit": {
+      "path": "build/diagnostic-20261107-133601/native-static-audit-complete.json",
+      "sha256": "98d7d781d37beb55dffdb134c364f70c0838689f11ff2aa1df368bf25181dba7"
+    },
+    "build": {
+      "path": "build/diagnostic-20261107-133601/build-result.json",
+      "sha256": "16840b1721ebfd952c9af67d73b81357a997747a2ac13e502389f575fe3dbfd0"
+    },
+    "pyz": {
+      "path": "build/diagnostic-20261107-133601/work/worker/PYZ-00.toc",
+      "sha256": "19dae9ed6e0b0b6b74daf8396ebf09b36b2307a4ef129789392531569da7e2bd"
+    },
+    "exe": {
+      "path": "build/diagnostic-20261107-133601/work/worker/EXE-00.toc",
+      "sha256": "44e296d8bd6757795a7b607a0454600501a1fb21abe3e1fbc070b231ef1951d2"
+    },
+    "exe_sha256": "627c5e40ded9dd29655c2e9b68cbab7a8a12c90843daf3d6d7cd5d23fbc0b941",
+    "zip_sha256": "965cf2b166443a27ddfecf4d09b756420febaafb8d065f5ca97af8a3244a264b",
+    "pyz_roots": [
+      "__future__",
+      "_aix_support",
+      "_compat_pickle",
+      "_compression",
+      "_py_abc",
+      "_pydatetime",
+      "_pydecimal",
+      "_strptime",
+      "_threading_local",
+      "argostranslate",
+      "argparse",
+      "ast",
+      "asyncio",
+      "base64",
+      "bdb",
+      "bisect",
+      "bz2",
+      "calendar",
+      "charset_normalizer",
+      "cloudpickle",
+      "cmd",
+      "code",
+      "codeop",
+      "colorama",
+      "concurrent",
+      "contextlib",
+      "contextvars",
+      "copy",
+      "csv",
+      "ctranslate2",
+      "ctypes",
+      "dataclasses",
+      "datetime",
+      "decimal",
+      "difflib",
+      "dis",
+      "doctest",
+      "email",
+      "fileinput",
+      "filelock",
+      "fnmatch",
+      "fractions",
+      "ftplib",
+      "getopt",
+      "getpass",
+      "gettext",
+      "glob",
+      "gzip",
+      "hashlib",
+      "hmac",
+      "html",
+      "http",
+      "importlib",
+      "inspect",
+      "ipaddress",
+      "joblib",
+      "json",
+      "logging",
+      "lzma",
+      "mimetypes",
+      "minisbd",
+      "multiprocessing",
+      "netrc",
+      "nturl2path",
+      "numbers",
+      "numpy",
+      "onnxruntime",
+      "opcode",
+      "packaging",
+      "pathlib",
+      "pdb",
+      "pickle",
+      "pkgutil",
+      "platform",
+      "pprint",
+      "py_compile",
+      "pydoc",
+      "pydoc_data",
+      "queue",
+      "quopri",
+      "random",
+      "regex",
+      "runpy",
+      "sacremoses",
+      "secrets",
+      "selectors",
+      "sentencepiece",
+      "shlex",
+      "shutil",
+      "signal",
+      "socket",
+      "socketserver",
+      "sqlite3",
+      "ssl",
+      "statistics",
+      "string",
+      "stringprep",
+      "subprocess",
+      "sysconfig",
+      "tarfile",
+      "tempfile",
+      "textwrap",
+      "threading",
+      "token",
+      "tokenize",
+      "tqdm",
+      "tracemalloc",
+      "translation_engine",
+      "tty",
+      "typing",
+      "typing_extensions",
+      "unittest",
+      "urllib",
+      "uuid",
+      "webbrowser",
+      "xml",
+      "xmlrpc",
+      "yaml",
+      "zipfile",
+      "zipimport"
+    ],
+    "third_party_roots": [
+      "argostranslate",
+      "charset_normalizer",
+      "cloudpickle",
+      "colorama",
+      "ctranslate2",
+      "filelock",
+      "joblib",
+      "minisbd",
+      "numpy",
+      "onnxruntime",
+      "packaging",
+      "regex",
+      "sacremoses",
+      "sentencepiece",
+      "tqdm",
+      "typing_extensions",
+      "yaml"
+    ]
+  },
+  "obligations": [
+    {
+      "id": "agpl-scope",
+      "status": "blocked",
+      "blocker": "Maintainer/legal approval of AGPL covered-work, complete Corresponding Source/build/install scope and exclusions unresolved."
+    },
+    {
+      "id": "source-delivery",
+      "status": "blocked",
+      "blocker": "Recipient source delivery/availability and complete frozen-source correspondence not approved; staging is not fulfillment."
+    },
+    {
+      "id": "native-static",
+      "status": "blocked",
+      "blocker": "Static native revisions, grants and copyleft/proprietary compatibility remain unresolved."
+    },
+    {
+      "id": "public-gates",
+      "status": "blocked",
+      "blocker": "Other Level B clean-OS/offline/measurement/integrity/publication gates remain independently pending."
+    }
+  ],
+  "components": [
+    {
+      "id": "argostranslate",
+      "name": "Argos Translate",
+      "version": "1.11.1",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "MIT",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "wheel": "downloads/wheels/argostranslate-1.11.1-py3-none-any.whl",
+        "wheel_sha256": "825b1bf872390547bad6c1fcf1f12e5967e2fe6b44ca1e8a82e17a8dd79a2aa0",
+        "revision": "17ed1a9b055c5ba1b51d76b683bbb0c64e2a4a88",
+        "sha256": "0cedceb52ca288b12bb4a33de97f7a8df13bc45dd46f6338754194a27b746343",
+        "identity_status": "reviewed unmodified source-to-wheel mapping",
+        "url": "https://codeload.github.com/argosopentech/argos-translate/zip/17ed1a9b055c5ba1b51d76b683bbb0c64e2a4a88"
+      },
+      "status": "verified",
+      "blockers": [],
+      "pyz_roots": [
+        "argostranslate"
+      ],
+      "worker_files": [
+        "_internal/argostranslate-1.11.1.dist-info/INSTALLER",
+        "_internal/argostranslate-1.11.1.dist-info/METADATA",
+        "_internal/argostranslate-1.11.1.dist-info/RECORD",
+        "_internal/argostranslate-1.11.1.dist-info/REQUESTED",
+        "_internal/argostranslate-1.11.1.dist-info/WHEEL",
+        "_internal/argostranslate-1.11.1.dist-info/entry_points.txt",
+        "_internal/argostranslate-1.11.1.dist-info/licenses/LICENSE",
+        "_internal/argostranslate-1.11.1.dist-info/top_level.txt"
+      ],
+      "materials": [
+        {
+          "source": {
+            "path": "downloads/wheels/argostranslate-1.11.1-py3-none-any.whl",
+            "archive_sha256": "825b1bf872390547bad6c1fcf1f12e5967e2fe6b44ca1e8a82e17a8dd79a2aa0",
+            "member": "argostranslate-1.11.1.dist-info/METADATA",
+            "sha256": "4c9eec32b63c11843682d6c42e14715a077fc1f03741746ed3ae7ee6628a1918"
+          },
+          "destination": "evidence/distributions/argostranslate/METADATA",
+          "kind": "metadata",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/argostranslate-1.11.1-py3-none-any.whl",
+            "archive_sha256": "825b1bf872390547bad6c1fcf1f12e5967e2fe6b44ca1e8a82e17a8dd79a2aa0",
+            "member": "argostranslate-1.11.1.dist-info/licenses/LICENSE",
+            "sha256": "f90866ab74c1b756cc6f7420aed109f598320c9b660aeadbcec6458d0c1a4e1f"
+          },
+          "destination": "licenses/argostranslate/argostranslate-1.11.1.dist-info/licenses/LICENSE",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/argos-17ed1a9b055c5ba1b51d76b683bbb0c64e2a4a88.zip",
+            "sha256": "0cedceb52ca288b12bb4a33de97f7a8df13bc45dd46f6338754194a27b746343"
+          },
+          "destination": "sources/argostranslate/argos-17ed1a9b055c5ba1b51d76b683bbb0c64e2a4a88.zip",
+          "kind": "source-archive",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "scripts/build_argos_wheel.py",
+            "sha256": "970cf3f188608637b467ea12a92d2c8f5b18d3a0c81859761130233e24b13f06",
+            "identity_status": "locally-observed-file"
+          },
+          "destination": "sources/worker/scripts/build_argos_wheel.py",
+          "kind": "build-recipe",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "charset_normalizer",
+      "name": "charset-normalizer",
+      "version": "3.5.2",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "MIT",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "wheel": "downloads/wheels/charset_normalizer-3.5.2-cp312-cp312-win_amd64.whl",
+        "wheel_sha256": "780fbe7cab297b81dad9fb8dc5eb003c0468ffb0d9e5f65068c53a34661a96bc",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      },
+      "status": "incomplete",
+      "blockers": [
+        "Compiled-extension embedded compiler/runtime notices unresolved."
+      ],
+      "pyz_roots": [
+        "charset_normalizer"
+      ],
+      "worker_files": [
+        "_internal/charset_normalizer/cd.cp312-win_amd64.pyd",
+        "_internal/charset_normalizer/md.cp312-win_amd64.pyd"
+      ],
+      "materials": [
+        {
+          "source": {
+            "path": "downloads/wheels/charset_normalizer-3.5.2-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "780fbe7cab297b81dad9fb8dc5eb003c0468ffb0d9e5f65068c53a34661a96bc",
+            "member": "charset_normalizer-3.5.2.dist-info/METADATA",
+            "sha256": "49e955a09e1a159e0846872798006e8db7d518d8d70c637066fefdb08d3d9f7b"
+          },
+          "destination": "evidence/distributions/charset_normalizer/METADATA",
+          "kind": "metadata",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/charset_normalizer-3.5.2-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "780fbe7cab297b81dad9fb8dc5eb003c0468ffb0d9e5f65068c53a34661a96bc",
+            "member": "charset_normalizer-3.5.2.dist-info/licenses/LICENSE",
+            "sha256": "18577485d3704f1a479ded8e573c0976cfed315fd2fd17983fa988da4c2f70d1"
+          },
+          "destination": "licenses/charset_normalizer/charset_normalizer-3.5.2.dist-info/licenses/LICENSE",
+          "kind": "license-or-notice",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "cloudpickle",
+      "name": "cloudpickle",
+      "version": "3.1.2",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "BSD-3-Clause",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "wheel": "downloads/wheels/cloudpickle-3.1.2-py3-none-any.whl",
+        "wheel_sha256": "9acb47f6afd73f60dc1df93bb801b472f05ff42fa6c84167d25cb206be1fbf4a",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      },
+      "status": "verified",
+      "blockers": [],
+      "pyz_roots": [
+        "cloudpickle"
+      ],
+      "worker_files": [],
+      "materials": [
+        {
+          "source": {
+            "path": "downloads/wheels/cloudpickle-3.1.2-py3-none-any.whl",
+            "archive_sha256": "9acb47f6afd73f60dc1df93bb801b472f05ff42fa6c84167d25cb206be1fbf4a",
+            "member": "cloudpickle-3.1.2.dist-info/METADATA",
+            "sha256": "3d0263bfe9ee4f23b244bdcaff73acbe7a1957ebf82743b6ae42693adc48d721"
+          },
+          "destination": "evidence/distributions/cloudpickle/METADATA",
+          "kind": "metadata",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/cloudpickle-3.1.2-py3-none-any.whl",
+            "archive_sha256": "9acb47f6afd73f60dc1df93bb801b472f05ff42fa6c84167d25cb206be1fbf4a",
+            "member": "cloudpickle-3.1.2.dist-info/licenses/LICENSE",
+            "sha256": "3029ea34173e9fdc233ad315dc6b100bd1ea71f529b1c1af97664a272fdc55f5"
+          },
+          "destination": "licenses/cloudpickle/cloudpickle-3.1.2.dist-info/licenses/LICENSE",
+          "kind": "license-or-notice",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "colorama",
+      "name": "colorama",
+      "version": "0.4.6",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "BSD-3-Clause",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "wheel": "downloads/wheels/colorama-0.4.6-py2.py3-none-any.whl",
+        "wheel_sha256": "4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      },
+      "status": "verified",
+      "blockers": [],
+      "pyz_roots": [
+        "colorama"
+      ],
+      "worker_files": [],
+      "materials": [
+        {
+          "source": {
+            "path": "downloads/wheels/colorama-0.4.6-py2.py3-none-any.whl",
+            "archive_sha256": "4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6",
+            "member": "colorama-0.4.6.dist-info/METADATA",
+            "sha256": "7baed29eb50c3b29bdb33ff84e3177bf1bc05784f7685ecdcaa4471c7dd810cc"
+          },
+          "destination": "evidence/distributions/colorama/METADATA",
+          "kind": "metadata",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/colorama-0.4.6-py2.py3-none-any.whl",
+            "archive_sha256": "4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6",
+            "member": "colorama-0.4.6.dist-info/licenses/LICENSE.txt",
+            "sha256": "cac35c02686e5d04a5a7140bfb3b36e73aed496656e891102e428886d7930318"
+          },
+          "destination": "licenses/colorama/colorama-0.4.6.dist-info/licenses/LICENSE.txt",
+          "kind": "license-or-notice",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ctranslate2",
+      "name": "CTranslate2",
+      "version": "4.8.5",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "MIT",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "wheel": "downloads/wheels/ctranslate2-4.8.5-cp312-cp312-win_amd64.whl",
+        "wheel_sha256": "16b1478f9dccd3c6eedb7a1b2e23cb2a41f03976266b71afa1bd9019df7c7014",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      },
+      "status": "incomplete",
+      "blockers": [
+        "Exact cached wheel has no license text; obtain version-matched publisher text with provenance."
+      ],
+      "pyz_roots": [
+        "ctranslate2"
+      ],
+      "worker_files": [
+        "_internal/ctranslate2-4.8.5.dist-info/INSTALLER",
+        "_internal/ctranslate2-4.8.5.dist-info/METADATA",
+        "_internal/ctranslate2-4.8.5.dist-info/RECORD",
+        "_internal/ctranslate2-4.8.5.dist-info/REQUESTED",
+        "_internal/ctranslate2-4.8.5.dist-info/WHEEL",
+        "_internal/ctranslate2-4.8.5.dist-info/entry_points.txt",
+        "_internal/ctranslate2-4.8.5.dist-info/top_level.txt",
+        "_internal/ctranslate2/_ext.cp312-win_amd64.pyd",
+        "_internal/ctranslate2/ctranslate2.dll"
+      ],
+      "materials": [
+        {
+          "source": {
+            "path": "downloads/wheels/ctranslate2-4.8.5-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "16b1478f9dccd3c6eedb7a1b2e23cb2a41f03976266b71afa1bd9019df7c7014",
+            "member": "ctranslate2-4.8.5.dist-info/METADATA",
+            "sha256": "06b58bc28306044b21706b36661eee4887bfbc6e27af94043f8b54de9470fd9b"
+          },
+          "destination": "evidence/distributions/ctranslate2/METADATA",
+          "kind": "metadata",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "filelock",
+      "name": "filelock",
+      "version": "4.2.9",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "MIT",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "wheel": "downloads/wheels/filelock-4.2.9-py3-none-any.whl",
+        "wheel_sha256": "a379c50a729e5b68c8519a4d26489f755d9769960a236ecd838190e2a78db2e9",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      },
+      "status": "verified",
+      "blockers": [],
+      "pyz_roots": [
+        "filelock"
+      ],
+      "worker_files": [],
+      "materials": [
+        {
+          "source": {
+            "path": "downloads/wheels/filelock-4.2.9-py3-none-any.whl",
+            "archive_sha256": "a379c50a729e5b68c8519a4d26489f755d9769960a236ecd838190e2a78db2e9",
+            "member": "filelock-4.2.9.dist-info/METADATA",
+            "sha256": "53f9b39c11e83c1d6283f2150eb08dd66b9389921c664de90c185d20adfb5438"
+          },
+          "destination": "evidence/distributions/filelock/METADATA",
+          "kind": "metadata",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/filelock-4.2.9-py3-none-any.whl",
+            "archive_sha256": "a379c50a729e5b68c8519a4d26489f755d9769960a236ecd838190e2a78db2e9",
+            "member": "filelock-4.2.9.dist-info/licenses/LICENSE",
+            "sha256": "608c89d5060ae9921adccf3236695bc654a9946e12323ef6c021dfa04e294d48"
+          },
+          "destination": "licenses/filelock/filelock-4.2.9.dist-info/licenses/LICENSE",
+          "kind": "license-or-notice",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "joblib",
+      "name": "joblib",
+      "version": "1.6.0",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "BSD-3-Clause",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "wheel": "downloads/wheels/joblib-1.6.0-py3-none-any.whl",
+        "wheel_sha256": "3dbbf9f6e4b592a2357b854608e980fe6390d131d7a82f011a377ef2ebef7aba",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      },
+      "status": "incomplete",
+      "blockers": [
+        "Vendored loky 3.6.0 and copied CPython source/notices need reconciliation."
+      ],
+      "pyz_roots": [
+        "joblib"
+      ],
+      "worker_files": [],
+      "materials": [
+        {
+          "source": {
+            "path": "downloads/wheels/joblib-1.6.0-py3-none-any.whl",
+            "archive_sha256": "3dbbf9f6e4b592a2357b854608e980fe6390d131d7a82f011a377ef2ebef7aba",
+            "member": "joblib-1.6.0.dist-info/METADATA",
+            "sha256": "c5fd6509906c5795fd6724d97bc1709d1f266b78aff92c0156d6cf5ad7c045e3"
+          },
+          "destination": "evidence/distributions/joblib/METADATA",
+          "kind": "metadata",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/joblib-1.6.0-py3-none-any.whl",
+            "archive_sha256": "3dbbf9f6e4b592a2357b854608e980fe6390d131d7a82f011a377ef2ebef7aba",
+            "member": "joblib-1.6.0.dist-info/licenses/LICENSE.txt",
+            "sha256": "42612911c1872c5e4b43f6ae0e8ee59467cd350332241cf72ce90640264fae6a"
+          },
+          "destination": "licenses/joblib/joblib-1.6.0.dist-info/licenses/LICENSE.txt",
+          "kind": "license-or-notice",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "minisbd",
+      "name": "MiniSBD",
+      "version": "0.9.5",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "AGPL-3.0; later-version election unverified",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "yes",
+      "source_identity": {
+        "wheel": "downloads/wheels/minisbd-0.9.5-py3-none-any.whl",
+        "wheel_sha256": "a573a3bb62349a5a7f22f6e12c8305814dbe6765d83bcb034c6f780d1e69d1df",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      },
+      "status": "incomplete",
+      "blockers": [
+        "Exact MiniSBD source revision, frozen-source correspondence and inherited Stanza source/notices unresolved; wheel sources are provisional."
+      ],
+      "pyz_roots": [
+        "minisbd"
+      ],
+      "worker_files": [
+        "_internal/minisbd-0.9.5.dist-info/INSTALLER",
+        "_internal/minisbd-0.9.5.dist-info/METADATA",
+        "_internal/minisbd-0.9.5.dist-info/RECORD",
+        "_internal/minisbd-0.9.5.dist-info/REQUESTED",
+        "_internal/minisbd-0.9.5.dist-info/WHEEL",
+        "_internal/minisbd-0.9.5.dist-info/licenses/LICENSE"
+      ],
+      "materials": [
+        {
+          "source": {
+            "path": "downloads/wheels/minisbd-0.9.5-py3-none-any.whl",
+            "archive_sha256": "a573a3bb62349a5a7f22f6e12c8305814dbe6765d83bcb034c6f780d1e69d1df",
+            "member": "minisbd-0.9.5.dist-info/METADATA",
+            "sha256": "1d4e20b47d308da4e5026d3e112b9eab8a23710a813f1f37a57d33701030f059"
+          },
+          "destination": "evidence/distributions/minisbd/METADATA",
+          "kind": "metadata",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/minisbd-0.9.5-py3-none-any.whl",
+            "archive_sha256": "a573a3bb62349a5a7f22f6e12c8305814dbe6765d83bcb034c6f780d1e69d1df",
+            "member": "minisbd/modules/LICENSE.txt",
+            "sha256": "2da66d20a8cff881d048b3157b604609f8f19db97177bb4fc0fc083dcfd7371c"
+          },
+          "destination": "licenses/minisbd/minisbd/modules/LICENSE.txt",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/minisbd-0.9.5-py3-none-any.whl",
+            "archive_sha256": "a573a3bb62349a5a7f22f6e12c8305814dbe6765d83bcb034c6f780d1e69d1df",
+            "member": "minisbd-0.9.5.dist-info/licenses/LICENSE",
+            "sha256": "20b067f86de375aae6db0f283ab2e65de24d537733b89bd58432c101259d84cf"
+          },
+          "destination": "licenses/minisbd/minisbd-0.9.5.dist-info/licenses/LICENSE",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/minisbd-0.9.5-py3-none-any.whl",
+            "archive_sha256": "a573a3bb62349a5a7f22f6e12c8305814dbe6765d83bcb034c6f780d1e69d1df",
+            "member": "minisbd/__init__.py",
+            "sha256": "c3d3328177d34018f8793412df6c760b293abf192873e1de883d44dd237ff0e8"
+          },
+          "destination": "sources/minisbd/minisbd/__init__.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/minisbd-0.9.5-py3-none-any.whl",
+            "archive_sha256": "a573a3bb62349a5a7f22f6e12c8305814dbe6765d83bcb034c6f780d1e69d1df",
+            "member": "minisbd/inference.py",
+            "sha256": "acba63f292ff19ed0322e1abb8c42b597928fcbe3235331ed080682dfc5ad7db"
+          },
+          "destination": "sources/minisbd/minisbd/inference.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/minisbd-0.9.5-py3-none-any.whl",
+            "archive_sha256": "a573a3bb62349a5a7f22f6e12c8305814dbe6765d83bcb034c6f780d1e69d1df",
+            "member": "minisbd/minisbd.py",
+            "sha256": "b31954ae136119939653527f81ab9b5591937ca24d9a891edc3103509eea7898"
+          },
+          "destination": "sources/minisbd/minisbd/minisbd.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/minisbd-0.9.5-py3-none-any.whl",
+            "archive_sha256": "a573a3bb62349a5a7f22f6e12c8305814dbe6765d83bcb034c6f780d1e69d1df",
+            "member": "minisbd/models.py",
+            "sha256": "473bd918294224d5d292015816e84946d698a56b4344f9be275f5fab039d7a76"
+          },
+          "destination": "sources/minisbd/minisbd/models.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/minisbd-0.9.5-py3-none-any.whl",
+            "archive_sha256": "a573a3bb62349a5a7f22f6e12c8305814dbe6765d83bcb034c6f780d1e69d1df",
+            "member": "minisbd/modules/__init__.py",
+            "sha256": "d5ceb3eaedeeac69cef5cdfbdf0356f49a5be7dce8cdacb2b17b690c0d2b7ddf"
+          },
+          "destination": "sources/minisbd/minisbd/modules/__init__.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/minisbd-0.9.5-py3-none-any.whl",
+            "archive_sha256": "a573a3bb62349a5a7f22f6e12c8305814dbe6765d83bcb034c6f780d1e69d1df",
+            "member": "minisbd/modules/data.py",
+            "sha256": "5b3fce8e554e784ce9a58d138c9791cafc05ca6885fc6d73bfe4f99b99bc1710"
+          },
+          "destination": "sources/minisbd/minisbd/modules/data.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/minisbd-0.9.5-py3-none-any.whl",
+            "archive_sha256": "a573a3bb62349a5a7f22f6e12c8305814dbe6765d83bcb034c6f780d1e69d1df",
+            "member": "minisbd/modules/dictionary.py",
+            "sha256": "8ce3043f6c0ff8355e9f490303ebd1114b888f1c391e44a3c60bae2983bd5e5e"
+          },
+          "destination": "sources/minisbd/minisbd/modules/dictionary.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/minisbd-0.9.5-py3-none-any.whl",
+            "archive_sha256": "a573a3bb62349a5a7f22f6e12c8305814dbe6765d83bcb034c6f780d1e69d1df",
+            "member": "minisbd/modules/inference.py",
+            "sha256": "c583ca0076fa8fb254619bd7984b427b86d05ebd6572f5be46ebae96357c5cab"
+          },
+          "destination": "sources/minisbd/minisbd/modules/inference.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/minisbd-0.9.5-py3-none-any.whl",
+            "archive_sha256": "a573a3bb62349a5a7f22f6e12c8305814dbe6765d83bcb034c6f780d1e69d1df",
+            "member": "minisbd/modules/vocab.py",
+            "sha256": "d9b18a5f36c829233b3fd3f777c1307e2143e91e22ba47d34ba371ecad859c21"
+          },
+          "destination": "sources/minisbd/minisbd/modules/vocab.py",
+          "kind": "available-source",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "numpy",
+      "name": "NumPy",
+      "version": "2.5.4",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0; embedded licenses separate",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "wheel": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+        "wheel_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      },
+      "status": "verified",
+      "blockers": [],
+      "pyz_roots": [
+        "numpy"
+      ],
+      "worker_files": [
+        "_internal/numpy-2.5.4.dist-info/DELVEWHEEL",
+        "_internal/numpy-2.5.4.dist-info/INSTALLER",
+        "_internal/numpy-2.5.4.dist-info/METADATA",
+        "_internal/numpy-2.5.4.dist-info/RECORD",
+        "_internal/numpy-2.5.4.dist-info/REQUESTED",
+        "_internal/numpy-2.5.4.dist-info/WHEEL",
+        "_internal/numpy-2.5.4.dist-info/entry_points.txt",
+        "_internal/numpy-2.5.4.dist-info/licenses/LICENSE.txt",
+        "_internal/numpy-2.5.4.dist-info/licenses/numpy/_core/include/numpy/libdivide/LICENSE.txt",
+        "_internal/numpy-2.5.4.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat/COPYING",
+        "_internal/numpy-2.5.4.dist-info/licenses/numpy/_core/src/highway/LICENSE",
+        "_internal/numpy-2.5.4.dist-info/licenses/numpy/_core/src/multiarray/dragon4_LICENSE.txt",
+        "_internal/numpy-2.5.4.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort/LICENSE.md",
+        "_internal/numpy-2.5.4.dist-info/licenses/numpy/_core/src/umath/svml/LICENSE",
+        "_internal/numpy-2.5.4.dist-info/licenses/numpy/fft/pocketfft/LICENSE.md",
+        "_internal/numpy-2.5.4.dist-info/licenses/numpy/linalg/lapack_lite/LICENSE.txt",
+        "_internal/numpy-2.5.4.dist-info/licenses/numpy/ma/LICENSE",
+        "_internal/numpy-2.5.4.dist-info/licenses/numpy/random/LICENSE.md",
+        "_internal/numpy-2.5.4.dist-info/licenses/numpy/random/src/distributions/LICENSE.md",
+        "_internal/numpy-2.5.4.dist-info/licenses/numpy/random/src/mt19937/LICENSE.md",
+        "_internal/numpy-2.5.4.dist-info/licenses/numpy/random/src/pcg64/LICENSE.md",
+        "_internal/numpy-2.5.4.dist-info/licenses/numpy/random/src/philox/LICENSE.md",
+        "_internal/numpy-2.5.4.dist-info/licenses/numpy/random/src/sfc64/LICENSE.md",
+        "_internal/numpy-2.5.4.dist-info/licenses/numpy/random/src/splitmix64/LICENSE.md",
+        "_internal/numpy/_core/_multiarray_tests.cp312-win_amd64.pyd",
+        "_internal/numpy/_core/_multiarray_umath.cp312-win_amd64.pyd",
+        "_internal/numpy/fft/_pocketfft_umath.cp312-win_amd64.pyd",
+        "_internal/numpy/linalg/_umath_linalg.cp312-win_amd64.pyd",
+        "_internal/numpy/random/_bounded_integers.cp312-win_amd64.pyd",
+        "_internal/numpy/random/_common.cp312-win_amd64.pyd",
+        "_internal/numpy/random/_generator.cp312-win_amd64.pyd",
+        "_internal/numpy/random/_mt19937.cp312-win_amd64.pyd",
+        "_internal/numpy/random/_pcg64.cp312-win_amd64.pyd",
+        "_internal/numpy/random/_philox.cp312-win_amd64.pyd",
+        "_internal/numpy/random/_sfc64.cp312-win_amd64.pyd",
+        "_internal/numpy/random/bit_generator.cp312-win_amd64.pyd",
+        "_internal/numpy/random/mtrand.cp312-win_amd64.pyd"
+      ],
+      "materials": [
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy-2.5.4.dist-info/METADATA",
+            "sha256": "e2b909d6a37d76c2bc130f528d7fed0c517322bce16dc7846b6a6df30e200403"
+          },
+          "destination": "evidence/distributions/numpy/METADATA",
+          "kind": "metadata",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy/ma/LICENSE",
+            "sha256": "d78dbb208b80d92b4d333e41a4baae50d12444f46e53199fa7726a91de6e2da7"
+          },
+          "destination": "licenses/numpy/numpy/ma/LICENSE",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy/random/LICENSE.md",
+            "sha256": "b4bc2f4fa1c95778f1ed3dd8f14706bece399475b978f9f34b5d3cd72521b48a"
+          },
+          "destination": "licenses/numpy/numpy/random/LICENSE.md",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy/_core/include/numpy/random/LICENSE.txt",
+            "sha256": "d544761558b510866c21f7e8a2d5716fca76e0b98117e3b6b86314db7244d150"
+          },
+          "destination": "licenses/numpy/numpy/_core/include/numpy/random/LICENSE.txt",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy-2.5.4.dist-info/licenses/LICENSE.txt",
+            "sha256": "a804dff0ead9fadc5293456410bcbfc32bf024be9c4513459663fb7b442d2341"
+          },
+          "destination": "licenses/numpy/numpy-2.5.4.dist-info/licenses/LICENSE.txt",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy-2.5.4.dist-info/licenses/numpy/fft/pocketfft/LICENSE.md",
+            "sha256": "8db000e158c162e7249787852d8c69764706502ccee725c06641b31c1e95c8af"
+          },
+          "destination": "licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/fft/pocketfft/LICENSE.md",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy-2.5.4.dist-info/licenses/numpy/linalg/lapack_lite/LICENSE.txt",
+            "sha256": "19060ef465e1797d682ee0fc3081bd25ab1395e995e43d25c9d13c95d9a3cd6b"
+          },
+          "destination": "licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/linalg/lapack_lite/LICENSE.txt",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy-2.5.4.dist-info/licenses/numpy/ma/LICENSE",
+            "sha256": "d78dbb208b80d92b4d333e41a4baae50d12444f46e53199fa7726a91de6e2da7"
+          },
+          "destination": "licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/ma/LICENSE",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy-2.5.4.dist-info/licenses/numpy/random/LICENSE.md",
+            "sha256": "b4bc2f4fa1c95778f1ed3dd8f14706bece399475b978f9f34b5d3cd72521b48a"
+          },
+          "destination": "licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/random/LICENSE.md",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy-2.5.4.dist-info/licenses/numpy/random/src/distributions/LICENSE.md",
+            "sha256": "cf5619f25b112d5ce7c896efffc8e610bcb345dfadcc19f2c1460aa48fff2c9e"
+          },
+          "destination": "licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/random/src/distributions/LICENSE.md",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy-2.5.4.dist-info/licenses/numpy/random/src/mt19937/LICENSE.md",
+            "sha256": "92c10699884321f1c2947fe2a70ab23b0fbf1507f756d89dd08f38c61fc3d4fa"
+          },
+          "destination": "licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/random/src/mt19937/LICENSE.md",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy-2.5.4.dist-info/licenses/numpy/random/src/pcg64/LICENSE.md",
+            "sha256": "41190663b77bee5302386495a07b7eabfbfa571aa0ae2f11da6764162062fc4f"
+          },
+          "destination": "licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/random/src/pcg64/LICENSE.md",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy-2.5.4.dist-info/licenses/numpy/random/src/philox/LICENSE.md",
+            "sha256": "322ac46d870c8aeead6c53adcccc839296fb3c8e456eae155081297daf7f8013"
+          },
+          "destination": "licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/random/src/philox/LICENSE.md",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy-2.5.4.dist-info/licenses/numpy/random/src/sfc64/LICENSE.md",
+            "sha256": "28cad82ce1379dc529df30da78ec012d7d0d1d576b03ddcb93388aee53659f59"
+          },
+          "destination": "licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/random/src/sfc64/LICENSE.md",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy-2.5.4.dist-info/licenses/numpy/random/src/splitmix64/LICENSE.md",
+            "sha256": "454ec7350e478e037061850b67395753b425b1cb0a34bbc26290b020bf89d763"
+          },
+          "destination": "licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/random/src/splitmix64/LICENSE.md",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy-2.5.4.dist-info/licenses/numpy/_core/include/numpy/libdivide/LICENSE.txt",
+            "sha256": "d544761558b510866c21f7e8a2d5716fca76e0b98117e3b6b86314db7244d150"
+          },
+          "destination": "licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/_core/include/numpy/libdivide/LICENSE.txt",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy-2.5.4.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat/COPYING",
+            "sha256": "aea41976c720f91bd19725c16916a1ace40eb1ea42620d340e587a5de4bbcea0"
+          },
+          "destination": "licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat/COPYING",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy-2.5.4.dist-info/licenses/numpy/_core/src/highway/LICENSE",
+            "sha256": "d208152e2777ffd0126eacc1bd21c0320d69e4e6b622d21a2a12a47e8ef73763"
+          },
+          "destination": "licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/_core/src/highway/LICENSE",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy-2.5.4.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort/LICENSE.md",
+            "sha256": "a732977853530066790c42817087f4829b518dd98d340c916acbfd227e39d3cb"
+          },
+          "destination": "licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort/LICENSE.md",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+            "member": "numpy-2.5.4.dist-info/licenses/numpy/_core/src/umath/svml/LICENSE",
+            "sha256": "585483905b13d4b42f800c55ba99e89d6e2e33ccd5f503e201c07531d148ff41"
+          },
+          "destination": "licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/_core/src/umath/svml/LICENSE",
+          "kind": "license-or-notice",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "onnxruntime",
+      "name": "ONNX Runtime",
+      "version": "1.31.1",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "MIT; embedded licenses separate",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "wheel": "downloads/wheels/onnxruntime-1.31.1-cp312-cp312-win_amd64.whl",
+        "wheel_sha256": "ae8a9a351efda685cc59a66226cdefaa37a126c1d66872ca23a2de9425326130",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      },
+      "status": "verified",
+      "blockers": [],
+      "pyz_roots": [
+        "onnxruntime"
+      ],
+      "worker_files": [
+        "_internal/onnxruntime/capi/onnxruntime.dll",
+        "_internal/onnxruntime/capi/onnxruntime_providers_shared.dll",
+        "_internal/onnxruntime/capi/onnxruntime_pybind11_state.pyd"
+      ],
+      "materials": [
+        {
+          "source": {
+            "path": "downloads/wheels/onnxruntime-1.31.1-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "ae8a9a351efda685cc59a66226cdefaa37a126c1d66872ca23a2de9425326130",
+            "member": "onnxruntime-1.31.1.dist-info/METADATA",
+            "sha256": "2f3c9b07cbbb008caa43327723e11875e3a595eadfb30c9c1abd92163afe878e"
+          },
+          "destination": "evidence/distributions/onnxruntime/METADATA",
+          "kind": "metadata",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/onnxruntime-1.31.1-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "ae8a9a351efda685cc59a66226cdefaa37a126c1d66872ca23a2de9425326130",
+            "member": "onnxruntime/LICENSE",
+            "sha256": "c250d6278f0b47a6439fb7592b08b58a55eb9f535aa49a1db63211c3f982b674"
+          },
+          "destination": "licenses/onnxruntime/onnxruntime/LICENSE",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/onnxruntime-1.31.1-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "ae8a9a351efda685cc59a66226cdefaa37a126c1d66872ca23a2de9425326130",
+            "member": "onnxruntime/ThirdPartyNotices.txt",
+            "sha256": "c53a76501ef60db6f865f20599f220761201ac4057683acefdab37d861b86622"
+          },
+          "destination": "licenses/onnxruntime/onnxruntime/ThirdPartyNotices.txt",
+          "kind": "license-or-notice",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "packaging",
+      "name": "packaging",
+      "version": "26.3",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "Apache-2.0 OR BSD-2-Clause; route not elected",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "wheel": "downloads/wheels/packaging-26.3-py3-none-any.whl",
+        "wheel_sha256": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      },
+      "status": "verified",
+      "blockers": [],
+      "pyz_roots": [
+        "packaging"
+      ],
+      "worker_files": [],
+      "materials": [
+        {
+          "source": {
+            "path": "downloads/wheels/packaging-26.3-py3-none-any.whl",
+            "archive_sha256": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+            "member": "packaging-26.3.dist-info/METADATA",
+            "sha256": "70fdb89fc4d4a9a043bf7372b8972bcc883fddff34ab55e9cf80d73875384763"
+          },
+          "destination": "evidence/distributions/packaging/METADATA",
+          "kind": "metadata",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/packaging-26.3-py3-none-any.whl",
+            "archive_sha256": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+            "member": "packaging-26.3.dist-info/licenses/LICENSE",
+            "sha256": "cad1ef5bd340d73e074ba614d26f7deaca5c7940c3d8c34852e65c4909686c48"
+          },
+          "destination": "licenses/packaging/packaging-26.3.dist-info/licenses/LICENSE",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/packaging-26.3-py3-none-any.whl",
+            "archive_sha256": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+            "member": "packaging-26.3.dist-info/licenses/LICENSE.APACHE",
+            "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+          },
+          "destination": "licenses/packaging/packaging-26.3.dist-info/licenses/LICENSE.APACHE",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/packaging-26.3-py3-none-any.whl",
+            "archive_sha256": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+            "member": "packaging-26.3.dist-info/licenses/LICENSE.BSD",
+            "sha256": "b70e7e9b742f1cc6f948b34c16aa39ffece94196364bc88ff0d2180f0028fac5"
+          },
+          "destination": "licenses/packaging/packaging-26.3.dist-info/licenses/LICENSE.BSD",
+          "kind": "license-or-notice",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "regex",
+      "name": "regex",
+      "version": "2026.9.29",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "Apache-2.0 AND CNRI-Python",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "wheel": "downloads/wheels/regex-2026.9.29-cp312-cp312-win_amd64.whl",
+        "wheel_sha256": "fdd88ed5e20b1bcdd234421e454962c971aa44b653bdb7f1ea9ef683e90fb649",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      },
+      "status": "verified",
+      "blockers": [],
+      "pyz_roots": [
+        "regex"
+      ],
+      "worker_files": [
+        "_internal/regex/_regex.cp312-win_amd64.pyd"
+      ],
+      "materials": [
+        {
+          "source": {
+            "path": "downloads/wheels/regex-2026.9.29-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "fdd88ed5e20b1bcdd234421e454962c971aa44b653bdb7f1ea9ef683e90fb649",
+            "member": "regex-2026.9.29.dist-info/METADATA",
+            "sha256": "726c658b5d0ee420e773f9e6c843918e8a2ad7c27577d20c8f502c08eccb211e"
+          },
+          "destination": "evidence/distributions/regex/METADATA",
+          "kind": "metadata",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/regex-2026.9.29-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "fdd88ed5e20b1bcdd234421e454962c971aa44b653bdb7f1ea9ef683e90fb649",
+            "member": "regex-2026.9.29.dist-info/licenses/LICENSE.txt",
+            "sha256": "3d220c06594b826bbabf110312f60f385f99e57e529fa4b9e536f79091f8b4c7"
+          },
+          "destination": "licenses/regex/regex-2026.9.29.dist-info/licenses/LICENSE.txt",
+          "kind": "license-or-notice",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "sacremoses",
+      "name": "sacremoses",
+      "version": "0.1.1",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "MIT; inherited data notices unresolved",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "wheel": "downloads/wheels/sacremoses-0.1.1-py3-none-any.whl",
+        "wheel_sha256": "31e04c98b169bfd902144824d191825cd69220cdb4ae4bcf1ec58a7db5587b1a",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      },
+      "status": "incomplete",
+      "blockers": [
+        "Inherited Moses/Unicode data notice chain not reconciled."
+      ],
+      "pyz_roots": [
+        "sacremoses"
+      ],
+      "worker_files": [
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.as",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.bn",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.ca",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.cs",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.de",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.el",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.en",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.es",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.et",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.fi",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.fr",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.ga",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.gu",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.hi",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.hu",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.is",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.it",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.kn",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.lt",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.lv",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.ml",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.mni",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.mr",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.nl",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.or",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.pa",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.pl",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.pt",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.ro",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.ru",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.sk",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.sl",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.sv",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.ta",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.tdt",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.te",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.yue",
+        "_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.zh",
+        "_internal/sacremoses/data/perluniprops/CJK.txt",
+        "_internal/sacremoses/data/perluniprops/CJKSymbols.txt",
+        "_internal/sacremoses/data/perluniprops/Close_Punctuation.txt",
+        "_internal/sacremoses/data/perluniprops/Currency_Symbol.txt",
+        "_internal/sacremoses/data/perluniprops/Han.txt",
+        "_internal/sacremoses/data/perluniprops/Hangul.txt",
+        "_internal/sacremoses/data/perluniprops/Hangul_Syllables.txt",
+        "_internal/sacremoses/data/perluniprops/Hiragana.txt",
+        "_internal/sacremoses/data/perluniprops/IsAlnum-unichars-au.txt",
+        "_internal/sacremoses/data/perluniprops/IsAlnum.txt",
+        "_internal/sacremoses/data/perluniprops/IsAlpha-unichars-au.txt",
+        "_internal/sacremoses/data/perluniprops/IsAlpha.txt",
+        "_internal/sacremoses/data/perluniprops/IsLower.txt",
+        "_internal/sacremoses/data/perluniprops/IsN.txt",
+        "_internal/sacremoses/data/perluniprops/IsPf.txt",
+        "_internal/sacremoses/data/perluniprops/IsPi.txt",
+        "_internal/sacremoses/data/perluniprops/IsSc.txt",
+        "_internal/sacremoses/data/perluniprops/IsSo.txt",
+        "_internal/sacremoses/data/perluniprops/IsUpper.txt",
+        "_internal/sacremoses/data/perluniprops/Katakana.txt",
+        "_internal/sacremoses/data/perluniprops/Line_Separator.txt",
+        "_internal/sacremoses/data/perluniprops/Lowercase_Letter.txt",
+        "_internal/sacremoses/data/perluniprops/Number.txt",
+        "_internal/sacremoses/data/perluniprops/Open_Punctuation.txt",
+        "_internal/sacremoses/data/perluniprops/Punctuation.txt",
+        "_internal/sacremoses/data/perluniprops/Separator.txt",
+        "_internal/sacremoses/data/perluniprops/Symbol.txt",
+        "_internal/sacremoses/data/perluniprops/Titlecase_Letter.txt",
+        "_internal/sacremoses/data/perluniprops/Uppercase_Letter.txt"
+      ],
+      "materials": [
+        {
+          "source": {
+            "path": "downloads/wheels/sacremoses-0.1.1-py3-none-any.whl",
+            "archive_sha256": "31e04c98b169bfd902144824d191825cd69220cdb4ae4bcf1ec58a7db5587b1a",
+            "member": "sacremoses-0.1.1.dist-info/METADATA",
+            "sha256": "249c7c18d37c85c7552cb8107a12eb17f3ac36b545b7c6eb7613c1dcf7563014"
+          },
+          "destination": "evidence/distributions/sacremoses/METADATA",
+          "kind": "metadata",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/sacremoses-0.1.1-py3-none-any.whl",
+            "archive_sha256": "31e04c98b169bfd902144824d191825cd69220cdb4ae4bcf1ec58a7db5587b1a",
+            "member": "sacremoses-0.1.1.dist-info/LICENSE",
+            "sha256": "efe03a5e303b216ad2008b100da2ac2fbe6aa3ca442f2cfb931227f996fd2ebe"
+          },
+          "destination": "licenses/sacremoses/sacremoses-0.1.1.dist-info/LICENSE",
+          "kind": "license-or-notice",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "sentencepiece",
+      "name": "SentencePiece",
+      "version": "0.2.1",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "Apache-2.0",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "wheel": "downloads/wheels/sentencepiece-0.2.1-cp312-cp312-win_amd64.whl",
+        "wheel_sha256": "4cdc7c36234fda305e85c32949c5211faaf8dd886096c7cea289ddc12a2d02de",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      },
+      "status": "incomplete",
+      "blockers": [
+        "Exact cached wheel has no license text; obtain version-matched publisher text with provenance."
+      ],
+      "pyz_roots": [
+        "sentencepiece"
+      ],
+      "worker_files": [
+        "_internal/sentencepiece-0.2.1.dist-info/INSTALLER",
+        "_internal/sentencepiece-0.2.1.dist-info/METADATA",
+        "_internal/sentencepiece-0.2.1.dist-info/RECORD",
+        "_internal/sentencepiece-0.2.1.dist-info/REQUESTED",
+        "_internal/sentencepiece-0.2.1.dist-info/WHEEL",
+        "_internal/sentencepiece-0.2.1.dist-info/top_level.txt",
+        "_internal/sentencepiece/_sentencepiece.cp312-win_amd64.pyd"
+      ],
+      "materials": [
+        {
+          "source": {
+            "path": "downloads/wheels/sentencepiece-0.2.1-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "4cdc7c36234fda305e85c32949c5211faaf8dd886096c7cea289ddc12a2d02de",
+            "member": "sentencepiece-0.2.1.dist-info/METADATA",
+            "sha256": "3de0de19c0bf383a6946bc0494b5c428e7216cb7d94a4607db4cb430f5e23abb"
+          },
+          "destination": "evidence/distributions/sentencepiece/METADATA",
+          "kind": "metadata",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "tqdm",
+      "name": "tqdm",
+      "version": "4.70.1",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "MPL-2.0 AND MIT contributions",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "yes",
+      "source_identity": {
+        "wheel": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+        "wheel_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      },
+      "status": "incomplete",
+      "blockers": [
+        "MPL source files available from locked wheel; frozen-source correspondence and recipient source-availability mechanism not approved."
+      ],
+      "pyz_roots": [
+        "tqdm"
+      ],
+      "worker_files": [
+        "_internal/tqdm-4.70.1.dist-info/INSTALLER",
+        "_internal/tqdm-4.70.1.dist-info/METADATA",
+        "_internal/tqdm-4.70.1.dist-info/RECORD",
+        "_internal/tqdm-4.70.1.dist-info/REQUESTED",
+        "_internal/tqdm-4.70.1.dist-info/WHEEL",
+        "_internal/tqdm-4.70.1.dist-info/entry_points.txt",
+        "_internal/tqdm-4.70.1.dist-info/licenses/LICENCE",
+        "_internal/tqdm-4.70.1.dist-info/top_level.txt"
+      ],
+      "materials": [
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm-4.70.1.dist-info/METADATA",
+            "sha256": "a5da70b966afea3a759716041bad7187f2ece02c22348cf9e7c0a512bbf15f57"
+          },
+          "destination": "evidence/distributions/tqdm/METADATA",
+          "kind": "metadata",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm-4.70.1.dist-info/licenses/LICENCE",
+            "sha256": "fcff87c3a47ce8028a8512aa182d4fcf0ad1c90544ee75cf9b343684cac194de"
+          },
+          "destination": "licenses/tqdm/tqdm-4.70.1.dist-info/licenses/LICENCE",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/__init__.py",
+            "sha256": "f6640d6124aa3fdf496acb9b102d4f3892cc9a1924047e9c259c4f211e46da94"
+          },
+          "destination": "sources/tqdm/tqdm/__init__.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/__main__.py",
+            "sha256": "6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279"
+          },
+          "destination": "sources/tqdm/tqdm/__main__.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/_main.py",
+            "sha256": "f724af8268bfd92c38080a395035b44367717d3af26e8116187a217c2273d2c0"
+          },
+          "destination": "sources/tqdm/tqdm/_main.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/_monitor.py",
+            "sha256": "d5571abeea2d61237a2bed636e936ecba1d8b6bde6c28e4d87f8d9310fa38370"
+          },
+          "destination": "sources/tqdm/tqdm/_monitor.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/_tqdm.py",
+            "sha256": "2df2c2b89e9ba6c568f718a59ad057c849b5bc69d4085ae5896f398f727e9c3e"
+          },
+          "destination": "sources/tqdm/tqdm/_tqdm.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/_tqdm_gui.py",
+            "sha256": "d371dcf0a6b2c49bde89e239fb4fb6346883a4bbf0f6365e9287c9515ec20b09"
+          },
+          "destination": "sources/tqdm/tqdm/_tqdm_gui.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/_tqdm_notebook.py",
+            "sha256": "06e1e22eec6eeae11f64568f256dd13e93dac5a55cb44400de47522520cbd61c"
+          },
+          "destination": "sources/tqdm/tqdm/_tqdm_notebook.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/_tqdm_pandas.py",
+            "sha256": "73d8e9b5482280de9ac510e145de1189ff7c4e6c5ea297359c5345848a5b1541"
+          },
+          "destination": "sources/tqdm/tqdm/_tqdm_pandas.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/_utils.py",
+            "sha256": "09f2f3b71158f9046235fc500aa01bd8df04d77b9ab8833de5149088595a12e1"
+          },
+          "destination": "sources/tqdm/tqdm/_utils.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/asyncio.py",
+            "sha256": "229706a3a645c1ce8a287623e6cee1e246918a881c69b27a3dca878fa8ddcb42"
+          },
+          "destination": "sources/tqdm/tqdm/asyncio.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/auto.py",
+            "sha256": "9c365f963ea9db32a48c108d068babae14bcd7361f672d7f750bdb724add5bca"
+          },
+          "destination": "sources/tqdm/tqdm/auto.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/autonotebook.py",
+            "sha256": "da9360182243b1eb0d372627992bdef013502e2192828f7b4ac3e83170ab3514"
+          },
+          "destination": "sources/tqdm/tqdm/autonotebook.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/cli.py",
+            "sha256": "b758ff3ea2344ae3328491a807130f09763e5136df8dc89a010631014fdffd5d"
+          },
+          "destination": "sources/tqdm/tqdm/cli.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/dask.py",
+            "sha256": "f448b9f1e56a4e8b2c44b8407d6c9414276e5d82a398b9b091a5c8cbe08761fb"
+          },
+          "destination": "sources/tqdm/tqdm/dask.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/gui.py",
+            "sha256": "99a43b8e007995e587c313256c1bf4f21a5ee65cadbe61f4844011bb6d8645d5"
+          },
+          "destination": "sources/tqdm/tqdm/gui.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/keras.py",
+            "sha256": "ba077cd3ec42c4caa7adbc7f0c43a99a3e9cd92875c6856d43c57df9bc36f5ea"
+          },
+          "destination": "sources/tqdm/tqdm/keras.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/notebook.py",
+            "sha256": "eb19144dc611b05c4de3f052518619e75900808ef27274f41cba4ff47ba412a8"
+          },
+          "destination": "sources/tqdm/tqdm/notebook.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/rich.py",
+            "sha256": "274e32abacb652bf74d76cc2ecf91ccc0d6dedc0e37adf3c866064ac0bfeb36b"
+          },
+          "destination": "sources/tqdm/tqdm/rich.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/std.py",
+            "sha256": "dd76d965de52c590819dec376644220cb35dc4831e40efb4c30944884fc57d86"
+          },
+          "destination": "sources/tqdm/tqdm/std.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/tk.py",
+            "sha256": "dd5b01d4c0c090222d696bbb0a631bd82a132cc8aa98388480d8b7ca2a90e466"
+          },
+          "destination": "sources/tqdm/tqdm/tk.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/utils.py",
+            "sha256": "a3f7f4577d87ff0ae7d179919e8de3f6927dc65a79c4bd1f1d3de0b6a2fe939f"
+          },
+          "destination": "sources/tqdm/tqdm/utils.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/version.py",
+            "sha256": "d2e1f84cb7bc23c1fbd71dbd7659ad11904e6cb4f76f9216fa7cad177574215c"
+          },
+          "destination": "sources/tqdm/tqdm/version.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/contrib/__init__.py",
+            "sha256": "d46318604f3ae960af94783931d9b33af3ec423e19b8c957cf3f317117090fad"
+          },
+          "destination": "sources/tqdm/tqdm/contrib/__init__.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/contrib/bells.py",
+            "sha256": "21ac42d985b9ef11c38a7c5d503407bd27a0a341d24dd0d313141010dbd207f9"
+          },
+          "destination": "sources/tqdm/tqdm/contrib/bells.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/contrib/concurrent.py",
+            "sha256": "0a9c6bc1c29a4111fb9f04cf1b799562e95e1acfeed0c3615b8853b9a6e9618b"
+          },
+          "destination": "sources/tqdm/tqdm/contrib/concurrent.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/contrib/discord.py",
+            "sha256": "2cf8f10db99f898b70dce026fd686dc1b5fd05560394f73c949f7a698dd86431"
+          },
+          "destination": "sources/tqdm/tqdm/contrib/discord.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/contrib/itertools.py",
+            "sha256": "300f7e26f6f74e8b1ea69227bdebf6885e1ba2437b190cb84382e08d4c98740e"
+          },
+          "destination": "sources/tqdm/tqdm/contrib/itertools.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/contrib/logging.py",
+            "sha256": "d27167d82eea51488a3c1d7da931ae4bd2df8daf1a8855b4bbd9326d1746d215"
+          },
+          "destination": "sources/tqdm/tqdm/contrib/logging.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/contrib/slack.py",
+            "sha256": "b02d7cdafef10647c67ed9c379499000b30e7f043353766235fd50fd70350e32"
+          },
+          "destination": "sources/tqdm/tqdm/contrib/slack.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/contrib/telegram.py",
+            "sha256": "c9b4eb6868d4431e66e38dd3b17ea927b531ae9b21d66e1ae3705359597fe1ee"
+          },
+          "destination": "sources/tqdm/tqdm/contrib/telegram.py",
+          "kind": "available-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+            "archive_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+            "member": "tqdm/contrib/utils_worker.py",
+            "sha256": "bdac722726a06303824172d431df3a6c26c8e2c3ea672b2e3066c34869af116a"
+          },
+          "destination": "sources/tqdm/tqdm/contrib/utils_worker.py",
+          "kind": "available-source",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "typing_extensions",
+      "name": "typing_extensions",
+      "version": "4.16.0",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "PSF-2.0",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "wheel": "downloads/wheels/typing_extensions-4.16.0-py3-none-any.whl",
+        "wheel_sha256": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      },
+      "status": "verified",
+      "blockers": [],
+      "pyz_roots": [
+        "typing_extensions"
+      ],
+      "worker_files": [],
+      "materials": [
+        {
+          "source": {
+            "path": "downloads/wheels/typing_extensions-4.16.0-py3-none-any.whl",
+            "archive_sha256": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8",
+            "member": "typing_extensions-4.16.0.dist-info/METADATA",
+            "sha256": "b05084ca1d50879865178d9fff9fabeab61bdfb1f361bfbde95421ffc8f9be46"
+          },
+          "destination": "evidence/distributions/typing_extensions/METADATA",
+          "kind": "metadata",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/typing_extensions-4.16.0-py3-none-any.whl",
+            "archive_sha256": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8",
+            "member": "typing_extensions-4.16.0.dist-info/licenses/LICENSE",
+            "sha256": "3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf"
+          },
+          "destination": "licenses/typing_extensions/typing_extensions-4.16.0.dist-info/licenses/LICENSE",
+          "kind": "license-or-notice",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "yaml",
+      "name": "PyYAML",
+      "version": "6.0.3",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "MIT; LibYAML separate",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "wheel": "downloads/wheels/pyyaml-6.0.3-cp312-cp312-win_amd64.whl",
+        "wheel_sha256": "5fcd34e47f6e0b794d17de1b4ff496c00986e1c83f7ab2fb8fcfe9616ff7477b",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      },
+      "status": "incomplete",
+      "blockers": [
+        "Statically incorporated LibYAML version/build and license mapping unresolved."
+      ],
+      "pyz_roots": [
+        "yaml"
+      ],
+      "worker_files": [
+        "_internal/yaml/_yaml.cp312-win_amd64.pyd"
+      ],
+      "materials": [
+        {
+          "source": {
+            "path": "downloads/wheels/pyyaml-6.0.3-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "5fcd34e47f6e0b794d17de1b4ff496c00986e1c83f7ab2fb8fcfe9616ff7477b",
+            "member": "pyyaml-6.0.3.dist-info/METADATA",
+            "sha256": "847a701020334386852b6e07bad1053cb0ce3da9ee1846e7e9d02b24e8bb3f8d"
+          },
+          "destination": "evidence/distributions/yaml/METADATA",
+          "kind": "metadata",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "downloads/wheels/pyyaml-6.0.3-cp312-cp312-win_amd64.whl",
+            "archive_sha256": "5fcd34e47f6e0b794d17de1b4ff496c00986e1c83f7ab2fb8fcfe9616ff7477b",
+            "member": "pyyaml-6.0.3.dist-info/licenses/LICENSE",
+            "sha256": "8d3928f9dc4490fd635707cb88eb26bd764102a7282954307d3e5167a577e8a4"
+          },
+          "destination": "licenses/yaml/pyyaml-6.0.3.dist-info/licenses/LICENSE",
+          "kind": "license-or-notice",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "translation-engine",
+      "name": "translation-engine",
+      "version": "0.1.0",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "MIT",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "revision": null,
+        "sha256": null,
+        "identity_status": "not-established"
+      },
+      "status": "verified",
+      "blockers": [],
+      "pyz_roots": [],
+      "worker_files": [],
+      "materials": [
+        {
+          "source": {
+            "path": "LICENSE",
+            "sha256": "37af1807adb76f23c16b90c9c1b9dd0817e8b6714a3e3896b8ef15b103ad93f7",
+            "identity_status": "locally-observed-file"
+          },
+          "destination": "licenses/translation-engine/LICENSE",
+          "kind": "license",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "docs/development.md",
+            "sha256": "6cc161005085698ea8ff336004277f1f74e904793c1f745b757ad647d977901d",
+            "identity_status": "locally-observed-file"
+          },
+          "destination": "sources/worker/docs/development.md",
+          "kind": "build-install-documentation",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "docs/model-provisioning.md",
+            "sha256": "c47d556bcdb482c29a43b2651ca0524c716ce95901e7ac5347f64c90d349a6a2",
+            "identity_status": "locally-observed-file"
+          },
+          "destination": "sources/worker/docs/model-provisioning.md",
+          "kind": "build-install-documentation",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "docs/redistribution-review.md",
+            "sha256": "fb386a6b811470e7369eeb4520fcafe9a2ce40c94b3663f6f896d6ebf53e0cd4",
+            "identity_status": "locally-observed-file"
+          },
+          "destination": "sources/worker/docs/redistribution-review.md",
+          "kind": "build-install-documentation",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "docs/native-dependencies.md",
+            "sha256": "3808792546b617491ff1d3fcd13e65a2ca8d5a0d78ceda2c402d40d07cb9f3e7",
+            "identity_status": "locally-observed-file"
+          },
+          "destination": "sources/worker/docs/native-dependencies.md",
+          "kind": "build-install-documentation",
+          "required": true
+        },
+        {
+          "source": {
+            "path": "models/provenance.json",
+            "sha256": "158fb4456db6edcb70776216da1f44a4935bf04ba5dc487af852a57ee207f2f9",
+            "identity_status": "locally-observed-file"
+          },
+          "destination": "sources/worker/models/provenance.json",
+          "kind": "external-metadata",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "python",
+      "name": "CPython",
+      "version": "3.12.10",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "PSF-2.0 and historical/incorporated licenses; Microsoft Windows binary conditions",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "revision": null,
+        "sha256": null,
+        "identity_status": "not-established"
+      },
+      "status": "incomplete",
+      "blockers": [
+        "Python incorporated versions/notices and Microsoft binary terms need review."
+      ],
+      "pyz_roots": [],
+      "worker_files": [
+        "_internal/_asyncio.pyd",
+        "_internal/_bz2.pyd",
+        "_internal/_ctypes.pyd",
+        "_internal/_decimal.pyd",
+        "_internal/_hashlib.pyd",
+        "_internal/_lzma.pyd",
+        "_internal/_multiprocessing.pyd",
+        "_internal/_overlapped.pyd",
+        "_internal/_queue.pyd",
+        "_internal/_socket.pyd",
+        "_internal/_sqlite3.pyd",
+        "_internal/_ssl.pyd",
+        "_internal/_uuid.pyd",
+        "_internal/_wmi.pyd",
+        "_internal/base_library.zip",
+        "_internal/pyexpat.pyd",
+        "_internal/python312.dll",
+        "_internal/select.pyd",
+        "_internal/unicodedata.pyd"
+      ],
+      "materials": [
+        {
+          "source": {
+            "external_path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\\LICENSE.txt",
+            "role": "python-distribution-license",
+            "sha256": "e502c6b880ff58d614901495a9009c136539cd0b1e2a2abb8fc00b934c203419",
+            "identity_status": "observed supplier license; not clearance"
+          },
+          "destination": "licenses/python/LICENSE.txt",
+          "kind": "license-or-notice",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "pyinstaller",
+      "name": "PyInstaller embedded runtime",
+      "version": "6.22.3",
+      "redistributed_form": "Frozen Python bytecode/native code/data as mapped in worker_files; incorporated code if separately identified",
+      "license": "GPL-2.0-or-later WITH bootloader exception; Apache-2.0 runtime hooks",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "revision": null,
+        "sha256": null,
+        "identity_status": "not-established"
+      },
+      "status": "incomplete",
+      "blockers": [
+        "Complete Apache runtime-hook text/notices and runtime-source mapping need verification."
+      ],
+      "pyz_roots": [],
+      "worker_files": [
+        "translation-engine-worker.exe"
+      ],
+      "materials": [
+        {
+          "source": {
+            "path": ".venv/Lib/site-packages/pyinstaller-6.22.3.dist-info/licenses/COPYING.txt",
+            "sha256": "0598064c7d2718e38d7914a7d08343b2fa008e3bea9ebba2aa7a6ffa5900dd64",
+            "identity_status": "observed installed distribution"
+          },
+          "destination": "licenses/pyinstaller/COPYING.txt",
+          "kind": "license-or-notice",
+          "required": true
+        },
+        {
+          "source": {
+            "path": ".venv/Lib/site-packages/PyInstaller/hooks/rthooks/pyi_rth_inspect.py",
+            "sha256": "e9db311f97b750a30a422e0bf2bdcff7514da67cd35b0f6189ad786956ff1abc",
+            "identity_status": "observed collected runtime hook"
+          },
+          "destination": "sources/pyinstaller/pyi_rth_inspect.py",
+          "kind": "runtime-hook-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": ".venv/Lib/site-packages/PyInstaller/hooks/rthooks/pyi_rth_multiprocessing.py",
+            "sha256": "2834a4a14da13d263183426eb7e61eec75cd720fac1bd0794f8ae63878763e20",
+            "identity_status": "observed collected runtime hook"
+          },
+          "destination": "sources/pyinstaller/pyi_rth_multiprocessing.py",
+          "kind": "runtime-hook-source",
+          "required": true
+        },
+        {
+          "source": {
+            "path": ".venv/Lib/site-packages/PyInstaller/hooks/rthooks/pyi_rth_pkgutil.py",
+            "sha256": "7d006a9675674b9cc7d8b11ea98ad037adea5dbdb6ebdf9b7a45c861501c4204",
+            "identity_status": "observed collected runtime hook"
+          },
+          "destination": "sources/pyinstaller/pyi_rth_pkgutil.py",
+          "kind": "runtime-hook-source",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "openblas",
+      "name": "SciPy OpenBLAS / LAPACK / GCC runtime",
+      "version": "OpenBLAS build 0.3.34.106.0; nested revisions unresolved",
+      "redistributed_form": "Native DLL or statically incorporated code",
+      "license": "BSD-3-Clause; LAPACK BSD-style; GPL-3.0-or-later WITH GCC-exception-3.1",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "revision": null,
+        "sha256": null,
+        "identity_status": "not-established"
+      },
+      "status": "incomplete",
+      "blockers": [
+        "GCC exception eligibility and exact OpenBLAS/LAPACK/GCC revisions unresolved."
+      ],
+      "pyz_roots": [],
+      "worker_files": [
+        "_internal/numpy.libs/libscipy_openblas64_-ed4f167a5330424524f45258e7ca2c8d.dll"
+      ],
+      "materials": [],
+      "evidence_materials_from": [
+        "numpy"
+      ]
+    },
+    {
+      "id": "intel-openmp",
+      "name": "Intel OpenMP",
+      "version": "PE resource 5.0.2025.910",
+      "redistributed_form": "Native DLL or statically incorporated code",
+      "license": "UNRESOLVED Intel supplier grant",
+      "license_identity_verified": false,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "revision": null,
+        "sha256": null,
+        "identity_status": "not-established"
+      },
+      "status": "blocked",
+      "blockers": [
+        "Exact Intel runtime grant/redistributable designation/notices and AGPL compatibility unresolved."
+      ],
+      "pyz_roots": [],
+      "worker_files": [
+        "_internal/ctranslate2/libiomp5md.dll"
+      ],
+      "materials": [],
+      "evidence_materials_from": []
+    },
+    {
+      "id": "msvc",
+      "name": "Microsoft ordinary VC++ DLLs",
+      "version": "14.50.35719.0",
+      "redistributed_form": "Native DLL or statically incorporated code",
+      "license": "UNRESOLVED Microsoft product grant",
+      "license_identity_verified": false,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "revision": null,
+        "sha256": null,
+        "identity_status": "not-established"
+      },
+      "status": "blocked",
+      "blockers": [
+        "Four System32 DLLs: approved acquisition, entitlement, matching product terms and servicing unresolved."
+      ],
+      "pyz_roots": [],
+      "worker_files": [
+        "_internal/MSVCP140_1.dll",
+        "_internal/msvcp140.dll",
+        "_internal/vcruntime140.dll",
+        "_internal/vcruntime140_1.dll"
+      ],
+      "materials": [],
+      "evidence_materials_from": []
+    },
+    {
+      "id": "msvc-numpy",
+      "name": "Microsoft renamed NumPy VC++ DLL",
+      "version": "14.40.33810.0",
+      "redistributed_form": "Native DLL or statically incorporated code",
+      "license": "UNRESOLVED Microsoft product grant",
+      "license_identity_verified": false,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "revision": null,
+        "sha256": null,
+        "identity_status": "not-established"
+      },
+      "status": "blocked",
+      "blockers": [
+        "Renamed MSVCP repair/redistribution provenance and downstream entitlement unresolved."
+      ],
+      "pyz_roots": [],
+      "worker_files": [
+        "_internal/numpy.libs/msvcp140-a4c2229bdc2a2a630acdc095b4d86008.dll"
+      ],
+      "materials": [],
+      "evidence_materials_from": []
+    },
+    {
+      "id": "openssl",
+      "name": "OpenSSL",
+      "version": "3.0.16",
+      "redistributed_form": "Native DLL or statically incorporated code",
+      "license": "Apache-2.0",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "revision": null,
+        "sha256": null,
+        "identity_status": "not-established"
+      },
+      "status": "incomplete",
+      "blockers": [
+        "Exact supplier binary notices/incorporated components not reconciled."
+      ],
+      "pyz_roots": [],
+      "worker_files": [
+        "_internal/libcrypto-3.dll",
+        "_internal/libssl-3.dll"
+      ],
+      "materials": [],
+      "evidence_materials_from": [
+        "python"
+      ]
+    },
+    {
+      "id": "sqlite",
+      "name": "SQLite",
+      "version": "3.49.1",
+      "redistributed_form": "Native DLL or statically incorporated code",
+      "license": "Public domain",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "no",
+      "source_identity": {
+        "revision": null,
+        "sha256": null,
+        "identity_status": "not-established"
+      },
+      "status": "incomplete",
+      "blockers": [
+        "Exact supplier/dedication evidence not staged; no independent SQLite source duty."
+      ],
+      "pyz_roots": [],
+      "worker_files": [
+        "_internal/sqlite3.dll"
+      ],
+      "materials": [],
+      "evidence_materials_from": []
+    },
+    {
+      "id": "libffi",
+      "name": "libffi",
+      "version": "3.4.4 expected; binary version unresolved",
+      "redistributed_form": "Native DLL or statically incorporated code",
+      "license": "MIT-style",
+      "license_identity_verified": true,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "revision": null,
+        "sha256": null,
+        "identity_status": "not-established"
+      },
+      "status": "incomplete",
+      "blockers": [
+        "Actual libffi build/version and supplier notice mapping unresolved."
+      ],
+      "pyz_roots": [],
+      "worker_files": [
+        "_internal/libffi-8.dll"
+      ],
+      "materials": [],
+      "evidence_materials_from": [
+        "python"
+      ]
+    },
+    {
+      "id": "python-incorporated",
+      "name": "CPython incorporated libraries",
+      "version": "bzip2 1.0.8 / XZ 5.2.5 / zlib 1.3.1 recipe; Expat/libmpdec unresolved",
+      "redistributed_form": "Native DLL or statically incorporated code",
+      "license": "Mixed permissive; exact grants unresolved",
+      "license_identity_verified": false,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "revision": null,
+        "sha256": null,
+        "identity_status": "not-established"
+      },
+      "status": "incomplete",
+      "blockers": [
+        "Reconcile versions/full notices for Expat, libmpdec, bzip2, XZ/liblzma, zlib."
+      ],
+      "pyz_roots": [],
+      "worker_files": [],
+      "materials": [],
+      "evidence_materials_from": [
+        "python"
+      ]
+    },
+    {
+      "id": "ct2-static",
+      "name": "CTranslate2 static components",
+      "version": "oneDNN 3.1.1 recipe; other revisions unresolved",
+      "redistributed_form": "Native DLL or statically incorporated code",
+      "license": "UNRESOLVED exact static license mapping",
+      "license_identity_verified": false,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "revision": null,
+        "sha256": null,
+        "identity_status": "not-established"
+      },
+      "status": "incomplete",
+      "blockers": [
+        "Exact wheel static BOM, Intel/MKL terms, spdlog/pybind11 notices and compatibility unresolved."
+      ],
+      "pyz_roots": [],
+      "worker_files": [],
+      "materials": [],
+      "evidence_materials_from": []
+    },
+    {
+      "id": "sentencepiece-static",
+      "name": "SentencePiece static components",
+      "version": "Exact protobuf-lite/Abseil and other revisions unresolved",
+      "redistributed_form": "Native DLL or statically incorporated code",
+      "license": "UNRESOLVED exact static license mapping",
+      "license_identity_verified": false,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "revision": null,
+        "sha256": null,
+        "identity_status": "not-established"
+      },
+      "status": "incomplete",
+      "blockers": [
+        "Exact embedded revisions and third-party license/notices unresolved."
+      ],
+      "pyz_roots": [],
+      "worker_files": [],
+      "materials": [],
+      "evidence_materials_from": []
+    },
+    {
+      "id": "ort-static",
+      "name": "ONNX Runtime static components",
+      "version": "Exact CPU embedded revisions unresolved",
+      "redistributed_form": "Native DLL or statically incorporated code",
+      "license": "UNRESOLVED applicability of supplier third-party grants",
+      "license_identity_verified": false,
+      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "matching_source_required": "conditional",
+      "source_identity": {
+        "revision": null,
+        "sha256": null,
+        "identity_status": "not-established"
+      },
+      "status": "incomplete",
+      "blockers": [
+        "Reconcile CPU BOM to third-party notices including Intel/nonpermissive terms and source duties."
+      ],
+      "pyz_roots": [],
+      "worker_files": [],
+      "materials": [],
+      "evidence_materials_from": [
+        "onnxruntime"
+      ]
+    }
+  ]
+}

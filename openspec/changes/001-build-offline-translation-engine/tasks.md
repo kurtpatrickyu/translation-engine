@@ -89,6 +89,17 @@ combined 4.5 is now completed 4.5a and pending public 4.5b; no OS result is infe
 - [ ] 5.1 [PUBLIC] Implement a small strict worker integrity manifest/schema/example and verification helpers: project worker URL/version/hash, runtime/source-wheel/build identities and compatibility; external original model/ONNX upstream URLs, versions/hashes/provenance/known-unknown terms and package layout. Do not treat external files as attached release assets.
 - [ ] 5.2 [PUBLIC] Generate manifest and `SHA256SUMS` from final worker/compliance files; reject hash/schema/identity/version/URL conflicts, duplicate entries, missing files and placeholders. Cover all distributed files except the checksum file itself; external model digests belong in manifest metadata, not attached-file checksum entries.
 - [ ] 5.3 [PUBLIC] Deliver reviewed third-party notices/license texts and required corresponding source/build/install material for MiniSBD AGPLv3, Visual C++/OpenMP/native and other bundled code, following 3.2/4.3b. Verify the source-delivery mechanism covers the exact binary; not shipping models does not waive bundled-code obligations.
+
+  Preparatory implementation completed 2026-11-07: `packaging/compliance-inventory.json`,
+  `scripts/stage_compliance.cjs`, focused Node tests and CMD instructions in
+  `docs/compliance-staging.md`. The ignored candidate staging run covers 31 component
+  entries / 180 frozen files / 17 third-party Python roots and stages 136 payload
+  files (138 including manifest/checksums). All configured copies succeed; 25
+  review/approval blockers remain. Matching-source scope/delivery, missing supplier
+  texts, Microsoft/Intel rights and static-native reconciliation are not cleared.
+  This is partial 5.3 preparation, not completion: PUBLIC remains 0/17, LOCAL 37/37,
+  overall 37/54. No rebuild, dependency change or release was performed.
+
 - [ ] 5.4 [PUBLIC] Use focused verification helpers and a reviewed checklist binding clean OS rows, offline isolation, target measurements, compliance and hashes to one candidate. Reject missing/stale/failed/mismatched evidence. Manual evidence review is acceptable; no generic attestation service or advanced CI is required.
 - [ ] 5.5 [PUBLIC] Prepare the exact verified worker-only candidate for explicit user publication approval after all Level B gates pass. If approved, attach/verify only worker/compliance/integrity assets through a direct reviewed release procedure, never overwrite published versions, and use minimal permissions. No implementation or candidate preparation authorizes publication by itself.
 - [ ] 5.6 [PUBLIC] Document trusted repository/release identity, versioned non-overwritten artifacts, SemVer/protocol/external-model compatibility, integrity versus authenticity, trusted offline metadata and rollback. Platform immutability/attestation infrastructure is deferred; do not promise an unimplemented authentication mechanism.

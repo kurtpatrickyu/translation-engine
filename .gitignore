@@ -36,6 +36,7 @@ test-results/
 /artifacts/
 /releases/
 /output/
+/candidate-staging/
 pip-wheel-metadata/
 
 # Downloaded models and local runtime state
