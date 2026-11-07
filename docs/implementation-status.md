@@ -8,6 +8,13 @@ pass on the development host. See [Unicode repair evidence](unicode-path-validat
 and [migration history](argos-migration.md). Both clean Windows rows remain pending.
 The sections below preserve earlier milestones and failure/recovery history.
 
+Subsequent local native packaging audit: all 53 AMD64 PE binaries and the
+validated ZIP contents pass static inventory/import/export checks. Inference
+loads application runtimes from the relocated bundle with a minimal child
+environment. External Teruten modules prevent a strict clean-isolation pass on
+this development host. See [native audit](native-dependencies.md); no build or
+packaging correction was needed and progress remains 29/47.
+
 The user invoked `openspec-apply-change` for the reviewed
 `001-build-offline-translation-engine` change on 2026-11-06. This authorizes
 implementation; it does not authorize production release publication.

@@ -32,6 +32,7 @@ def main():
     parser.add_argument('--ascii-paths', action='store_true', help='Isolate non-Unicode operation; not Unicode acceptance')
     parser.add_argument('--unicode-component', choices=['model', 'executable', 'state', 'all'],
                         help='Independently locate this directory under Unicode; default all')
+    parser.add_argument('--native-audit', action='store_true', help='Snapshot loaded native paths in a minimal child environment')
     args = parser.parse_args()
     if args.report.exists():
         raise SystemExit('Refusing to overwrite existing validation evidence')
@@ -39,6 +40,8 @@ def main():
         parser.error('--ascii-paths and --unicode-component are mutually exclusive')
     if args.source and args.unicode_component == 'executable':
         parser.error('Executable relocation requires the frozen artifact')
+    if args.source and args.native_audit:
+        parser.error('Native audit requires the frozen artifact')
     component = 'none' if args.ascii_paths else (args.unicode_component or 'all')
     report = {"passed": False, "clean_machine": False, "os_firewall_isolation": False,
               "os": platform.platform(), "cpu": platform.processor(), "machine": platform.machine(),
@@ -90,13 +93,37 @@ def main():
             env = {key: value for key, value in os.environ.items()
                    if not key.startswith(("PYTHON", "ARGOS_", "VIRTUAL_ENV", "CONDA_"))}
             env["PATH"] = str(Path(os.environ["SystemRoot"]) / "System32")
+            if args.native_audit:
+                # A restrictive test environment, not a change to worker policy.
+                # No inherited HIP/CUDA/CT2/OMP/Python paths or user cache roots.
+                env = {key: os.environ[key] for key in ('SystemRoot', 'WINDIR') if key in os.environ}
+                env['PATH'] = str(Path(os.environ['SystemRoot']) / 'System32')
+                for key, folder in [('USERPROFILE', 'profile'), ('APPDATA', 'appdata'),
+                                    ('LOCALAPPDATA', 'localappdata'), ('TEMP', 'temp'), ('TMP', 'temp')]:
+                    location = base / folder
+                    location.mkdir(exist_ok=True)
+                    env[key] = str(location)
+                report['child_environment_keys'] = sorted(env)
+                report['native_modules'] = {}
+                report['native_isolation_findings'] = []
+                def snapshot(stage):
+                    from audit_windows_package import loaded_modules
+                    modules = loaded_modules(process.pid, relocated)
+                    report['native_modules'][stage] = modules
+                    report['native_isolation_findings'] += [
+                        'External host module: ' + item['path'] for item in modules if item['scope'] == 'external_host']
+                    # A VC runtime in System32 is not an OS-guaranteed dependency.
+                    if any(item['scope'] != 'bundle' and Path(item['path']).name.lower().startswith(
+                            ('msvcp140', 'vcruntime140', 'python3', 'libiomp', 'libscipy', 'ctranslate2', 'onnxruntime'))
+                           for item in modules):
+                        raise RuntimeError('Application runtime loaded from the host')
             models, state = directory('external-models', 'model'), directory('worker-state', 'state')
             report['paths'] = dict(executable=str(executable), models=str(models), state=str(state))
             provision = subprocess.run(worker_command + [
                 "provision-model", "--file", str(root / "downloads/translate-zh_en-1_9.argosmodel"),
                 "--sbd-file", str(root / "downloads/zh-hans.onnx"), "--models-dir", str(models),
                 "--state-dir", str(directory('provision-state', 'state')),
-            ], capture_output=True, env=env, timeout=120)
+            ], capture_output=True, env=env, cwd=base, timeout=120)
             report['provisioning_stdout'] = provision.stdout.decode('utf-8', errors='replace')
             report['provisioning_stderr'] = provision.stderr.decode('utf-8', errors='replace')
             report['provisioning_stderr_base64'] = base64.b64encode(provision.stderr).decode('ascii')
@@ -105,7 +132,7 @@ def main():
             pending, stderr = queue.Queue(), []
             launch = time.perf_counter()
             process = subprocess.Popen(worker_command + ["--models-dir", str(models), "--state-dir", str(state)],
-                                       stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+                                       stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env, cwd=base)
             def read_stdout():
                 for frame in iter(process.stdout.readline, b""):
                     pending.put(frame)
@@ -164,6 +191,8 @@ def main():
             if not health["ready"]:
                 raise RuntimeError("Frozen readiness failed: " + repr(health))
             report["ready_memory"] = sample()
+            if args.native_audit:
+                snapshot('ready')
             corpus = ["你好，世界！", "不锈钢保温杯，容量500毫升。轻便耐用。", "这是第一段。\n这是第二段。"]
             observations = []
             for _ in range(5):
@@ -173,6 +202,8 @@ def main():
                         raise RuntimeError("Empty frozen translation")
                     observations.append({"input_utf8_bytes": len(text.encode()), "seconds": seconds,
                                          "text": text, "output": translated["text"]})
+            if args.native_audit:
+                snapshot('after_translation')
             send("shutdown")
             if process.wait(timeout=30):
                 raise RuntimeError("Frozen worker did not exit cleanly")
@@ -197,7 +228,7 @@ def main():
                 tokenizer_file.write_bytes(b'deliberately changed tokenizer')
                 rejected = subprocess.run(worker_command + ['--models-dir', str(models), '--state-dir', str(state)],
                     input=b'{"protocol_version":1,"id":"h","command":"health"}\n{"protocol_version":1,"id":"s","command":"shutdown"}\n',
-                    capture_output=True, env=env, timeout=30)
+                    capture_output=True, env=env, cwd=base, timeout=30)
                 responses = [json.loads(frame) for frame in rejected.stdout.splitlines()]
                 if (rejected.returncode or rejected.stderr or len(responses) != 2
                         or responses[0]['result']['ready']
@@ -205,7 +236,7 @@ def main():
                     raise RuntimeError('Changed-tokenizer integrity rejection failed')
                 reprovision = subprocess.run(worker_command + ['provision-model', '--file',
                     str(root / 'downloads/translate-zh_en-1_9.argosmodel'), '--sbd-file', str(root / 'downloads/zh-hans.onnx'),
-                    '--models-dir', str(models), '--state-dir', str(state)], capture_output=True, env=env, timeout=30)
+                    '--models-dir', str(models), '--state-dir', str(state)], capture_output=True, env=env, cwd=base, timeout=30)
                 if (not reprovision.returncode or reprovision.stdout
                         or (installed / 'installation.json').read_bytes() != receipt
                         or tokenizer_file.read_bytes() != b'deliberately changed tokenizer'
@@ -216,7 +247,7 @@ def main():
                 tokenizer_file.write_bytes(original_tokenizer)
             missing = subprocess.run(worker_command + ['--models-dir', str(base / 'missing-models'),
                 '--state-dir', str(base / 'missing-state')], input=b'{"protocol_version":1,"id":"h","command":"health"}\n{"protocol_version":1,"id":"s","command":"shutdown"}\n',
-                capture_output=True, env=env, timeout=30)
+                capture_output=True, env=env, cwd=base, timeout=30)
             missing_responses = [json.loads(frame) for frame in missing.stdout.splitlines()]
             if (missing.returncode or missing.stderr or len(missing_responses) != 2
                     or missing_responses[0]['result']['error']['code'] != 'MODEL_MISSING'):
@@ -242,7 +273,8 @@ def main():
             report["worker_exe_sha256"] = hashlib.sha256(executable.read_bytes()).hexdigest()
             report["asset_sizes"] = {name: (root / "downloads" / name).stat().st_size
                                      for name in ("translate-zh_en-1_9.argosmodel", "zh-hans.onnx")}
-            report["passed"] = True
+            report['functional_smoke_passed'] = True
+            report["passed"] = not report.get('native_isolation_findings')
     except Exception as error:
         report['passed'] = False
         report["error"] = str(error)
