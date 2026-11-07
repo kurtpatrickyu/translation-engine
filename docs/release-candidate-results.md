@@ -1,8 +1,9 @@
 # Local Windows release candidate results
 
 Candidate `0.1.0-rc.1`, assembled 2026-11-07. This implements local artifact
-assembly/integrity and consumer instructions, not publication or clean-machine
-acceptance. No PyInstaller rebuild, backend change, dependency upgrade, model
+assembly/integrity and consumer instructions. Subsequent Windows 10 core smoke
+evidence is recorded below; full clean-machine acceptance and publication remain
+pending. No PyInstaller rebuild, backend change, dependency upgrade, model
 download/modification, Git tag or GitHub Release occurred.
 
 Final directory: `candidate-staging/worker-0.1.0-rc.1-final/`.
@@ -67,6 +68,23 @@ build/static/source evidence dossier, rather than copying runtime directories.
   pinned to the same executable/diagnostic ZIP and external model hashes.
   The native report's overall strict-isolation failure from Teruten host modules
   is preserved separately from its successful functional smoke.
+
+## Windows 10 core smoke evidence (recorded 2026-11-08)
+
+The user's clean VirtualBox Windows 10 x64 test (build 19045.3803) used the exact
+worker ZIP/EXE hashes above. Candidate and both external asset checksums passed.
+Initial startup failed before Python loaded while the x64 runtime registry key
+was missing, despite `python312.dll` being present. After the user-reported
+prerequisite remedy, the unchanged EXE returned 0.1.0; local-file provisioning,
+ready health, `Hello, world!`, shutdown, exit 0 and empty normal stderr passed in
+two captured smoke runs. Installation commands/runtime version were not captured.
+The separate JSON-at-CMD syntax error is not a worker failure.
+
+See the [evidence review and original transcript](windows10-smoke-results.md).
+This advances partial evidence under 4.5b/4.6 only: OS network denial, Unicode
+relocation, broader checks, native origins and full target measurements remain
+unproven in this VM. Windows 11 has no supplied result. Neither full OS row nor
+any additional top-level task is complete; progress remains 38/54.
 
 ## Pending publication and next acceptance step
 

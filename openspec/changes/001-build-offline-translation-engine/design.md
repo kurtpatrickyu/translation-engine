@@ -195,8 +195,22 @@ Assess **Windows 10 and Windows 11 x64 CPU** as candidate targets. [Python 3.12 
 
 | Acceptance row | Required checks for the exact candidate | Current status |
 |---|---|---|
-| Windows 10 22H2 x64 (19045 family; record edition/update/ESU state) | Real runtime/model spike, native imports, relocated onedir/provisioning/protocol tests, clean Python-free offline inference, measurements | Candidate; pending validation |
+| Windows 10 22H2 x64 (19045 family; record edition/update/ESU state) | Real runtime/model spike, native imports, relocated onedir/provisioning/protocol tests, clean Python-free offline inference, measurements | Partial: user-reported clean VirtualBox x64 build 19045.3803 core smoke passed for 0.1.0-rc.1; full row pending. |
 | Windows 11 x64 (record tested edition/version/build) | Same checks against the same artifact/model hashes | Candidate; pending validation |
+
+Acceptance update recorded 2026-11-08: see
+[Windows 10 transcript review](../../../docs/windows10-smoke-results.md) and
+[current matrix/remaining gates](../../../docs/windows-acceptance.md).
+The exact rc.1 ZIP/EXE and external asset hashes match; local provisioning,
+readiness, translation, shutdown, exit 0 and empty normal stderr pass twice.
+The initial loader failure is retained as missing-prerequisite evidence, with
+successful unchanged-EXE startup after the user-reported remedy. Change 003's
+official external x64 VC prerequisite supersedes the earlier bundled-VC plan;
+actual VM runtime version/remedy commands/native origins are not evidenced.
+OS-level network denial, broader protocol/resource/relocation checks and full
+target measurements remain pending; Windows 11 has no supplied result. Earlier
+planning/evidence snapshots below do not imply these new partial checks complete
+either OS row. Top-level completion remains 38/54 (LOCAL 37/37; PUBLIC 1/17).
 
 A successful host-local real translation spike gates local worker integration and packaging. Both clean Windows rows with the same final worker/model/SBD hashes are required for Level B public support/release acceptance; their availability does not gate Level A local completion, manual use or documentation. Keep VM tasks pending and label support unvalidated until tested. A support reduction needs reviewed evidence; OS servicing status is recorded separately from binary compatibility.
 

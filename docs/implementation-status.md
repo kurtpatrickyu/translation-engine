@@ -1,5 +1,15 @@
 # Milestone A implementation evidence
 
+Latest acceptance evidence (recorded 2026-11-08): the user's clean VirtualBox
+Windows 10 x64 build 19045.3803 core smoke passed for exact candidate 0.1.0-rc.1
+after resolving the external runtime prerequisite. See the
+[transcript review](windows10-smoke-results.md) and
+[current acceptance matrix/remaining gates](windows-acceptance.md).
+Windows 10 full acceptance is partial; Windows 11, OS-denied networking, native
+origins and full target measurements remain pending. No new top-level task is
+complete: current progress is **38/54; LOCAL 37/37; PUBLIC 1/17** (5.2 is complete).
+The Level A and earlier diagnostic snapshots below remain historical evidence.
+
 **Level A is complete (2026-11-07): LOCAL 37/37; overall 37/54; PUBLIC 0/17.**
 The user personally executed both manual guides using the existing diagnostic.
 The supplied full CMD transcript is retained and reviewed in

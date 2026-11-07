@@ -1,5 +1,11 @@
 ## Completion levels and evidence accounting
 
+Current evidence review, 2026-11-08: **38/54 overall; LOCAL 37/37; PUBLIC 1/17**.
+The exact 0.1.0-rc.1 Windows 10 VirtualBox core smoke passed (build 19045.3803),
+with partial acceptance credit below. No top-level checkbox advances from this
+transcript. Windows 10 full acceptance remains partial; Windows 11 is pending.
+The snapshots below retain their historical scope; task 5.2 is already complete.
+
 Level A = locally usable and manually testable worker. Level B = publicly
 redistributable Windows release. Tasks default to LOCAL unless labelled PUBLIC;
 all A5 tasks are PUBLIC. Pending public gates do not block local tests or docs.
@@ -80,6 +86,28 @@ reconcile active usage/public docs in 4.9/5.7 without rewriting raw history.
 - [x] 4.5a [LOCAL] Complete host-local ASCII/spaces, separate Unicode model/executable/state and combined Unicode relocation smoke tests, with environment paths removed, actual provisioning/readiness, repeated translation, integrity/failure preservation, stdout purity and shutdown. Evidence: five passing frozen reports and 75 matching translation outputs in `docs/unicode-path-validation.md`; the later minimal-environment functional smoke also passed in `docs/native-dependencies.md`. This is not clean OS isolation.
 - [ ] 4.5b [PUBLIC] Execute the packaged protocol/provisioning/relocation/error/flush/stdout/shutdown checks on both clean OS matrix rows against the same candidate and external model hashes, retaining full results and loader errors. Add native stdout redirection only if leakage is demonstrated.
 - [ ] 4.6 [PUBLIC] Execute clean Windows 10 22H2 x64 and Windows 11 x64 acceptance using the same exact ZIP/model/ONNX hashes on clean VMs or Windows Sandbox where available, without system Python/Argos and with network access disabled. Record exact edition/build/update state, CPU, commit, commands, network controls, stderr/stdout, and results. Document any technical incompatibility before proposing a support reduction. Coordinate distinct 3.8b offline and 4.5b protocol/relocation assertions; no duplicate claim of completed evidence.
+
+  Partial Windows 10 evidence reviewed 2026-11-08 for 4.5b/4.6: user-reported
+  clean x64 VirtualBox VM, build 19045.3803; exact rc.1 worker ZIP
+  `708add4798814b8e7d2298ad36ae9697368afa639a4ae6ea99e391f4457fb28d`
+  and EXE `ec06bf07399b9d96d140e2c828772666aa12124b8991a2d622ebca52ced79d7d`.
+  See [review](../../../docs/windows10-smoke-results.md) and
+  [matrix/remaining tests](../../../docs/windows-acceptance.md).
+
+  | Windows 10 acceptance subrequirement | Supplied evidence status |
+  | --- | --- |
+  | Candidate coverage/checksums, EXE and both original asset hashes | Passed. |
+  | Startup after user-reported external runtime remedy | Passed: unchanged EXE returns 0.1.0. Initial Python-DLL loader failure and missing x64 runtime registry key preserved; remedy commands/version/origins not captured. Apply change-003's external prerequisite contract, not the historical bundled-VC assumption. |
+  | Local-file provisioning, health ready, Chinese-English smoke, shutdown | Passed in two fully captured runs: `Hello, world!`, correlated NDJSON, exit 0, empty normal stderr. Local-file use does not prove network denial. |
+  | OS-denied networking / attempted-download evidence (3.8b) | Not evidenced; remains open. |
+  | Unicode/spaces relocation, broader corpus and repeated in-process translation, resource failures/preservation, malformed-request recovery, immediate flush/EOF (4.5b) | Not evidenced in this VM; CMD syntax error outside the worker is not recovery coverage. |
+  | Exact environment/clean-image inventory, installed VC version and native origins (4.6), complete target measurements (4.7b) | Incomplete/not captured; remains open. |
+  | Windows 11 clean acceptance | No result supplied; remains open. |
+
+  No build, inference rerun, dependency/packaging/model change, compliance
+  clearance, tag or release occurred during this recording task. Keep 4.5b/4.6
+  unchecked and do not substitute old diagnostic or development-host evidence
+  for the missing clean-target criteria. Overall stays 38/54.
 - [x] 4.7a [LOCAL] Record the diagnostic worker ZIP/extracted size, fresh-process startup, warm-up/init, idle/ready/observed peak working set/private bytes and repeated latency, separately from monitored build memory/system headroom. Evidence: raw build/frozen reports and `docs/argos-migration.md`, `docs/unicode-path-validation.md`; record known host/CPU/RAM/settings/corpus/cache/sample methods and explicitly missing storage/power/cold-cache conditions. This limited local baseline does not complete target measurements or invent performance budgets.
 - [ ] 4.7b [PUBLIC] Capture complete clean-target measurements on both OS rows with final artifact/external model hashes, OS/CPU/RAM/storage/VM allocation/power details, SBD/thread/compute settings, cache/warm-up policy, corpus/input sizes, repetitions, raw timing/memory observations and median/tail summaries. Review a baseline without arbitrary thresholds.
 - [x] 4.8 [LOCAL] Verify Level A exit after 4.9/4.10: source/frozen/provisioning/local-attempt/native/relocation/limited measurement evidence and manual guides/user session reconciled in `docs/manual-test-results.md` (2026-11-07). All 37 LOCAL tasks complete. Retain native/OS-network, Teruten, timing/environment and licensing limits; no PUBLIC task or unsupported OS claim is advanced. This sign-off uses actual user CMD transcript evidence in addition to prior technical checks, not automated evidence alone.
