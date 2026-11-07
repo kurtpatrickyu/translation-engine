@@ -1,5 +1,8 @@
 # Manual usage and testing: existing Windows worker
 
+Prefer Command Prompt? Use the [CMD-only guide](manual-testing-cmd.md), which
+uses Windows tar/certutil and the same executable/protocol without PowerShell.
+
 Use the existing Windows x64 CPU diagnostic without installing Python, dependencies
 or rebuilding. There is no public production release yet. Future GitHub Releases
 distribute the worker and integrity/compliance material; users obtain original

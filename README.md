@@ -12,7 +12,8 @@ See [Windows development setup](docs/development.md) and
 [implementation evidence and blockers](docs/implementation-status.md).
 
 To use the existing diagnostic executable, start with the
-[manual usage and testing guide](docs/manual-usage.md): verify/extract the full
+[CMD usage and testing guide](docs/manual-testing-cmd.md) or the existing
+[PowerShell usage and testing guide](docs/manual-usage.md): verify/extract the full
 worker ZIP, obtain model/ONNX files from upstream, verify hashes, provision
 locally, then drive the offline worker. This is local testing, not public
 support or redistribution clearance.

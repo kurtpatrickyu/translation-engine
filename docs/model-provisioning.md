@@ -18,6 +18,7 @@ upstream providers; this project's releases will distribute the worker only,
 not model/ONNX binaries. No production release exists yet. The
 [manual usage guide](manual-usage.md) lists upstream URLs, exact hashes, the
 existing diagnostic ZIP and executable-only local provisioning/testing.
+For Command Prompt without PowerShell, use the [CMD guide](manual-testing-cmd.md).
 
 Provisioning accepts **local files** and works without network access:
 
