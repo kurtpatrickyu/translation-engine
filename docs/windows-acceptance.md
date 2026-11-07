@@ -2,6 +2,12 @@
 
 ## Exact candidate and current matrix
 
+**v0.1.0 scope decision (2026-11-08):** the maintainer explicitly waived separate
+Windows 11 clean-machine acceptance for the initial release. Windows 11 remains
+**expected compatible, UNTESTED**, optional future validation. Windows 10's
+remaining criteria and all other release gates below are unchanged. See the
+[recorded decision](v0.1.0-acceptance-scope.md).
+
 Use **0.1.0-rc.1**, the complete eight-file candidate described in
 [candidate results](release-candidate-results.md) and the
 [candidate CMD workflow](windows-release-candidate.md). This checklist supersedes
@@ -23,7 +29,7 @@ Do not require a new missing/older/newer-runtime matrix to finish acceptance.
 | Target | Supplied evidence | Full row status |
 | --- | --- | --- |
 | Windows 10 22H2 x64, build 19045.3803, VirtualBox (user-reported clean VM) | Exact checksums, local provisioning and two captured successful core smoke runs after prerequisite remedy; [reviewed transcript](windows10-smoke-results.md). | Partial; OS-denied networking, relocation, native origins, broader checks and target measurements pending. |
-| Windows 11 x64 | No clean-VM result supplied. | Pending; no acceptance credit. |
+| Windows 11 x64 | Expected compatible, UNTESTED; no clean-VM result supplied. | Separate acceptance waived for initial v0.1.0; optional future validation, no pass claimed. |
 
 The Windows 10 transcript does not identify edition/update/ESU state, hardware/VM
 allocation, actual installed VC version, loaded DLL origins or independently
@@ -31,11 +37,11 @@ inventory Python/Argos absence. It proves neither OS-level network denial nor
 full platform support. Local-file provisioning is distinct from proven offline
 isolation. The initial prerequisite failure is retained, not relabelled success.
 
-## Remaining tests (same bytes on both OS rows)
+## Remaining mandatory v0.1.0 Windows 10 checks
 
 For Windows 10, retain the passed core smoke credit and complete the following.
-For Windows 11, first run the candidate checksum/extraction/prerequisite/local
-provisioning/health/translation/shutdown smoke, then complete the same list.
+Windows 11 is optional future work: if exercised, reuse the candidate smoke and
+the same checklist/hashes, recording actual results without inferring a pass.
 
 - [ ] Record edition/version/build, servicing/update/ESU state, CPU/features, RAM,
   storage, VM allocation and power settings; inventory no system Python/global
@@ -50,7 +56,8 @@ provisioning/health/translation/shutdown smoke, then complete the same list.
   provisioning, startup/readiness and repeated inference; retain exact controls
   and attempted-download observations. Hash the same upstream-obtained files;
   do not download assets during the test or substitute Python audit hooks for
-  OS-level isolation. This supplies 3.8b evidence only when both rows pass.
+  OS-level isolation. For v0.1.0 this supplies 3.8b evidence on required Windows 10;
+  Windows 11 networking validation is optional with its waived acceptance.
 - [ ] Reuse the candidate CMD workflow and existing manual guide's interactive
   and deeper checks with the rc.1 EXE/models/state paths. Exercise multiple
   translations per persistent process, product/mixed Unicode/paragraph/empty/long
@@ -93,7 +100,7 @@ The following groups account for all 16 open tasks in the
 
 | Open task IDs | Remaining gate |
 | --- | --- |
-| 3.8b, 4.5b, 4.6, 4.7b | Finish both clean OS rows, network denial, full protocol/resource/relocation/native-origin evidence and complete target measurements above. |
+| 3.8b, 4.5b, 4.6, 4.7b | Finish required Windows 10 acceptance, network denial, full protocol/resource/relocation/native-origin evidence and complete target measurements above. Windows 11 is expected compatible but UNTESTED, waived for v0.1.0 and optional future validation. |
 | 3.2, 4.3b, 5.3 | Resolve existing bundled-component review/source obligations and bind final immutable source/build/install delivery to this exact binary. The candidate dossier retains 19 blockers, including Intel/native terms, NumPy renamed Microsoft DLL entitlement and remaining supplier/static source/notice mappings; see the existing [compliance record](compliance-staging.md#remaining-task-53-gates) and candidate compliance ZIP's `BLOCKERS.txt`. No legal clearance is inferred from VM success. |
 | 4.4b, 5.1 | Finalize the reviewed public asset set and immutable tag-specific worker/source URL binding. The local candidate exists and checksum mechanics (5.2) passed; public tag/release URLs remain null. |
 | 5.6, 5.7, 5.8 | Finalize trust/version/rollback, support/performance/troubleshooting and neutral consumer documentation against accepted evidence. |

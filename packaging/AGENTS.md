@@ -50,5 +50,7 @@ Distribute no external model/ONNX binaries or caches. Preserve provenance and
 attribution without claiming model clearance. MiniSBD remains AGPLv3; source and
 notice preparation does not settle all native rights or source obligations. The
 [release workflow](../docs/windows-release-candidate.md) prepares local acceptance
-artifacts only. Clean Windows 10/11 evidence, OS-denied networking, source/native
-clearance and publication remain separate gates.
+artifacts only. For initial v0.1.0, Windows 10 acceptance, OS-denied networking,
+source/native clearance and publication remain separate gates. Windows 11 is
+expected compatible but UNTESTED; separate acceptance is waived for v0.1.0 and
+optional future validation. Follow the [scope decision](../docs/v0.1.0-acceptance-scope.md).

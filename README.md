@@ -15,6 +15,15 @@ Chinese-English archive, and an explicitly provisioned MiniSBD ONNX resource.
 Host-local real-model tests pass; clean Windows acceptance and redistribution
 clearance remain pending. No production release is available.
 
+For initial **v0.1.0** (current candidate **0.1.0-rc.1**), Windows 10 x64 VM
+build 19045.3803 is [core smoke-tested with limitations](docs/windows10-smoke-results.md).
+Windows 11 is **expected compatible, UNTESTED**: the maintainer explicitly waived
+its separate clean-machine acceptance for this release; future validation is
+optional. See the [scope decision](docs/v0.1.0-acceptance-scope.md) and
+[remaining mandatory release gates](docs/windows-acceptance.md#exact-remaining-publication-gates).
+The waiver does not clear Windows 10's remaining evidence requirements,
+source/notices/native obligations, artifact integrity or final release approval.
+
 **Level A local usability is complete.** The user's actual CMD transcript and
 additional PowerShell recovery/translation transcript are recorded in
 [manual validation results](docs/manual-test-results.md). Public Windows support,

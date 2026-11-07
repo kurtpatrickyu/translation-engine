@@ -1,5 +1,13 @@
 ## Context
 
+Current release-scope amendment, 2026-11-08: the maintainer explicitly waived
+separate Windows 11 clean acceptance for initial v0.1.0. Windows 11 remains
+expected compatible but UNTESTED; future compatibility validation is optional.
+Windows 10 core smoke and initial missing-runtime failure are preserved, with
+its remaining acceptance criteria and every other release gate unchanged. See
+[decision](../../../docs/v0.1.0-acceptance-scope.md). Earlier migration/diagnostic
+snapshots below describe their original scope, not a continuing v0.1.0 two-OS gate.
+
 See proposal.md for motivation and scope. Initial inspection on 2026-11-06 found no application source, tests, packaging, dependency configuration, workflows, or existing capability specs. Preserve the existing MIT `LICENSE`, README project identity, and `openspec/config.yaml` (`spec-driven`). `.agent/` and `.codex/` contain local skills, not application code. At refinement, `.gitignore` is tracked and already excludes virtual environments, model downloads/state, build outputs, local tooling, and `openspec/`. Preserve its entries and explicitly add this change's planning artifacts to Git despite that rule; do not stage the adjacent ZIP or generated files. A1 verifies continued planning-artifact tracking and ignored development outputs. No ignore-file edit is needed for this scoped refinement.
 
 The installed CLI works through `openspec.cmd` with access to its user-profile installation. PowerShell's `.ps1` launcher is blocked by execution policy. Git inspection used a command-scoped safe-directory override, without changing global Git configuration. This refinement updates the existing repo-local `001-build-offline-translation-engine` change in place; there is no registered-store indication.
@@ -44,7 +52,7 @@ See `docs/unicode-path-validation.md`, `docs/argos-migration.md` and
 `965cf2b166443a27ddfecf4d09b756420febaafb8d065f5ca97af8a3244a264b`.
 This is a diagnostic, not a compliant public release ZIP.
 
-Level B additionally requires clean Windows 10 22H2 x64 and Windows 11 x64 with
+Level B additionally requires clean Windows 10 22H2 x64 for initial v0.1.0 (Windows 11 expected compatible, UNTESTED and optional under the 2026-11-08 waiver) with
 OS-denied networking, matching final worker/external model hashes and complete
 target measurements; bundled-code/native redistribution compliance; final
 worker-only manifest/checksums/notices/source-delivery and consumer docs;
@@ -191,12 +199,12 @@ Use the existing checked-in PyInstaller spec with console/stdio enabled, `onedir
 
 First use pinned standard hooks. Inspect warnings, import graph, metadata lookups, and native dependencies for CTranslate2, SentencePiece, Stanza/Torch, SpaCy/Thinc, MiniSBD/ONNX Runtime, NumPy, and their transitive libraries. Only add targeted `collect_dynamic_libs`, data/metadata collection, hidden imports, or hooks when an observed frozen failure justifies each addition. Do not globally collect every optional package or exclude mandatory imports without evidence. Record hook rationale. Audit Visual C++/OpenMP DLL requirements and redistribution terms; include legally redistributable app-local dependencies where supported. If a system redistributable is still required, resolve it before claiming a self-contained artifact; do not quietly introduce a consumer installer prerequisite.
 
-Assess **Windows 10 and Windows 11 x64 CPU** as candidate targets. [Python 3.12 Windows documentation](https://docs.python.org/3.12/using/windows.html) covers Windows 8.1 and newer, PyInstaller documents Windows 8+, and CTranslate2 publishes Windows x64 wheels without documenting an 11-only requirement. [PyTorch's Windows guidance](https://pytorch.org/get-started/locally/) includes Windows 10 and [ONNX Runtime compatibility](https://onnxruntime.ai/docs/reference/compatibility) reports Windows 10 testing. This is evidence of feasibility, not certification of the final pinned SpaCy/Thinc/Torch/ONNX/native DLL graph or a frozen artifact. No verified dependency reason currently justifies an 11-only limit. Keep the same pins while testing both; record a concrete failing dependency/API/DLL/OS build before proposing a narrower target. Do not infer support for older Windows, ARM64, or GPUs.
+Assess **Windows 10 and Windows 11 x64 CPU** as candidate targets. [Python 3.12 Windows documentation](https://docs.python.org/3.12/using/windows.html) covers Windows 8.1 and newer, PyInstaller documents Windows 8+, and CTranslate2 publishes Windows x64 wheels without documenting an 11-only requirement. [PyTorch's Windows guidance](https://pytorch.org/get-started/locally/) includes Windows 10 and [ONNX Runtime compatibility](https://onnxruntime.ai/docs/reference/compatibility) reports Windows 10 testing. This is evidence of feasibility, not certification of the final pinned SpaCy/Thinc/Torch/ONNX/native DLL graph or a frozen artifact. No verified dependency reason currently justifies an 11-only limit. Keep the same pins for required Windows 10 and optional Windows 11 testing; record a concrete failing dependency/API/DLL/OS build before proposing a narrower target. Do not infer support for older Windows, ARM64, or GPUs.
 
 | Acceptance row | Required checks for the exact candidate | Current status |
 |---|---|---|
 | Windows 10 22H2 x64 (19045 family; record edition/update/ESU state) | Real runtime/model spike, native imports, relocated onedir/provisioning/protocol tests, clean Python-free offline inference, measurements | Partial: user-reported clean VirtualBox x64 build 19045.3803 core smoke passed for 0.1.0-rc.1; full row pending. |
-| Windows 11 x64 (record tested edition/version/build) | Same checks against the same artifact/model hashes | Candidate; pending validation |
+| Windows 11 x64 | Optional future checks against the same artifact/model hashes | Expected compatible but UNTESTED; separate acceptance explicitly waived for initial v0.1.0 on 2026-11-08. |
 
 Acceptance update recorded 2026-11-08: see
 [Windows 10 transcript review](../../../docs/windows10-smoke-results.md) and
@@ -212,9 +220,9 @@ target measurements remain pending; Windows 11 has no supplied result. Earlier
 planning/evidence snapshots below do not imply these new partial checks complete
 either OS row. Top-level completion remains 38/54 (LOCAL 37/37; PUBLIC 1/17).
 
-A successful host-local real translation spike gates local worker integration and packaging. Both clean Windows rows with the same final worker/model/SBD hashes are required for Level B public support/release acceptance; their availability does not gate Level A local completion, manual use or documentation. Keep VM tasks pending and label support unvalidated until tested. A support reduction needs reviewed evidence; OS servicing status is recorded separately from binary compatibility.
+A successful host-local real translation spike gates local worker integration and packaging. For initial v0.1.0, clean Windows 10 acceptance with the exact final worker/model/SBD hashes is required for Level B; separate Windows 11 acceptance is waived and optional, with no validated compatibility claim; their availability does not gate Level A local completion, manual use or documentation. Keep VM tasks pending and label support unvalidated until tested. A support reduction needs reviewed evidence; OS servicing status is recorded separately from binary compatibility.
 
-Host-local packaged smoke tests have passed full-folder relocation, separate/combined Unicode model/executable/state paths, provisioning, repeated translation, resource failures, stdout purity and shutdown. These satisfy 4.5a, not 4.5b/4.6. Each clean target row still needs its own OS-denied-network, Python/Argos-free, empty-cache evidence with artifact/model hashes, OS/CPU, logs and network controls. Hosted or Python-only instrumentation is not clean-machine proof. Both rows remain pending for Level B; no new tests/builds are performed by this planning amendment.
+Host-local packaged smoke tests have passed full-folder relocation, separate/combined Unicode model/executable/state paths, provisioning, repeated translation, resource failures, stdout purity and shutdown. These satisfy 4.5a, not 4.5b/4.6. The mandatory Windows 10 row for v0.1.0 still needs its own OS-denied-network, Python/Argos-free, empty-cache evidence with artifact/model hashes, OS/CPU, logs and network controls. Hosted or Python-only instrumentation is not clean-machine proof. Windows 10 full acceptance remains pending for Level B; Windows 11 is optional and UNTESTED for v0.1.0; no new tests/builds are performed by this planning amendment.
 
 Split measurement evidence: 4.7a credits the recorded limited development-host diagnostic baseline with explicit missing storage/power/cold-cache details. 4.7b retains complete per-target measurements for Level B. Use candidate hashes and baseline evidence rather than invented budgets:
 
@@ -227,7 +235,7 @@ Split measurement evidence: 4.7a credits the recorded limited development-host d
 | Memory consumption | Worker working set and private bytes at idle, after readiness, and observed peak during initialization/repeated inference; include relevant child processes and sampling interval |
 | Repeated translation latency | Per-request wall time from write/flush through full correlated response after warm-up for a fixed versioned corpus; report sample count, input sizes, raw observations, median and tail summary |
 
-Record OS edition/version/build, CPU/features, RAM, storage, VM allocation, power settings, Python/tool/lock versions, SBD choice, thread/compute settings, corpus identity, warm-up policy, cache conditions, repetition count, and timing/memory methods. Keep timings in harness diagnostics/evidence, not new protocol fields. Compare Windows 10/11 results without promising equal performance. Measurements must be complete and reproducible for acceptance; performance thresholds are decided only after reviewing the baseline. Retain correctness/offline/reliability gates regardless of measured speed or size.
+Record OS edition/version/build, CPU/features, RAM, storage, VM allocation, power settings, Python/tool/lock versions, SBD choice, thread/compute settings, corpus identity, warm-up policy, cache conditions, repetition count, and timing/memory methods. Keep timings in harness diagnostics/evidence, not new protocol fields. If Windows 11 is optionally validated later, compare its results with Windows 10 without promising equal performance. Measurements must be complete and reproducible for acceptance; performance thresholds are decided only after reviewing the baseline. Retain correctness/offline/reliability gates regardless of measured speed or size.
 
 ### 7. Releases, manifest, and trust
 
@@ -261,7 +269,7 @@ No release settings are changed or release created during proposal work.
 
 Unit tests use a deterministic fake backend and no real models. Cover parsing/encoding, strict types, IDs, limits and line-draining recovery, every command, sequential requests, Unicode, health state, errors, EOF/shutdown, output flush, and stderr isolation. Backend tests exercise isolated paths, dependency failure, incompatible metadata, duplicate/missing models, retained resource initialization, and forbidden network calls.
 
-Preserve the completed mandatory A2 real-model spike and A3/A4 host-local tests. Local tests use explicit asset paths, fresh isolated state/caches and Python network-attempt instrumentation with stated native/OS limits. Level B separately adds OS-denied networking and complete measurements on both clean rows. Keep actual segmentation/quality limits, empty/paragraph behavior, retained-resource tests, archive/hash/schema/provenance rejection and stdout/protocol safety. Add a distinct manual guide and recorded manual session for Level A, without waiting for public support or compliance completion.
+Preserve the completed mandatory A2 real-model spike and A3/A4 host-local tests. Local tests use explicit asset paths, fresh isolated state/caches and Python network-attempt instrumentation with stated native/OS limits. Level B separately adds OS-denied networking and complete measurements on mandatory Windows 10 for v0.1.0; Windows 11 validation/measurements are optional under the maintainer waiver. Keep actual segmentation/quality limits, empty/paragraph behavior, retained-resource tests, archive/hash/schema/provenance rejection and stdout/protocol safety. Add a distinct manual guide and recorded manual session for Level A, without waiting for public support or compliance completion.
 
 Documentation deliverables: expanded README; Windows setup/CMD and lock maintenance; test/build guide; explicit model acquisition/provisioning; authoritative versioned v1 protocol and error reference; manifest schema/example; validated Windows matrix and performance baseline; version/compatibility policy; release/trust process; third-party notices; troubleshooting native DLLs, missing models/SBD, malformed frames, path permissions, and timeouts; neutral external integration guide using argument lists, explicit paths, independent stderr draining, bounded buffering, request IDs, exit handling, restart and reprovisioning. The guide directs future Freya integration to the public protocol contract; no Freya-specific fields or code enter this repository.
 
@@ -269,7 +277,7 @@ Documentation deliverables: expanded README; Windows setup/CMD and lock maintena
 
 - [Full Argos dependency graph is large and metadata is permissive] → Lock the complete Windows graph and validate it before backend work; do not treat top-level Python classifiers as proof.
 - [Runtime/model/SBD incompatibility discovered late] → Gate extensive A2 work on the immediate post-A1 real-model spike; choose the simplest validated offline path and retain version-change blockers.
-- [Windows dependency documentation is broader than frozen-artifact evidence] → Validate Windows 10/11 separately and record technical failures; unavailable test environments remain pending rather than unsupported.
+- [Windows dependency documentation is broader than frozen-artifact evidence] → Validate required Windows 10 for v0.1.0 and optional Windows 11 separately; record technical failures; unavailable test environments remain pending rather than unsupported.
 - [External model terms/provenance incomplete] → Preserve exact known hashes and accurate attribution/unknown terms; do not host binaries. Future model hosting requires separate clearance; library/index licenses are insufficient evidence.
 - [Native DLLs or descriptor output escape ordinary Python tests] → Frozen executable tests plus clean VM acceptance; add only evidenced hooks and app-local runtime files.
 - [Sequential inference can block shutdown] → Document host timeouts/termination and restart; asynchronous cancellation is outside v1.
@@ -287,6 +295,6 @@ Retain the existing source/frozen worker, approved Argos revision, Unicode fix, 
 These are planned evidence gates, not assumptions silently deferred as open architectural choices:
 
 1. Level A: complete. Existing technical evidence plus the user's complete CMD session and additional PowerShell recovery/translation log satisfy 4.9/4.10/4.8; see `docs/manual-test-results.md`. Preserve PowerShell's initial missing-asset failures and limited capture; broader completion is user-confirmed. Unrecorded timings/host details remain evidence limits, not invented results or new public-gate prerequisites.
-2. Level B: 3.8b/4.5b/4.6/4.7b still require clean OS-denied-network, support and complete target measurements for both Windows rows against the same final worker and external asset hashes. Teruten observations remain a host limitation; no clean-isolation or untested support claim is made.
+2. Level B: 3.8b/4.5b/4.6/4.7b still require clean OS-denied-network, support and complete target measurements for required Windows 10 in v0.1.0 against the exact final worker and external asset hashes. Windows 11 is expected compatible but UNTESTED, optional under the maintainer waiver. Teruten observations remain a host limitation; no clean-isolation or untested support claim is made.
 3. Level B: 3.2/4.3b/5.3 retain bundled MiniSBD AGPLv3/source/notices, Visual C++/OpenMP/native and other component compliance. System32-collected VC hashes are technical provenance, not approved acquisition/rights clearance. Model hosting is excluded; preserve unknown external model terms without adding their redistribution clearance to the local milestone.
 4. Level B: final worker-only ZIP, manifest/checksums/compliance materials, consumer docs and candidate verification remain pending. Explicit publication approval is still required. Advanced automation, mandatory platform immutability integration and attestations are deferred; versioned non-overwrite and integrity requirements remain mandatory.

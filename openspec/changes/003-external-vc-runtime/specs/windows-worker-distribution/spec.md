@@ -18,14 +18,14 @@ Unicode model, executable, and writable state directories SHALL also be tested i
 - **THEN** the four ordinary runtime basenames are absent, NumPy's `numpy.libs/msvcp140-a4c2229bdc2a2a630acdc095b4d86008.dll` remains unchanged, and required Python, CTranslate2, ONNX Runtime, SentencePiece, Intel OpenMP, NumPy/OpenBLAS and other native files remain present with their established identities
 
 ### Requirement: Clean Windows acceptance evidence
-Level B public Windows support/release acceptance SHALL require evidence that the actual packaged executable provisions externally obtained model/ONNX files and translates on both clean Windows 10 22H2 x64 and clean Windows 11 x64 using the same exact worker ZIP/model/ONNX hashes, with no system Python, no global Argos, a compatible official Microsoft VC++ x64 Redistributable installed, and network access disabled. Evidence SHALL identify OS, CPU, release commit, checksums, commands, network controls, installed runtime version, native load origins and results for each row. Mocked tests and hosted runner smoke tests SHALL NOT be represented as clean-machine proof. These requirements SHALL NOT gate Level A manual use, local documentation or technical completion. Historical Level A completion and diagnostic/manual results SHALL remain unchanged and SHALL NOT be substituted for acceptance of the changed candidate.
+Level B public Windows support/release acceptance SHALL require evidence that the actual packaged executable provisions externally obtained model/ONNX files and translates on clean Windows 10 22H2 x64 for initial v0.1.0 (separate Windows 11 clean acceptance is explicitly waived by the maintainer on 2026-11-08; expected compatible but UNTESTED, optional future validation) using the same exact worker ZIP/model/ONNX hashes, with no system Python, no global Argos, a compatible official Microsoft VC++ x64 Redistributable installed, and network access disabled. Evidence SHALL identify OS, CPU, release commit, checksums, commands, network controls, installed runtime version, native load origins and results for each row. Mocked tests and hosted runner smoke tests SHALL NOT be represented as clean-machine proof. These requirements SHALL NOT gate Level A manual use, local documentation or technical completion. Historical Level A completion and diagnostic/manual results SHALL remain unchanged and SHALL NOT be substituted for acceptance of the changed candidate.
 
-#### Scenario: Shared artifact passes both clean operating systems
-- **WHEN** the same candidate worker ZIP and model are tested on clean Windows 10 22H2 x64 and Windows 11 x64 with a compatible official x64 runtime
-- **THEN** each row records matching ZIP/model/ONNX SHA-256 hashes, actual installed ordinary VC module origins, successful local provisioning, `health` with `ready=true`, and repeated offline translation without system Python or global Argos
+#### Scenario: Required Windows 10 acceptance for initial release
+- **WHEN** the same candidate worker ZIP and model are tested on mandatory clean Windows 10 22H2 x64 for v0.1.0 with a compatible official x64 runtime
+- **THEN** the Windows 10 row records matching ZIP/model/ONNX SHA-256 hashes, actual installed ordinary VC module origins, successful local provisioning, `health` with `ready=true`, and repeated offline translation without system Python or global Argos
 
 #### Scenario: Clean verification unavailable
-- **WHEN** clean Windows verification has not run
+- **WHEN** required Windows 10 clean verification is missing or incomplete
 - **THEN** Level B acceptance/publication remains pending, while Level A testing/documentation/completion can proceed using host-local evidence with its stated limitations
 
 #### Scenario: Regression comparison

@@ -2,8 +2,11 @@
 
 The current development/build baseline is CPython **3.12.10 x64**. Keep Python
 3.12, the approved runtime pins, and model version unchanged until compatibility
-evidence justifies a reviewed amendment. Windows 10 22H2 x64 and Windows 11 x64
-remain candidate acceptance targets, not verified compatibility claims.
+evidence justifies a reviewed amendment. For initial v0.1.0, Windows 10 22H2 x64
+is the mandatory acceptance target; build 19045.3803 is core smoke-tested with
+limitations. Windows 11 is expected compatible but UNTESTED, with separate
+acceptance waived and optional future validation under the
+[maintainer decision](v0.1.0-acceptance-scope.md).
 
 Use Windows CMD from the repository root. No dependency installation is global.
 If `python` resolves to the selected interpreter:
@@ -104,8 +107,8 @@ The approved migration's diagnostic succeeded; its original Unicode-path
 failure was subsequently fixed and all five relocation scenarios passed. See
 [migration history](argos-migration.md) and [Unicode evidence](unicode-path-validation.md).
 Use the existing verified diagnostic for manual testing rather than rebuilding
-as part of usage. Local output is not cleared for publication. Clean Windows
-10/11 acceptance and bundled-code/native compliance gate Level B public support
+as part of usage. Local output is not cleared for publication. Required Windows
+10 acceptance for v0.1.0 and bundled-code/native compliance gate Level B public support
 and release, independently of Level A local testing/documentation/completion.
 Neither public gate has been declared complete.
 

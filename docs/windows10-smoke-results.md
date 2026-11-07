@@ -2,7 +2,10 @@
 
 Recorded 2026-11-08 for OpenSpec change `001-build-offline-translation-engine`,
 tasks 4.5b/4.6. **Core smoke passed; full Windows 10 acceptance remains partial.**
-Windows 11 has no supplied clean-VM result. No new execution, build, dependency,
+Windows 11 has no supplied clean-VM result; its separate acceptance is now waived
+for initial v0.1.0 by the [maintainer decision](v0.1.0-acceptance-scope.md), remaining
+expected compatible but UNTESTED and optional future validation.
+No new execution, build, dependency,
 packaging or candidate-byte change was performed to record this evidence.
 
 ## Evidence and identity
@@ -88,7 +91,7 @@ origins, clean-image inventory and full target performance measurements remain
 pending. There is no Windows 11 result.
 
 This supplies partial Windows 10 evidence for 4.5b/4.6, without completing either
-task or the OS row. Keep 3.8b (both-OS network denial), 4.7b (target measurements)
+task or the OS row. Keep 3.8b (required Windows 10 network denial for v0.1.0), 4.7b (Windows 10 target measurements)
 and all other unfulfilled public gates open. Overall task completion remains
 **38/54 (LOCAL 37/37; PUBLIC 1/17)**. See the
 [remaining-test checklist and publication gates](windows-acceptance.md).

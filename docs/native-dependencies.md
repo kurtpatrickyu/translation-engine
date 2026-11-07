@@ -31,7 +31,10 @@ The host registers `v14.50.35719.00`, `Installed=1`; all four System32 files are
 Available evidence does not establish every wheel's newest toolset or a lowest
 numeric minimum. Record actual tested runtimes below; do not infer support for
 older runtimes or obtain a historical installer solely to test the provisional
-number. Clean Windows 10/11 support remains a PUBLIC gate.
+number. Clean Windows 10 acceptance remains a PUBLIC gate for initial v0.1.0;
+separate Windows 11 acceptance is waived, expected compatible but UNTESTED and
+optional future validation. See the [2026-11-08 scope decision](v0.1.0-acceptance-scope.md);
+the historical audit results below retain their original scope.
 
 To inspect an existing x64 installation from CMD or PowerShell:
 

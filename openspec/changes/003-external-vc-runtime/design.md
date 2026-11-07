@@ -45,7 +45,14 @@ Do not rebind `packaging/compliance-inventory.json` to guessed candidate identit
 
 ### C. Remaining public clean-machine acceptance
 
-Keep clean Windows 10 22H2 x64 and Windows 11 x64 acceptance explicitly pending until both execute the same candidate ZIP/model/ONNX hashes with a compatible official x64 runtime, no system Python/global Argos and OS networking disabled. Reuse existing `001` PUBLIC checks and measurement requirements; do not duplicate or weaken them. Python audit scripts stay on the maintainer side; target checks use the frozen EXE and existing CMD/PowerShell procedures/module inspection, without installing Python.
+Scope reconciliation with change 001, 2026-11-08: the maintainer waived separate
+Windows 11 clean acceptance for initial v0.1.0 only. Windows 11 is expected
+compatible but UNTESTED; its validation is optional future work. All Windows 10
+and other release criteria below remain required; the existing runtime exclusion,
+dependency graph and candidate are unchanged. See
+[decision](../../../docs/v0.1.0-acceptance-scope.md).
+
+For initial v0.1.0, keep required Windows 10 clean acceptance pending until it executes the same candidate ZIP/model/ONNX hashes with a compatible official x64 runtime, no system Python/global Argos and OS networking disabled. Reuse existing `001` PUBLIC checks and measurement requirements; do not duplicate or weaken them. Python audit scripts stay on the maintainer side; target checks use the frozen EXE and existing CMD/PowerShell procedures/module inspection, without installing Python.
 
 Record actual OS/runtime versions, native origins and results. Do not claim untested environments are supported. Exhaustive older/newer/x86-only or missing-runtime matrices are deferred unless a concrete loader, version or compatibility issue warrants a targeted additional check. Documentation still covers missing-runtime failure/remediation and compatible newer installations.
 

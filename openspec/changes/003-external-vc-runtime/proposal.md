@@ -8,7 +8,7 @@ The working standalone worker currently bundles four ordinary Microsoft VC++ DLL
 - Exclude only the exact, case-insensitive ordinary basenames `msvcp140.dll`, `msvcp140_1.dll`, `vcruntime140.dll`, and `vcruntime140_1.dll` from the post-Analysis binary collection. Retain NumPy's renamed DLL and all other required dependencies unchanged.
 - Add one focused packaging policy test and verify the complete candidate onedir and ZIP. Reuse existing native inspection and regression tools with only the small adjustments needed to recognize the external runtime and verify its actual load paths and startup outcome.
 - Treat 14.50.35719.0 as a provisional conservative candidate, not a proven minimum. Determine the documented runtime requirement from available toolset evidence and the official runtime actually tested; do not acquire a historical installer solely to test that provisional number.
-- Use six tasks in three reviewable groups: A, packaging/test/prerequisite documentation; B, one monitored candidate build and focused regression; C, remaining PUBLIC clean Windows 10/11 acceptance. Exhaustive older/newer/x86-only prerequisite matrices are deferred unless a concrete issue warrants them.
+- Use six tasks in three reviewable groups: A, packaging/test/prerequisite documentation; B, one monitored candidate build and focused regression; C, remaining PUBLIC clean Windows 10 acceptance for initial v0.1.0. The maintainer's 2026-11-08 waiver makes separate Windows 11 validation optional future work, expected compatible but UNTESTED. All other gates remain mandatory. Exhaustive older/newer/x86-only prerequisite matrices are deferred unless a concrete issue warrants them.
 
 ## Capabilities
 

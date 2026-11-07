@@ -11,7 +11,16 @@ fallback.
 
 Local usability and development-host validation are recorded. Clean Windows
 acceptance, OS-denied networking and public redistribution gates remain pending;
-an assembled candidate is not a published or cleared release. Read
+an assembled candidate is not a published or cleared release.
+
+For initial v0.1.0, the maintainer waived separate Windows 11 clean acceptance:
+describe Windows 11 as **expected compatible, UNTESTED**, with optional future
+validation. Windows 10 is core smoke-tested with limitations; its remaining
+acceptance and all other release gates remain required. Follow the
+[version-limited scope decision](docs/v0.1.0-acceptance-scope.md), not historical
+two-OS gate wording. No waiver is a test pass or publication approval.
+
+Read
 [implementation status](docs/implementation-status.md) for milestone history and
 [candidate results](docs/release-candidate-results.md) for current artifact evidence.
 Do not apply old failure/recovery instructions as current architecture without

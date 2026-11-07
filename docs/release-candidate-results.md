@@ -83,26 +83,33 @@ The separate JSON-at-CMD syntax error is not a worker failure.
 See the [evidence review and original transcript](windows10-smoke-results.md).
 This advances partial evidence under 4.5b/4.6 only: OS network denial, Unicode
 relocation, broader checks, native origins and full target measurements remain
-unproven in this VM. Windows 11 has no supplied result. Neither full OS row nor
-any additional top-level task is complete; progress remains 38/54.
+unproven in this VM. Windows 11 has no supplied result and is optional under the
+v0.1.0 waiver below. Full Windows 10 acceptance and the affected public tasks
+remain incomplete; progress remains 38/54.
 
 ## Pending publication and next acceptance step
+
+The [2026-11-08 maintainer decision](v0.1.0-acceptance-scope.md) waives separate
+Windows 11 clean acceptance for initial v0.1.0. Windows 11 is expected compatible
+but UNTESTED, with optional future validation. This changes release scope only;
+the recorded candidate and all original evidence remain unchanged.
 
 The existing 19 compliance/source-delivery blockers remain in the compliance
 archive. Intel/native redistribution terms, NumPy's renamed Microsoft DLL rights,
 remaining source/license mappings, final immutable public source delivery,
-both clean Windows rows, OS-denied networking, complete target measurements and
+required Windows 10 acceptance, OS-denied networking, complete target measurements and
 explicit publication approval remain pending. No permission or platform support
 is declared cleared by assembly.
 
 Transfer the complete final eight-file directory and separately user-acquired,
-hash-verified external assets to clean Windows 10 22H2 x64 and Windows 11 x64
+hash-verified external assets to required clean Windows 10 22H2 x64
 environments with no Python/global Argos. Follow
 [the candidate CMD instructions](windows-release-candidate.md): verify checksums,
 install/check the separately acquired official x64 VC++ runtime, deny networking
 at the OS level, extract/provision and run the smoke. Then record the existing
 protocol/Unicode/failure/native-origin and complete measurement checks against
-the same ZIP/model hashes on both rows. These clean-machine tasks were not run
+the same ZIP/model hashes. Windows 11 checks are optional under the v0.1.0 waiver.
+The recorded Windows 10 smoke is partial; these remaining clean-machine tasks were not run
 on this development host.
 
 Task 5.2 is mechanically complete; overall progress is 38/54 (LOCAL 37/37,

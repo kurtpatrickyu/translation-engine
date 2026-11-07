@@ -31,7 +31,7 @@ Provisioning SHALL accept user-supplied local `.argosmodel` and pinned `zh-hans.
 - **THEN** provisioning fails without activating a partial model or changing the previous installation
 
 ### Requirement: Separate local and clean-OS offline evidence
-Local completion SHALL require import/initialization/repeated-translation network-attempt instrumentation and isolated cache/state evidence. Public Windows support/release acceptance SHALL additionally require OS-denied networking on both clean target rows. Python-only evidence SHALL NOT be represented as native/OS network isolation, and pending clean tests SHALL NOT block manual local usage documentation.
+Local completion SHALL require import/initialization/repeated-translation network-attempt instrumentation and isolated cache/state evidence. Public Windows support/release acceptance SHALL additionally require OS-denied networking on the mandatory clean Windows 10 target for initial v0.1.0; separate Windows 11 validation is optional under the explicit 2026-11-08 maintainer waiver and remains UNTESTED. Python-only evidence SHALL NOT be represented as native/OS network isolation, and pending clean tests SHALL NOT block manual local usage documentation.
 
 #### Scenario: Local checks pass while clean OS images are unavailable
 - **WHEN** local instrumentation passes and clean Windows environments are unavailable

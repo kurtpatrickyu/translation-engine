@@ -5,8 +5,11 @@ Windows 10 x64 build 19045.3803 core smoke passed for exact candidate 0.1.0-rc.1
 after resolving the external runtime prerequisite. See the
 [transcript review](windows10-smoke-results.md) and
 [current acceptance matrix/remaining gates](windows-acceptance.md).
-Windows 10 full acceptance is partial; Windows 11, OS-denied networking, native
-origins and full target measurements remain pending. No new top-level task is
+Windows 10 full acceptance is partial; its OS-denied networking, native
+origins and full target measurements remain pending. Separate Windows 11 clean
+acceptance is explicitly waived for initial v0.1.0 by the maintainer on 2026-11-08;
+Windows 11 is expected compatible but UNTESTED and optional future validation.
+See the [scope decision](v0.1.0-acceptance-scope.md). No new top-level task is
 complete: current progress is **38/54; LOCAL 37/37; PUBLIC 1/17** (5.2 is complete).
 The Level A and earlier diagnostic snapshots below remain historical evidence.
 

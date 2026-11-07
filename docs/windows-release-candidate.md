@@ -3,8 +3,16 @@
 This candidate uses the validated post-003 executable, without rebuilding it.
 It is assembled for clean-machine acceptance, with publication still blocked.
 Intel/native terms, NumPy's renamed Microsoft DLL rights, remaining source/notice
-correspondence, both clean Windows rows, OS-denied networking, complete target
+correspondence, required Windows 10 acceptance, OS-denied networking, complete target
 measurements and final publication approval remain pending. No model is included.
+
+For initial v0.1.0, the maintainer explicitly waived separate Windows 11 clean
+acceptance on 2026-11-08. Windows 10 x64 build 19045.3803 is
+[core smoke-tested with limitations](windows10-smoke-results.md); Windows 11 is
+**expected compatible, UNTESTED**, optional future validation. The
+[scope decision](v0.1.0-acceptance-scope.md) retains all other release requirements.
+Existing candidate files/hashes and embedded assembly-time instructions remain
+unchanged; final public documentation must reflect this version-limited waiver.
 
 The worker source commit is
 `b064e29517fb793b2fcf0bf309b6fc78f623367d`; licensing materials come from
@@ -104,11 +112,12 @@ type C:\WorkerAcceptance\smoke.stderr.txt
 
 Expect readiness true, a successful English translation and shutdown response,
 response-only stdout, and exit zero. This smoke is only the beginning of clean
-acceptance. On both Windows 10 22H2 x64 and Windows 11 x64, record edition/build,
+acceptance. On required Windows 10 22H2 x64 for v0.1.0, record edition/build,
 official runtime version, CPU/RAM/storage/VM/power details, candidate/model
 hashes, actual OS network-denial controls, native origins, repeated requests,
 Unicode relocation, errors/flush/shutdown and the existing target measurements.
-Use the same ZIP and external asset hashes for both rows. No clean result is
+Use the same ZIP and external asset hashes if optionally validating Windows 11.
+Windows 11 testing does not block v0.1.0 and is not a passed result. No clean result is
 claimed by local assembly or the development-host regressions.
 
 The compliance ZIP contains the existing prepared notices/source dossier and
