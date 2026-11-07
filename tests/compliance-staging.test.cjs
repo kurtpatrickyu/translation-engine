@@ -269,3 +269,50 @@ test('frozen-source evidence cannot be substituted or omit staged preferred sour
   f.inventory.candidate.source_correspondence = f.write('build/correspondence.json', report); f.save();
   assert.throws(() => s.verifyCandidate(f.root, f.inventory), /Frozen-source correspondence failed/);
 });
+
+function reviewedFixture(t, classification = 'non-blocking') {
+  const f = fixture(t), o = f.inventory.obligations[0];
+  f.inventory.release_review = [{component: 'distribution', id: o.id,
+    finding_sha256: s.hash(Buffer.from(o.blocker)), classification,
+    rationale: 'Fixture interpretation based on the retained evidence.', disposition: null}];
+  f.save(); return f;
+}
+
+test('provenance research does not block verified materials; missing mandatory licenses still do', t => {
+  const f = reviewedFixture(t);
+  const m = s.stage(f.root, f.inventoryPath, f.output);
+  assert.equal(m.compliance_ready, true); assert.deepEqual(m.blockers, []);
+  assert.equal(m.release_ready, false);
+  fs.unlinkSync(path.join(f.root, 'supplier/LICENSE'));
+  const missing = s.stage(f.root, f.inventoryPath, path.join(f.root, 'candidate-staging/missing'));
+  assert.equal(missing.compliance_ready, false);
+  assert(missing.blockers.some(b => b.id === 'material:licenses/minisbd/LICENSE'));
+});
+
+test('material decisions need evidence; prohibitions and unsatisfied mandatory conditions cannot be waived', t => {
+  const f = reviewedFixture(t, 'requires-decision'), r = f.inventory.release_review[0];
+  assert.equal(s.publicationBlockers(f.root, f.inventory).length, 1);
+  r.disposition = {outcome: 'permitted', reviewer: 'Fixture reviewer', rationale: 'Fixture grant permits this use.',
+    evidence: [f.write('supplier/permission.txt', 'Fixture permission evidence')]};
+  assert.equal(s.publicationBlockers(f.root, f.inventory).length, 0);
+  r.disposition.outcome = 'prohibited';
+  r.evidence = r.disposition.evidence;
+  for (const classification of ['requires-decision', 'non-blocking', 'resolved']) {
+    r.classification = classification; assert.equal(s.publicationBlockers(f.root, f.inventory).length, 1);
+  }
+  r.disposition.outcome = 'permitted'; r.classification = 'blocking';
+  assert.equal(s.publicationBlockers(f.root, f.inventory).length, 1);
+  r.classification = 'requires-decision';
+  f.write('supplier/permission.txt', 'changed');
+  assert.throws(() => s.publicationBlockers(f.root, f.inventory), /SHA-256 mismatch/);
+  r.disposition.evidence = [];
+  assert.throws(() => s.publicationBlockers(f.root, f.inventory), /Incomplete disposition/);
+});
+
+test('release review must cover every original finding with unchanged text identity', t => {
+  const f = reviewedFixture(t);
+  f.inventory.obligations[0].blocker = 'Changed material question';
+  assert.throws(() => s.publicationBlockers(f.root, f.inventory), /stale release review/);
+  f.inventory.release_review = [];
+  assert.throws(() => s.publicationBlockers(f.root, f.inventory), /coverage differs/);
+});

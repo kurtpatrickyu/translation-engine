@@ -21,7 +21,8 @@ components. Target machines need no Python or Node. See
   substitutions are rejected by setup and tests.
 - `compliance-inventory.json` is the active candidate component/material/evidence
   inventory. Preserve exact file ownership, supplier bytes, source correspondence
-  and explicit unresolved obligations. `sources/` contains original MiniSBD/tqdm
+  and classified review findings. Its `release_review` distinguishes mandatory
+  conditions and material decisions from informational research. `sources/` contains original MiniSBD/tqdm
   source archives; `../LICENSES/` holds collected supplier texts.
 - `release-candidate.json` pins binary-source and materials commits, compliance
   manifest, external asset metadata and regression evidence.
@@ -51,12 +52,9 @@ monitored build and explicit new native/relocation reports through the
 [tooling guide](../scripts/AGENTS.md). Missing ignored dossiers are not evidence
 of a passing candidate.
 
-Distribute no external model/ONNX binaries or caches. Preserve provenance and
-attribution without claiming model clearance. MiniSBD remains AGPLv3; source and
-notice preparation does not settle all native rights or source obligations. The
-[release workflow](../docs/releasing.md) prepares local acceptance
-and stable review artifacts, always with `release_ready:false`. For initial v0.1.0,
-Windows 10 acceptance, OS-denied networking,
-source/native clearance and publication remain separate gates. Windows 11 is
-expected compatible but UNTESTED; separate acceptance is waived for v0.1.0 and
-optional future validation. Follow the [scope decision](../docs/releasing.md).
+Distribute no external model/ONNX binaries or caches. Preserve original licenses,
+notices and applicable MiniSBD AGPL/tqdm MPL source. The
+[release policy](../docs/releasing.md) is authoritative for publication conditions,
+platform limitations and explicit approval. Prepared manifests do not claim
+approval; a separate record binds the exact verified assets and source identity.
+Research completeness and historic component status labels are not blanket vetoes.

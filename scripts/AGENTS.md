@@ -42,20 +42,23 @@ outputs and byte-pinned dossiers; do not rewrite prior reports to match new sour
 Packaging changes must reconcile native inventory, spec and tests together.
 
 Staging requires a fresh `candidate-staging/` destination; use `--check` for an
-existing one. Valid blocked compliance preparation returns **2**, failure **1**.
-Release assembly/check returns **0** for valid candidate or prepared stable assets,
-retaining
-`release_ready: false`. Neither tool publishes, rebuilds inference code or acquires
-models. Do not treat an exit-zero assembly or source comparison as compliance
-clearance. Avoid copying generation commands into checks that would overwrite
+existing one. Staging returns **0** when mandatory material/review requirements
+pass, **2** for valid staging with unmet requirements, and **1** for failure.
+Assembly/check returns **0** for valid assets, independently of publication
+approval. `assemble_release.cjs --approve` records explicit approval only after
+mandatory checks pass; `--verify-approved` checks the separate hash-bound record.
+Neither tool publishes, rebuilds inference code or acquires models. Avoid copying
+generation commands into checks that would overwrite
 evidence. Full command sequences and prerequisites belong in the linked guides.
 
 Documentation materials pinned to the existing candidate resolve from
 `packaging/sources/candidate-documentation/` with their original hashes. New
 assemblies carry current README and guides; `--check` verifies immutable rc.1
 against its exact recorded manifest, archived configuration and complete artifact
-hashes. It must not
-rewrite that candidate to reflect newer instructions.
+hashes. Historical schema-1 dossiers retain their original inventory pins.
+Never rewrite them to reflect newer instructions or treat old research findings
+as current gates. The inventory classifies findings; current policy lives only
+in the linked release guide.
 
 ## Verification
 

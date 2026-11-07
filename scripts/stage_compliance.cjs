@@ -12,6 +12,10 @@ const assert = (ok, message) => { if (!ok) throw new Error(message); };
 const model = name => /\.(onnx|argosmodel)$/i.test(name);
 const recipientFiles = ['LICENSE', 'SOURCE_AVAILABILITY.md', 'THIRD_PARTY_NOTICES.md',
   'docs/rebuilding-worker.md', 'docs/protocol-v1.md', 'docs/model-provisioning.md', 'docs/manual-testing-cmd.md'];
+const currentRecipientFiles = ['LICENSE', 'SOURCE_AVAILABILITY.md', 'THIRD_PARTY_NOTICES.md', 'README.md',
+  'docs/releasing.md', 'docs/development.md', 'docs/protocol-v1.md', 'docs/troubleshooting.md',
+  'docs/compatibility-spike.md', 'docs/unicode-path-validation.md', 'docs/argos-migration.md',
+  'docs/evidence/windows10-rc1-cmd-2026-11-08.txt', 'models/provenance.json', 'src/translation_engine/AGENTS.md'];
 
 function safe(base, relative) {
   assert(typeof relative === 'string' && relative.length && !relative.includes('\\') &&
@@ -272,7 +276,55 @@ function blockerText(blockers) {
     blockers.map(b => b.component + ' [' + b.id + ']: ' + b.reason + '\n').join('');
 }
 
+function reviewFindings(inv) {
+  return [...inv.obligations.map(o => ({component: 'distribution', id: o.id, reason: o.blocker})),
+    ...inv.components.flatMap(c => c.blockers.map(reason => ({component: c.id, id: 'review', reason})))];
+}
+
+// Research completeness is not a distribution condition. Classifications are
+// bound to the original finding text so changes require an explicit new review.
+function publicationBlockers(root, inv, materialFailures = []) {
+  if (!inv.release_review) return [...reviewFindings(inv), ...materialFailures];
+  const findings = reviewFindings(inv), reviews = inv.release_review;
+  assert(reviews.length === findings.length, 'Release review coverage differs');
+  const seen = new Set(), blockers = [...materialFailures];
+  for (const f of findings) {
+    const key = f.component + ':' + f.id;
+    const r = reviews.find(r => r.component === f.component && r.id === f.id);
+    assert(r && !seen.has(key) && r.finding_sha256 === hash(Buffer.from(f.reason)), 'Missing/stale release review: ' + key);
+    seen.add(key);
+    assert(['blocking', 'requires-decision', 'non-blocking', 'resolved'].includes(r.classification) &&
+      typeof r.rationale === 'string' && r.rationale.trim(), 'Invalid release classification: ' + key);
+    if (r.classification === 'resolved') {
+      assert(Array.isArray(r.evidence) && r.evidence.length, 'Resolved finding needs evidence: ' + key);
+      for (const e of r.evidence) pinned(safe(root, e.path), e.sha256);
+    }
+    const d = r.disposition;
+    if (d) {
+      assert(['permitted', 'prohibited'].includes(d.outcome) && d.reviewer?.trim() &&
+        d.rationale?.trim() && Array.isArray(d.evidence) && d.evidence.length, 'Incomplete disposition: ' + key);
+      for (const e of d.evidence) pinned(safe(root, e.path), e.sha256);
+    }
+    if (d?.outcome === 'prohibited' || r.classification === 'blocking' ||
+      (r.classification === 'requires-decision' && d?.outcome !== 'permitted'))
+      blockers.push({...f, reason: r.rationale});
+  }
+  return blockers;
+}
+
+function publicationText(blockers) {
+  return 'PUBLICATION REQUIREMENTS\n\n' + (blockers.length ?
+    blockers.map(b => b.reason + '\n').join('') : 'No unmet mandatory requirement identified by the current review.\n') +
+    '\nSee docs/releasing.md for policy and explicit approval.\n';
+}
+
 function noticeIndex(inv, files) {
+  if (inv.release_review) return 'THIRD-PARTY MATERIALS INDEX\n' +
+    'Original license and notice texts are preserved at these paths.\n\n' +
+    inv.components.filter(c => files.some(f => f.component === c.id && /license|notice/.test(f.kind)))
+      .map(c => c.name + ' | ' + c.version + '\nLicense: ' + c.license + '\n' +
+      files.filter(f => f.component === c.id && /license|notice/.test(f.kind))
+        .map(f => f.path).sort().map(f => '  ' + f + '\n').join('')).join('\n');
   return 'THIRD-PARTY MATERIALS INDEX - PREPARATORY, NOT A LICENSE CLEARANCE\n' +
     'Candidate EXE SHA-256: ' + inv.candidate.exe_sha256 + '\n' +
     'Original third-party texts are copied byte-for-byte at the paths below.\n' +
@@ -291,7 +343,7 @@ function stage(root, inventoryPath, output) {
   const candidate = verifyCandidate(root, inv);
   output = stagingBase(root, output);
   assert(!fs.existsSync(output), 'Output already exists; use a new staging directory');
-  const blockers = inv.obligations.map(o => ({component: 'distribution', id: o.id, reason: o.blocker}));
+  let blockers = inv.release_review ? [] : inv.obligations.map(o => ({component: 'distribution', id: o.id, reason: o.blocker}));
   const payload = new Map(), archives = new Map(), results = [];
   function add(name, bytes, component, kind, origin) {
     safe(output, name); assert(!model(name) && !payload.has(name), 'Duplicate/forbidden staged file: ' + name);
@@ -304,32 +356,39 @@ function stage(root, inventoryPath, output) {
       pinned(safe(root, item.path), item.sha256), 'distribution', 'candidate-evidence', item.path);
   }
   for (const c of inv.components) {
-    for (const reason of c.blockers) blockers.push({component: c.id, id: 'review', reason});
+    if (!inv.release_review) for (const reason of c.blockers) blockers.push({component: c.id, id: 'review', reason});
     let count = 0;
     for (const m of c.materials) {
       try { add(m.destination, sourceBytes(root, m.source, archives), c.id, m.kind, m.source); count++; }
       catch (e) { blockers.push({component: c.id, id: 'material:' + m.destination, reason: e.message}); }
     }
     results.push({id: c.id, name: c.name, version: c.version, license: c.license,
-      status: c.status === 'verified' && count === c.materials.length ? 'verified' : c.status === 'blocked' ? 'blocked' : 'incomplete',
+      status: inv.release_review ? (count === c.materials.length ? 'materials-present' : 'missing-materials') :
+        c.status === 'verified' && count === c.materials.length ? 'verified' : c.status === 'blocked' ? 'blocked' : 'incomplete',
       staged_materials: count, matching_source_required: c.matching_source_required,
-      source_identity: c.source_identity, source_complete: false});
+      source_identity: c.source_identity, ...(!inv.release_review ? {source_complete: false} : {})});
   }
   // Exact worker/build inputs, not a current checkout archive with unrelated files.
   for (const [file, sha] of Object.entries(candidate.build.source_sha256))
     add('sources/worker/' + file, pinned(buildInput(root, inv.candidate, file), sha), 'translation-engine', 'build-input', file);
   for (const name of recipientFiles) {
+    if (inv.release_review) continue; // Current guidance is independent of pinned historical source instructions.
     const material = inv.components.flatMap(c => c.materials).find(m => m.source.path === name);
     if (material) add(name, sourceBytes(root, material.source, archives), 'distribution', 'recipient-instructions', material.source);
   }
+  if (inv.release_review) for (const name of currentRecipientFiles) {
+    const file = safe(root, name);
+    if (fs.existsSync(file)) add(name, fs.readFileSync(file), 'distribution', 'recipient-instructions', name);
+  }
+  if (inv.release_review) blockers = publicationBlockers(root, inv, blockers);
   blockers.sort((a, b) => json(a) < json(b) ? -1 : json(a) > json(b) ? 1 : 0);
-  add('BLOCKERS.txt', Buffer.from(blockerText(blockers)), 'distribution', 'blocker-report', 'derived from inventory and material checks');
+  add('BLOCKERS.txt', Buffer.from(inv.release_review ? publicationText(blockers) : blockerText(blockers)), 'distribution', 'blocker-report', 'derived from inventory and material checks');
   add('THIRD_PARTY_NOTICES.txt', Buffer.from(noticeIndex(inv, [...payload].map(([name, p]) =>
     ({path: name, component: p.component, kind: p.kind})))), 'distribution', 'notice-index', 'derived index; original texts remain unmodified');
   const files = [...payload].sort(([a], [b]) => a < b ? -1 : 1).map(([name, p]) =>
     ({path: name, sha256: hash(p.bytes), bytes: p.bytes.length, component: p.component, kind: p.kind, origin: p.origin}));
-  const manifest = {schema_version: 1, scope: 'preparatory-only', release_ready: false,
-    compliance_ready: false, inventory_sha256: hash(inventoryBytes), candidate: inv.candidate,
+  const manifest = {schema_version: inv.release_review ? 2 : 1, scope: 'preparatory-only', release_ready: false,
+    compliance_ready: !!inv.release_review && !blockers.length, inventory_sha256: hash(inventoryBytes), candidate: inv.candidate,
     components: results, blockers, files};
   // All reads/validation above precede writes. No worker/build/dist writes or deletion.
   fs.mkdirSync(output, {recursive: true});
@@ -346,16 +405,24 @@ function stage(root, inventoryPath, output) {
 
 function verifyStage(root, inventoryPath, output) {
   output = stagingBase(root, output);
-  const invBytes = fs.readFileSync(inventoryPath), inv = JSON.parse(invBytes);
-  const candidate = verifyCandidate(root, inv);
   const manifest = read(path.join(output, 'manifest.json'));
-  assert(manifest.schema_version === 1 && manifest.scope === 'preparatory-only' &&
-    manifest.release_ready === false && manifest.compliance_ready === false, 'Preparatory staging cannot declare readiness');
+  let invBytes = fs.readFileSync(inventoryPath);
+  if (manifest.inventory_sha256 !== hash(invBytes)) {
+    // Immutable pre-policy dossiers use their original, explicitly pinned inventory.
+    assert(manifest.schema_version === 1 && manifest.inventory_sha256 ===
+      'f17eba1377ffcd113b1c215ab7ebcc420b805887dd2ee593200d06748b85c3d6', 'Stale inventory');
+    invBytes = pinned(safe(output, 'evidence/component-inventory.json'), manifest.inventory_sha256);
+  }
+  const inv = JSON.parse(invBytes), modern = !!inv.release_review;
+  const candidate = verifyCandidate(root, inv);
+  assert(manifest.schema_version === (modern ? 2 : 1) && manifest.scope === 'preparatory-only' &&
+    manifest.release_ready === false && (modern || manifest.compliance_ready === false), 'Preparatory staging cannot declare readiness');
   assert(manifest.inventory_sha256 === hash(invBytes), 'Stale inventory');
   pinned(safe(output, 'evidence/component-inventory.json'), hash(invBytes));
   const tool = fs.readFileSync(safe(output, 'evidence/stage_compliance.cjs'));
   // The original dossier contains this exact reviewed tool. No other prior tool is accepted.
   assert([hash(fs.readFileSync(__filename)),
+    '3ca844fff6cf9bec326569ba27f8b0db3fb5341d7be8ac66b25ab4d2ca1cae11',
     'e0453a2d9657d46c936fa9ffb5d180eb28f8cbac2fcb5a704a807d27c4f89696'].includes(hash(tool)),
   'SHA-256 mismatch: staged compliance tool');
   assert(json(manifest.candidate) === json(inv.candidate), 'Staged candidate differs');
@@ -363,20 +430,36 @@ function verifyStage(root, inventoryPath, output) {
   for (const c of inv.components) {
     const result = manifest.components.find(r => r.id === c.id && r.version === c.version);
     const failed = manifest.blockers.some(b => b.component === c.id && b.id.startsWith('material:'));
-    assert(result && result.status === (failed && c.status === 'verified' ? 'incomplete' : c.status), 'Component status mismatch');
-    for (const reason of c.blockers) assert(manifest.blockers.some(b => b.component === c.id && b.reason === reason), 'Missing component blocker');
+    assert(result && result.status === (modern ? (failed ? 'missing-materials' : 'materials-present') :
+      failed && c.status === 'verified' ? 'incomplete' : c.status), 'Component status mismatch');
+    if (!modern) for (const reason of c.blockers) assert(manifest.blockers.some(b => b.component === c.id && b.reason === reason), 'Missing component blocker');
     for (const m of c.materials) {
       const file = manifest.files.find(f => f.path === m.destination && f.component === c.id);
       assert(file ? file.sha256 === m.source.sha256 && file.kind === m.kind :
         manifest.blockers.some(b => b.component === c.id && b.id === 'material:' + m.destination), 'Unaccounted/mismatched material');
     }
   }
-  for (const o of inv.obligations) assert(manifest.blockers.some(b => b.id === o.id && b.reason === o.blocker), 'Missing release blocker');
+  if (modern) {
+    const failures = [];
+    const archives = new Map();
+    for (const c of inv.components) for (const m of c.materials) {
+      try { sourceBytes(root, m.source, archives); }
+      catch (e) { failures.push({component: c.id, id: 'material:' + m.destination, reason: e.message}); }
+    }
+    const expected = publicationBlockers(root, inv, failures).sort((a, b) => json(a) < json(b) ? -1 : json(a) > json(b) ? 1 : 0);
+    assert(json(manifest.blockers) === json(expected) && manifest.compliance_ready === !expected.length, 'Publication requirements differ');
+  } else for (const o of inv.obligations) assert(manifest.blockers.some(b => b.id === o.id && b.reason === o.blocker), 'Missing release blocker');
   for (const name of recipientFiles) {
+    if (modern) continue;
     const material = inv.components.flatMap(c => c.materials).find(m => m.source.path === name);
     if (material) pinned(safe(output, name), material.source.sha256);
   }
-  assert(fs.readFileSync(safe(output, 'BLOCKERS.txt'), 'utf8') === blockerText(manifest.blockers), 'Blocker report differs');
+  if (modern) for (const name of currentRecipientFiles) {
+    const file = safe(root, name);
+    if (fs.existsSync(file)) pinned(safe(output, name), hash(fs.readFileSync(file)));
+  }
+  assert(fs.readFileSync(safe(output, 'BLOCKERS.txt'), 'utf8') ===
+    (modern ? publicationText(manifest.blockers) : blockerText(manifest.blockers)), 'Blocker report differs');
   assert(fs.readFileSync(safe(output, 'THIRD_PARTY_NOTICES.txt'), 'utf8') === noticeIndex(inv, manifest.files), 'Notice index differs');
   const names = manifest.files.map(f => f.path);
   for (const [file, sha] of Object.entries(candidate.build.source_sha256))
@@ -402,10 +485,10 @@ if (require.main === module) {
     assert(args.length === 1, 'Usage: node scripts\\stage_compliance.cjs [--check] candidate-staging\\NEW-NAME');
     const inventory = path.join(ROOT, 'packaging/compliance-inventory.json');
     const manifest = check ? verifyStage(ROOT, inventory, path.resolve(args[0])) : stage(ROOT, inventory, path.resolve(args[0]));
-    console.log(json({scope: manifest.scope, release_ready: false, compliance_ready: false,
+    console.log(json({scope: manifest.scope, release_ready: false, compliance_ready: manifest.compliance_ready,
       components: manifest.components.length, staged_files: manifest.files.length,
       blockers: manifest.blockers.length, manifest: path.join(args[0], 'manifest.json')}));
-    process.exitCode = 2; // Expected blocked-readiness result; never a release approval.
+    process.exitCode = manifest.blockers.length ? 2 : 0; // 2 = valid materials with unmet publication requirements.
   } catch (e) { console.error(e.message); process.exitCode = 1; }
 }
-module.exports = {hash, json, safe, walk, pinned, zipMembers, tarMembers, pyzRoots, validateInventory, verifyCandidate, stage, verifyStage};
+module.exports = {hash, json, safe, walk, pinned, zipMembers, tarMembers, pyzRoots, validateInventory, verifyCandidate, stage, verifyStage, publicationBlockers};

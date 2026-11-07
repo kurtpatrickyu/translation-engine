@@ -62,6 +62,12 @@ test('real candidate manifest, archive, source commit and artifact hashes agree'
   // Current docs/tool bytes must not force rewriting the immutable candidate.
   assert.deepEqual(r.assemble(root, path.join(root, 'packaging/release-candidate.json'), directory, true), m);
   const fresh = r.prepare(root, path.join(root, 'packaging/release-candidate.json'));
+  assert.equal(fresh.manifest.schema_version, 2);
+  assert(!fresh.allCompliance.get('THIRD_PARTY_NOTICES.txt').toString().includes('Inventory status:'));
+  for (const file of ['README.md', 'SOURCE_AVAILABILITY.md', 'THIRD_PARTY_NOTICES.md', 'docs/releasing.md']) {
+    assert(!/19 (?:blockers|unresolved|findings)/i.test(fresh.allCompliance.get(file).toString()));
+    assert(fresh.sources.get(file).equals(fs.readFileSync(path.join(root, file))));
+  }
   assert.equal(fresh.manifest.candidate_id, '0.1.0');
   assert.deepEqual(fresh.manifest.publication, {status: 'prepared-release', tag: 'v0.1.0',
     release_url: 'https://github.com/kurtpatrickyu/translation-engine/releases/tag/v0.1.0', release_ready: false});
@@ -134,4 +140,56 @@ test('missing, mismatched and tampered evidence fails before assembly writes', t
     const changed = structuredClone(cfg); mutate(changed); fs.writeFileSync(configPath, s.json(changed));
     assert.throws(() => r.prepare(root, configPath));
   }
+});
+
+function approvalFixture() {
+  const manifest = structuredClone(require('../packaging/release-manifest.example.json'));
+  manifest.schema_version = 2;
+  manifest.compliance.ready = true;
+  manifest.compliance.inventory_sha256 = 'a'.repeat(64);
+  manifest.compliance.blockers = [];
+  manifest.blockers = ['Explicit maintainer publication approval is required.'];
+  const payload = new Map(manifest.artifacts.map(a => {
+    const bytes = Buffer.from('Fixture verified asset: ' + a.name);
+    a.bytes = bytes.length; a.sha256 = s.hash(bytes); return [a.name, bytes];
+  }));
+  refreshApprovalFixture(manifest, payload);
+  return {manifest, payload};
+}
+function refreshApprovalFixture(manifest, payload) {
+  payload.set('manifest.json', Buffer.from(s.json(manifest)));
+  payload.set('SHA256SUMS', Buffer.from([...payload].filter(([f]) => f !== 'SHA256SUMS')
+    .sort(([a], [b]) => a < b ? -1 : 1).map(([f, b]) => s.hash(b) + '  ' + f + '\n').join('')));
+}
+
+test('explicit approval of eligible verified assets is distinct from assembly and bound to exact inputs', () => {
+  const {manifest, payload} = approvalFixture();
+  assert.throws(() => r.approvalRecord(manifest, payload, ''), /maintainer identity/);
+  const record = r.approvalRecord(manifest, payload, 'Fixture maintainer');
+  assert.equal(manifest.publication.release_ready, false);
+  assert.equal(r.checkApproval(record, manifest, payload).release_ready, true);
+  for (const mutate of [m => { m.source.commit = 'b'.repeat(40); m.source.url = m.source.repository + '/tree/' + m.source.commit; },
+    m => { m.assembly.config_sha256 = 'c'.repeat(64); },
+    m => { m.compliance.inventory_sha256 = 'd'.repeat(64); }]) {
+    const changed = structuredClone(manifest), files = new Map(payload);
+    mutate(changed); refreshApprovalFixture(changed, files);
+    assert.throws(() => r.checkApproval(record, changed, files), /Approval is stale/);
+  }
+  payload.set(manifest.artifacts[0].name, Buffer.from('changed'));
+  assert.throws(() => r.checkApproval(record, manifest, payload), /artifact mismatch/);
+});
+
+test('missing mandatory materials or an undisposed material issue cannot receive approval', () => {
+  for (const reason of ['Missing applicable AGPL corresponding source', 'Missing mandatory license text',
+    'Distribution prohibited by an applicable grant', 'Undisposed material permission issue']) {
+    const {manifest, payload} = approvalFixture();
+    manifest.compliance.ready = false;
+    manifest.compliance.blockers = [{component: 'fixture', id: 'mandatory', reason}];
+    manifest.blockers = [reason, 'Explicit maintainer publication approval is required.'];
+    refreshApprovalFixture(manifest, payload);
+    assert.throws(() => r.approvalRecord(manifest, payload, 'Fixture maintainer'), /Mandatory publication requirements/);
+  }
+  const {manifest, payload} = approvalFixture();
+  payload.delete(manifest.artifacts[0].name);
+  assert.throws(() => r.approvalRecord(manifest, payload, 'Fixture maintainer'), /artifact mismatch/);
 });

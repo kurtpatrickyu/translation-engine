@@ -20,7 +20,7 @@ try {
     foreach ($item in Get-ChildItem -LiteralPath $candidateRoot -Force) {
         if ($item.Name -ne 'SHA256SUMS' -and -not $expectedNames.ContainsKey($item.Name)) { throw "Unexpected candidate file: $($item.Name)" }
     }
-    Write-Output 'All candidate checksums and top-level file coverage match. Publication remains blocked.'
+    Write-Output 'Integrity verified: all checksums and top-level files match. Publication approval is verified separately.'
     exit 0
 } catch {
     [Console]::Error.WriteLine($_.Exception.Message)

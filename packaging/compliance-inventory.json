@@ -6043,5 +6043,169 @@
         "onnxruntime"
       ]
     }
+  ],
+  "release_review": [
+    {
+      "component": "distribution",
+      "id": "source-delivery",
+      "finding_sha256": "0f81c0854244ffcc301c3315bab4c43c839ee4401171b7919d0d82ede2a67641",
+      "classification": "resolved",
+      "rationale": "The assembly supplies hash-bound original build inputs and source packages with immutable commit and same-release delivery URLs. Source accessibility remains a publication obligation.",
+      "disposition": null,
+      "evidence": [
+        {
+          "path": "build/diagnostic-20261107-211131/build-result.json",
+          "sha256": "4f686c44b7ee52a46dfa3100730111d322b33aa69286e4363a371850004e0587"
+        },
+        {
+          "path": "runtime/compliance-preparation/frozen-source-correspondence.json",
+          "sha256": "c2f6d55fae9211032dfd844752ec7c8fd03997710f2e7f1d00f21fcf42f55e40"
+        }
+      ]
+    },
+    {
+      "component": "distribution",
+      "id": "native-static",
+      "finding_sha256": "568e5e9942bf5d635c42f67f78b401a682d7fb6d2fe34bf5d4ded6e367a20533",
+      "classification": "non-blocking",
+      "rationale": "The broad native/static review is separated into provenance research and specific component permission decisions; it is not an additional blanket veto.",
+      "disposition": null
+    },
+    {
+      "component": "charset_normalizer",
+      "id": "review",
+      "finding_sha256": "a7b3a4c9c02b5befe40f5128c61f60ed888988b4cfd8fb48030ef3e7c340e8ef",
+      "classification": "non-blocking",
+      "rationale": "Compiler/runtime notice research has not identified a specific omitted mandatory notice; collected supplier license remains required.",
+      "disposition": null
+    },
+    {
+      "component": "ctranslate2",
+      "id": "review",
+      "finding_sha256": "d1bb04f0203d7b0c3cf077232687114170012ad132e6607364c883ac617ec9f6",
+      "classification": "non-blocking",
+      "rationale": "Primary MIT text is collected; wheel BOM/source revision mapping is provenance research.",
+      "disposition": null
+    },
+    {
+      "component": "joblib",
+      "id": "review",
+      "finding_sha256": "3c90deecf15c4bb81f8a419788a2b443c2702904c8648811e7c46e2dbc5e6ff5",
+      "classification": "non-blocking",
+      "rationale": "Vendored source and collected license are retained; reconciliation has not identified a specific missing mandatory notice.",
+      "disposition": null
+    },
+    {
+      "component": "sacremoses",
+      "id": "review",
+      "finding_sha256": "61501720fef59da0deaa025a7dd82daf3d6097318cf2925881f04699b362c642",
+      "classification": "non-blocking",
+      "rationale": "Inherited-data attribution research has not identified a concrete missing mandatory notice.",
+      "disposition": null
+    },
+    {
+      "component": "sentencepiece",
+      "id": "review",
+      "finding_sha256": "0b8753ed92f5e6d493c07ee3ec73a527485885aadee9f22ce916c5e1262c7f93",
+      "classification": "non-blocking",
+      "rationale": "Exact-version primary and dependency license texts are collected; binary revision mapping is provenance research.",
+      "disposition": null
+    },
+    {
+      "component": "yaml",
+      "id": "review",
+      "finding_sha256": "87e5b829439386074489e78c6fe7333c9dc6d4ed43e2c0ee327cb53b24737487",
+      "classification": "non-blocking",
+      "rationale": "Exact embedded LibYAML build mapping is unestablished; no specific missing required notice is identified by this finding.",
+      "disposition": null
+    },
+    {
+      "component": "python",
+      "id": "review",
+      "finding_sha256": "7af29a2eb50dd4a81b2dd0fadf9a4c0cc3fb025fbea32cac1285ef26bbe17667",
+      "classification": "non-blocking",
+      "rationale": "Original supplier license with incorporated-library notices is retained; incorporated-version research is informational. The bundled renamed MSVC entitlement is reviewed separately.",
+      "disposition": null
+    },
+    {
+      "component": "openblas",
+      "id": "review",
+      "finding_sha256": "113164510d35b00b9c901a3aea3c6d48d0d381201db5700f613a3ce8451479a6",
+      "classification": "requires-decision",
+      "rationale": "OpenBLAS GCC runtime exception eligibility and any resulting covered-source duties require an evidence-backed disposition.",
+      "disposition": null
+    },
+    {
+      "component": "intel-openmp",
+      "id": "review",
+      "finding_sha256": "37bd54efc2a564208e33f594ddda15146a77a629a97a904a980b584ed01b8259",
+      "classification": "requires-decision",
+      "rationale": "Intel OpenMP redistribution grant, required notices and compatibility with MiniSBD AGPL require an evidence-backed disposition.",
+      "disposition": null
+    },
+    {
+      "component": "msvc-numpy",
+      "id": "review",
+      "finding_sha256": "8c3c8f73328908f357423b1c49b03973fb01d518cc411934ad91d23249907b97",
+      "classification": "requires-decision",
+      "rationale": "NumPy wheel-local renamed MSVC DLL redistribution entitlement and any repair/renaming conditions require an evidence-backed disposition.",
+      "disposition": null
+    },
+    {
+      "component": "openssl",
+      "id": "review",
+      "finding_sha256": "f3104489fefa29e898b002d641b5bec4bf89e5b11a1c6c246b8af39f5d3668d3",
+      "classification": "non-blocking",
+      "rationale": "Supplier incorporated-library notices are preserved; exact embedded revision mapping is provenance research.",
+      "disposition": null
+    },
+    {
+      "component": "sqlite",
+      "id": "review",
+      "finding_sha256": "77e8098a737f5858a3c104730623ccb284fd2ebc73ac769830c4cbae46a0ff11",
+      "classification": "non-blocking",
+      "rationale": "Exact supplier build/dedication mapping is provenance research; this finding identifies no independent source-delivery duty.",
+      "disposition": null
+    },
+    {
+      "component": "libffi",
+      "id": "review",
+      "finding_sha256": "d4b5cc4c9435ab254ef09db7f597fa3be6df8d7adbf822d421b5b8102ece24ad",
+      "classification": "non-blocking",
+      "rationale": "Supplier license is retained; exact binary version mapping is provenance research.",
+      "disposition": null
+    },
+    {
+      "component": "python-incorporated",
+      "id": "review",
+      "finding_sha256": "26856d0f93b42501fbaf0f12d6168e7bef8f6797bcb21aef3e7672c2bdd6b6aa",
+      "classification": "non-blocking",
+      "rationale": "Supplier incorporated-library texts are retained; exact version mapping alone is not an identified unmet condition.",
+      "disposition": null
+    },
+    {
+      "component": "ct2-static",
+      "id": "review",
+      "finding_sha256": "88aa3969eed220803550ab91099b326dca77fff9dc2624a56b1403a2d4bf593d",
+      "classification": "non-blocking",
+      "rationale": "Static BOM/revision mapping is informational; material Intel permission/compatibility is handled by the Intel OpenMP decision.",
+      "disposition": null
+    },
+    {
+      "component": "sentencepiece-static",
+      "id": "review",
+      "finding_sha256": "5501dd99b1955e8abd7f0edfa788eff7a4b63d9065eba0f89bdb95c3df4b27c4",
+      "classification": "non-blocking",
+      "rationale": "Collected dependency license texts are retained; exact embedded-revision mapping has not identified a specific unmet condition.",
+      "disposition": null
+    },
+    {
+      "component": "ort-static",
+      "id": "review",
+      "finding_sha256": "1e76008cdaae5c27056f1226f5b3857c1e92d600b435e9936792da93ad896b0b",
+      "classification": "non-blocking",
+      "rationale": "Original complete supplier notices are retained; CPU BOM applicability is research. Material Intel permission/compatibility is handled by the Intel OpenMP decision.",
+      "disposition": null
+    }
   ]
 }

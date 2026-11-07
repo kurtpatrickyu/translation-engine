@@ -72,7 +72,7 @@ compatible SBD asset, or explicitly revise the runtime/model combination.
 At that stage each option needed repeated real translation, representative Chinese sentence
 and paragraph/Unicode/long-input quality checks, offline resource validation,
 and licensing/provenance review. The subsequent MiniSBD results below supersede
-this historical compatibility blocker; licensing and clean OS gates remain.
+this historical compatibility blocker. Current release requirements are in [releasing](releasing.md).
 
 The subsequent targeted amendment authorized evaluating a separate MiniSBD asset
 without changing the versioned protocol or architecture. Clean OS checks remained
@@ -134,17 +134,8 @@ worker subprocesses run Python network-attempt instrumentation. Missing,
 corrupt, and ambiguous ONNX installations fail without downloads. Failed
 provisioning validation never promotes a partial installation.
 
-## Remaining gates
+## Current guidance
 
-Python instrumentation does not prove OS firewall isolation or every native
-network path. Both clean Windows 10 22H2 x64 and Windows 11 x64 acceptance rows
-remain pending and must use the same eventual worker/model/SBD hashes. Local
-worker implementation and packaging can continue without those VMs.
-
-MiniSBD code is AGPLv3, and upstream describes Stanza-derived ONNX assets. Review
-covered combined-distribution source/notices obligations and model-specific
-terms before publishing. The original translation README identifies the OPUS
-model as CC-BY 4.0 and provides attribution. See
-[provenance and redistribution notes](../README.md). No license
-clearance, production release, perfect translation quality, or clean-machine
-compatibility is implied by the local experiment.
+This experiment is historical technical evidence. Current platform limitations,
+source delivery and publication requirements are recorded only in
+[releasing](releasing.md).

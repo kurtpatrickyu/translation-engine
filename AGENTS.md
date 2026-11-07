@@ -9,16 +9,12 @@ not application-specific imports or paths. Model installation is a separate,
 explicit local CLI operation; requests never acquire resources or use a cloud
 fallback.
 
-Local usability and development-host validation are recorded. Clean Windows
-acceptance, OS-denied networking and public redistribution gates remain pending;
-an assembled candidate is not a published or cleared release.
-
-For initial v0.1.0, the maintainer waived separate Windows 11 clean acceptance:
-describe Windows 11 as **expected compatible, UNTESTED**, with optional future
-validation. Windows 10 is core smoke-tested with limitations; its remaining
-acceptance and all other release gates remain required. Follow the
-[version-limited scope decision](docs/releasing.md), not historical
-two-OS gate wording. No waiver is a test pass or publication approval.
+Windows 10 clean-VM core smoke testing passed with disclosed limitations.
+Windows 11 is **expected compatible, UNTESTED**; separate acceptance is deferred
+for v0.1.0. Additional unperformed coverage remains a limitation, not a test pass.
+Follow the [release policy](docs/releasing.md): required distribution materials,
+integrity, source identity, material legal dispositions and explicit approval
+govern publication. Historical research checklists are not independent gates.
 
 README.md and docs/ describe current installation, usage, architecture and release
 procedures. OpenSpec is development history and optional change tracking; it is

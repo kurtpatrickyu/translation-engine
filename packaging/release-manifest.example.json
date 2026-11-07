@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "candidate_id": "0.1.0",
   "worker_version": "0.1.0",
   "protocol_version": 1,
@@ -26,7 +26,7 @@
     "native_files": 49,
     "platform_support": {
       "windows10_x64": {
-        "status": "clean-VM core smoke passed with limitations; full acceptance pending",
+        "status": "clean-VM core smoke passed with limitations; additional coverage unperformed",
         "transcript": "docs/evidence/windows10-rc1-cmd-2026-11-08.txt",
         "sha256": "7bf2949e1b9f30e6f3a0d0d082713f4bdfe1312304728c348e3a376c82ebb1ac"
       },
@@ -342,38 +342,38 @@
   "artifacts": [
     {
       "name": "translation-engine-worker-win-x64.zip",
-      "bytes": 58854655,
-      "sha256": "82568a2864a8e30626c3e48c225135bd331351ba281cd1adcd33ea2479268eab",
+      "bytes": 58830440,
+      "sha256": "4b8b6f9a1aa4a4c2ae2a69cbf14f6f8bf210d7eb2be4dd4aa6b43cd111e3048b",
       "role": "worker"
     },
     {
       "name": "translation-engine-compliance.zip",
-      "bytes": 4948689,
-      "sha256": "f2df07332ae992abc10003dcf0924dd49b5cf26bb4162c8be83ee30789690df3",
+      "bytes": 4963823,
+      "sha256": "9405ed824a36bb9ea358f09b7d5ddbfab800e4e024880d0f7731e5f487f8a51b",
       "role": "compliance"
     },
     {
       "name": "translation-engine-corresponding-source.zip",
-      "bytes": 4889394,
-      "sha256": "52b3a484f04ed1af68d3a0e6805032338b1b01b59092fe0c6bff653cd2b20397",
+      "bytes": 4963941,
+      "sha256": "3111891c6d737c8c55cb534bd4bd9b8e4f799b2f105042c18e8ae07fa89b7099",
       "role": "corresponding-source-preparation"
     },
     {
       "name": "WINDOWS-CANDIDATE.md",
-      "bytes": 5155,
-      "sha256": "877384f45816d61c269b6a1810b89aba25327d008423540fe1574d564891a7a6",
+      "bytes": 5127,
+      "sha256": "557e1493973aa88993104618fa3bdb5e34298b820a808dfbb2dfc5072e609a29",
       "role": "usage"
     },
     {
       "name": "verify-checksums.ps1",
-      "bytes": 1804,
-      "sha256": "530a6114e058549febe79173e7dc201a8bb1694f3e0207d6b5bb8cad0dfeac91",
+      "bytes": 1822,
+      "sha256": "0b8411c9299ed7dc60d178a70880ca5901d16ec0848c56a28915b1c75b9d4496",
       "role": "checksum-verifier"
     },
     {
       "name": "manifest.schema.json",
-      "bytes": 4243,
-      "sha256": "01dc74899b8713eb52294b696db57815d05991a8a21b25f4503cc6501efbbc54",
+      "bytes": 4593,
+      "sha256": "b3cf8f03fe7012cc5d34cf111209d561fe66b03b6ba1101b31a96080f0b9a08b",
       "role": "manifest-schema"
     }
   ],
@@ -1254,39 +1254,34 @@
       "sha256": "4fd0e84f50261ed0886cffcdd8008b055af3352546e649c3d741b50eae1f9b5f"
     },
     {
-      "name": "translation-engine-worker/release-info/BLOCKERS.txt",
-      "bytes": 2194,
-      "sha256": "9012e3407b6113e684aeb6e15b24bf5b3a5e3300695ce8bf79a2557b1410d7a4"
-    },
-    {
       "name": "translation-engine-worker/release-info/LICENSE",
       "bytes": 1091,
       "sha256": "37af1807adb76f23c16b90c9c1b9dd0817e8b6714a3e3896b8ef15b103ad93f7"
     },
     {
       "name": "translation-engine-worker/release-info/README.md",
-      "bytes": 5155,
-      "sha256": "877384f45816d61c269b6a1810b89aba25327d008423540fe1574d564891a7a6"
+      "bytes": 5127,
+      "sha256": "557e1493973aa88993104618fa3bdb5e34298b820a808dfbb2dfc5072e609a29"
     },
     {
       "name": "translation-engine-worker/release-info/SOURCE_AVAILABILITY.md",
-      "bytes": 4614,
-      "sha256": "35c133565d3648604e88bb00afd97d844f19fc0b452449234a6513ba3289a8d2"
+      "bytes": 1778,
+      "sha256": "68561a7c2d7b89986d9b2468b728e0365e6c5dd54297b45f0dbf9ab90bc02bad"
     },
     {
       "name": "translation-engine-worker/release-info/THIRD_PARTY_NOTICES.md",
-      "bytes": 10638,
-      "sha256": "70940fac57750f52b56e5a13e6e64965f484d9da2f0f1aa534225c66787b4d2d"
+      "bytes": 7755,
+      "sha256": "8f6cec69a7a8cb5029124ea55c892781548d880558aed1d10be0c200474d0938"
     },
     {
       "name": "translation-engine-worker/release-info/THIRD_PARTY_NOTICES.txt",
-      "bytes": 7073,
-      "sha256": "713b7dd3ca31ff2fb756b7e79f997edf73c583795ab75af1c3001f2bac31647a"
+      "bytes": 4583,
+      "sha256": "64f26e61503f02b116159ae86a06f23f2a6734d395faf595e40d91367930e582"
     },
     {
       "name": "translation-engine-worker/release-info/WINDOWS-CANDIDATE.md",
-      "bytes": 5155,
-      "sha256": "877384f45816d61c269b6a1810b89aba25327d008423540fe1574d564891a7a6"
+      "bytes": 5127,
+      "sha256": "557e1493973aa88993104618fa3bdb5e34298b820a808dfbb2dfc5072e609a29"
     },
     {
       "name": "translation-engine-worker/release-info/docs/argos-migration.md",
@@ -1295,8 +1290,8 @@
     },
     {
       "name": "translation-engine-worker/release-info/docs/compatibility-spike.md",
-      "bytes": 9597,
-      "sha256": "61da50eb94c9f5aa7b94cd79c17a8421c1f3cee164c4c902706c861ce764bf3e"
+      "bytes": 9020,
+      "sha256": "445742ba3174356bbc0c2c79b6d5f472571e0fba33283c355ed7266e63f12aec"
     },
     {
       "name": "translation-engine-worker/release-info/docs/development.md",
@@ -1315,8 +1310,8 @@
     },
     {
       "name": "translation-engine-worker/release-info/docs/releasing.md",
-      "bytes": 16905,
-      "sha256": "dee3ab59c6544d95a6e218c51aa7ca700b25fd72d66c0cbc994de253ac8eb0fb"
+      "bytes": 7639,
+      "sha256": "2a8054aaa35b17aab8be682b33b846941ec5666b0cc16705ae5fa67013c088d3"
     },
     {
       "name": "translation-engine-worker/release-info/docs/troubleshooting.md",
@@ -1327,26 +1322,6 @@
       "name": "translation-engine-worker/release-info/docs/unicode-path-validation.md",
       "bytes": 7949,
       "sha256": "24a6ee924064b20e126ed9ad37b0be20055f819a7ce6c93d81df00d4a0a1dd78"
-    },
-    {
-      "name": "translation-engine-worker/release-info/historical/docs/manual-testing-cmd.md",
-      "bytes": 21283,
-      "sha256": "f9875c8a9cc37eb46b656f94d60f5fe28de92f57180f18a4ca77bb611b838610"
-    },
-    {
-      "name": "translation-engine-worker/release-info/historical/docs/model-provisioning.md",
-      "bytes": 4692,
-      "sha256": "c47d556bcdb482c29a43b2651ca0524c716ce95901e7ac5347f64c90d349a6a2"
-    },
-    {
-      "name": "translation-engine-worker/release-info/historical/docs/protocol-v1.md",
-      "bytes": 4298,
-      "sha256": "d0e465cd455807a1b81e118bbda4eab15182229ddb68e16b6f89a1dcf2adeda3"
-    },
-    {
-      "name": "translation-engine-worker/release-info/historical/docs/rebuilding-worker.md",
-      "bytes": 5545,
-      "sha256": "d7e2ec8c36935b277fcc017a8d98a0c939c0c33b173c802a6086036967e4fecc"
     },
     {
       "name": "translation-engine-worker/release-info/licenses/argostranslate/argostranslate-1.11.1.dist-info/licenses/LICENSE",
@@ -1685,116 +1660,36 @@
     "ready": false,
     "archive": "translation-engine-compliance.zip",
     "source_archive": "translation-engine-corresponding-source.zip",
-    "staged_manifest_sha256": "bf31bdd59dcbc8222e99644450b87548ec5678e10e2a7b3f9082567d209a8752",
+    "inventory_sha256": "a6b10357dfb6cac7937ad88b4ea2fa47fa6d29aa6ce5bbf2baf4a5001fecea58",
+    "staged_manifest_sha256": "4a5627ad16b119d70f9537af40da7886f2dbaca6615b698608fcea10b10c0f77",
     "blockers": [
-      {
-        "component": "charset_normalizer",
-        "id": "review",
-        "reason": "Compiled-extension embedded compiler/runtime notices unresolved."
-      },
-      {
-        "component": "ct2-static",
-        "id": "review",
-        "reason": "Exact wheel static BOM, Intel/MKL terms, spdlog/pybind11 notices and compatibility unresolved."
-      },
-      {
-        "component": "ctranslate2",
-        "id": "review",
-        "reason": "Tagged primary MIT text collected; exact native/static wheel source/BOM mapping remains unresolved."
-      },
-      {
-        "component": "distribution",
-        "id": "native-static",
-        "reason": "Intel OpenMP grant, NumPy renamed MSVC entitlement, native/static supplier source and attribution mappings remain unresolved."
-      },
-      {
-        "component": "distribution",
-        "id": "source-delivery",
-        "reason": "Before publication bind immutable public source commit and same-location source asset to exact final executable; include missing covered native/dependency sources or evidence-backed exclusions."
-      },
       {
         "component": "intel-openmp",
         "id": "review",
-        "reason": "Exact Intel runtime grant/redistributable designation/notices and AGPL compatibility unresolved."
-      },
-      {
-        "component": "joblib",
-        "id": "review",
-        "reason": "Vendored loky 3.6.0 and copied CPython source/notices need reconciliation."
-      },
-      {
-        "component": "libffi",
-        "id": "review",
-        "reason": "Actual libffi build/version and supplier notice mapping unresolved."
+        "reason": "Intel OpenMP redistribution grant, required notices and compatibility with MiniSBD AGPL require an evidence-backed disposition."
       },
       {
         "component": "msvc-numpy",
         "id": "review",
-        "reason": "Renamed MSVCP repair/redistribution provenance and downstream entitlement unresolved."
+        "reason": "NumPy wheel-local renamed MSVC DLL redistribution entitlement and any repair/renaming conditions require an evidence-backed disposition."
       },
       {
         "component": "openblas",
         "id": "review",
-        "reason": "GCC exception eligibility and exact OpenBLAS/LAPACK/GCC revisions unresolved."
-      },
-      {
-        "component": "openssl",
-        "id": "review",
-        "reason": "Exact supplier binary notices/incorporated components not reconciled."
-      },
-      {
-        "component": "ort-static",
-        "id": "review",
-        "reason": "Reconcile CPU BOM to third-party notices including Intel/nonpermissive terms and source duties."
-      },
-      {
-        "component": "python",
-        "id": "review",
-        "reason": "Python incorporated versions/notices and Microsoft binary terms need review."
-      },
-      {
-        "component": "python-incorporated",
-        "id": "review",
-        "reason": "Reconcile versions/full notices for Expat, libmpdec, bzip2, XZ/liblzma, zlib."
-      },
-      {
-        "component": "sacremoses",
-        "id": "review",
-        "reason": "Inherited Moses/Unicode data notice chain not reconciled."
-      },
-      {
-        "component": "sentencepiece",
-        "id": "review",
-        "reason": "Exact-version sdist primary/dependency licenses collected; binary-to-sdist static revision/build mapping remains unresolved."
-      },
-      {
-        "component": "sentencepiece-static",
-        "id": "review",
-        "reason": "Exact embedded revisions and third-party license/notices unresolved."
-      },
-      {
-        "component": "sqlite",
-        "id": "review",
-        "reason": "Exact supplier/dedication evidence not staged; no independent SQLite source duty."
-      },
-      {
-        "component": "yaml",
-        "id": "review",
-        "reason": "Statically incorporated LibYAML version/build and license mapping unresolved."
+        "reason": "OpenBLAS GCC runtime exception eligibility and any resulting covered-source duties require an evidence-backed disposition."
       }
     ]
   },
   "blockers": [
-    "Intel/native redistribution and NumPy renamed Microsoft DLL terms remain unresolved.",
-    "Remaining corresponding-source/license supplier mappings and final immutable public delivery remain pending.",
-    "Full Windows 10 22H2 x64 acceptance remains pending; Windows 11 is expected compatible, UNTESTED, and optional for v0.1.0.",
-    "OS-denied networking and complete clean-target measurements remain pending.",
-    "Final explicit publication approval has not been given."
+    "Intel OpenMP redistribution grant, required notices and compatibility with MiniSBD AGPL require an evidence-backed disposition.",
+    "NumPy wheel-local renamed MSVC DLL redistribution entitlement and any repair/renaming conditions require an evidence-backed disposition.",
+    "OpenBLAS GCC runtime exception eligibility and any resulting covered-source duties require an evidence-backed disposition.",
+    "Explicit maintainer publication approval is required."
   ],
   "assembly": {
     "node": "22.11.0",
     "zlib": "1.3.0.1-motley-71660e1",
-    "config_sha256": "561525f86043dff58c4677fc72a06bcaa6df90d5fa82a86f055fc373992020ff",
-    "tool_sha256": "4d97ed927e158727f26d5924645f840cee15cd23fa272274963201d5057b3d61"
+    "config_sha256": "1cd72e4bbfd1b64a5311f3ee4947f9f7bd26bccf7465d7af58b60ad3323d6905",
+    "tool_sha256": "562063cef2dcb02462d0a612a4763557959ad027e2bab354c8bfc9943f836731"
   }
 }
