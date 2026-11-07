@@ -25,7 +25,10 @@ local network-attempt instrumentation, technical native inventory, host-local
 ASCII/Unicode relocation, limited local performance measurements, and a manual
 usage guide plus a recorded manual walkthrough. Local checks report their
 coverage limits rather than require clean OS images or redistribution clearance.
-The guide, manual session and Level A sign-off remain pending (4.9, 4.10, 4.8).
+Task 4.9's guide is complete in `docs/manual-usage.md`, with syntax/schema/link,
+CLI-help/version and existing artifact/asset hash checks only. The actual manual
+session and Level A sign-off remain pending (4.10, 4.8); documentation checks
+do not count as that session or as new inference evidence.
 
 Existing verified evidence includes 60 passing source tests; five frozen path
 scenarios and 75 matching translations; 53 AMD64 native binaries and all 180 ZIP

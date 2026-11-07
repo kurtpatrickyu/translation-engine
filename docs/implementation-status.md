@@ -1,5 +1,13 @@
 # Milestone A implementation evidence
 
+Local usage documentation is available in [manual-usage.md](manual-usage.md).
+Only task 4.9 is complete for this documentation session: syntax/request/link,
+CLI-help/version and existing hash checks passed without running provisioning
+or translation. Manual walkthrough 4.10 and local sign-off 4.8 remain pending.
+Current accounting is 35/54 overall, LOCAL 35/37, PUBLIC 0/17; the historical
+counts and test reports below predate the separate completion levels in the
+[current tasks](../openspec/changes/001-build-offline-translation-engine/tasks.md).
+
 Current status after the approved migration: Argos source revision
 `17ed1a9b055c5ba1b51d76b683bbb0c64e2a4a88` is adopted in a fresh environment.
 The controlled reduced build succeeds. The subsequent package-local SentencePiece

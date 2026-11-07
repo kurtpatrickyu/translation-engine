@@ -13,8 +13,11 @@ scripts\python.cmd scripts\acquire_assets.py
 
 The script uses only the recorded URLs and hashes. It verifies existing files,
 rejects changed bytes, and never selects newer versions. Downloaded binaries
-remain ignored. Consumers will eventually receive these two assets from this
-repository's validated release; no production release exists yet.
+remain ignored. Consumers obtain the originals directly from the recorded
+upstream providers; this project's releases will distribute the worker only,
+not model/ONNX binaries. No production release exists yet. The
+[manual usage guide](manual-usage.md) lists upstream URLs, exact hashes, the
+existing diagnostic ZIP and executable-only local provisioning/testing.
 
 Provisioning accepts **local files** and works without network access:
 
@@ -31,7 +34,7 @@ never overwrites them, so active workers cannot see partially replaced models.
 Use a new managed model directory for a replacement and restart the worker.
 An idempotent invocation validates an existing installation before returning.
 
-The packaged executable will expose the same `provision-model` command; it
+The existing packaged executable exposes the same `provision-model` command; it
 does not require a separate system Python. CLI failures return nonzero with
 stderr diagnostics. Ordinary stdin/stdout commands cannot provision.
 
@@ -71,8 +74,10 @@ versions and build/install material; private local builds can proceed.
 
 The original translation archive's README credits Jörg Tiedemann and Santhosh
 Thottingal, *OPUS-MT — Building open translation services for the World*, EAMT
-2020, and identifies the original OPUS model as CC-BY 4.0. Retain attribution and
-verify the packaged model's terms and any changes/notice obligations. ONNX model
-terms, Stanza/model source provenance, and complete distribution clearance remain
-pending. No binaries should be published until these checks and Windows
-acceptance pass. `models/provenance.json` deliberately records pending clearance.
+2020, and identifies the original OPUS model as CC-BY 4.0. Preserve attribution
+and the known/unknown packaged-model and ONNX terms; do not claim they are
+cleared. The current scope does not host models. Future model hosting requires
+separate review/clearance. Public worker distribution still requires bundled
+code/native compliance and clean Windows evidence; these are not prerequisites
+for local usage documentation/testing. `models/provenance.json` retains its
+recorded pending status; this guide does not grant distribution rights.

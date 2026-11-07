@@ -9,11 +9,12 @@ already verified local evidence, not newly implemented work. No model binaries
 are project release/CI assets. Unknown external model terms stay recorded;
 future model hosting needs separate review and clearance.
 
-Amended accounting: **34/54 overall; LOCAL 34/37; PUBLIC 0/17**. Five existing
+Amendment snapshot: **34/54 overall; LOCAL 34/37; PUBLIC 0/17**. Five existing
 local evidence items (3.8a, 4.3a, 4.4a, 4.5a, 4.7a) are now credited separately.
 Seven additional checkboxes arise from obligation splits and the two manual
-tasks; this is not a new implementation/test run. Local work remaining: 4.9
-guide, 4.10 manual walkthrough, then 4.8 sign-off. Historical reports retaining
+tasks; this is not a new implementation/test run. After completing documentation
+task 4.9: **35/54 overall; LOCAL 35/37; PUBLIC 0/17**. Local work remaining:
+4.10 manual walkthrough, then 4.8 sign-off. Historical reports retaining
 old model-hosting/combined-gate wording are evidence, not the current policy;
 reconcile active usage/public docs in 4.9/5.7 without rewriting raw history.
 
@@ -70,7 +71,7 @@ reconcile active usage/public docs in 4.9/5.7 without rewriting raw history.
 - [x] 4.7a [LOCAL] Record the diagnostic worker ZIP/extracted size, fresh-process startup, warm-up/init, idle/ready/observed peak working set/private bytes and repeated latency, separately from monitored build memory/system headroom. Evidence: raw build/frozen reports and `docs/argos-migration.md`, `docs/unicode-path-validation.md`; record known host/CPU/RAM/settings/corpus/cache/sample methods and explicitly missing storage/power/cold-cache conditions. This limited local baseline does not complete target measurements or invent performance budgets.
 - [ ] 4.7b [PUBLIC] Capture complete clean-target measurements on both OS rows with final artifact/external model hashes, OS/CPU/RAM/storage/VM allocation/power details, SBD/thread/compute settings, cache/warm-up policy, corpus/input sizes, repetitions, raw timing/memory observations and median/tail summaries. Review a baseline without arbitrary thresholds.
 - [ ] 4.8 [LOCAL] Verify Level A exit after 4.9/4.10: reconcile completed local source/frozen/provisioning/network-attempt/native/relocation/diagnostic measurement evidence and manual guide/session; report limitations separately. Do not require public OS/compliance/A5 completion or claim those gates passed. Existing technical evidence alone does not complete this new manual-use sign-off.
-- [ ] 4.9 [LOCAL] Write a distinct manual testing/usage guide for the existing onedir: upstream model/ONNX URLs and exact hashes, user acquisition/verification, offline `provision-model`, explicit Unicode-capable model/state paths, launch/readiness, protocol-v1 repeated translations/errors, stderr handling and shutdown. Link existing developer/protocol docs; label unknown external terms, Teruten host limits and unvalidated OS support. No public-release automation is needed to write this guide.
+- [x] 4.9 [LOCAL] Write a distinct manual testing/usage guide for the existing onedir: upstream model/ONNX URLs and exact hashes, user acquisition/verification, offline `provision-model`, explicit Unicode-capable model/state paths, launch/readiness, protocol-v1 repeated translations/errors, stderr handling and shutdown. Link existing developer/protocol docs; label unknown external terms, Teruten host limits and unvalidated OS support. Evidence: `docs/manual-usage.md`, linked from README/development/provisioning. Six PowerShell blocks parsed without execution; 13 request examples and seven local links checked; existing EXE help/version and local ZIP/EXE/model/ONNX hashes matched. No model loading, download, provisioning, translation or manual session was run for documentation verification; 4.10 and 4.8 stay pending.
 - [ ] 4.10 [LOCAL] Run and record a manual tester session following 4.9 against identified existing worker/model/ONNX hashes; retain commands, outputs, readiness/repeated translation/error/shutdown and acquisition/provisioning observations. An automated harness is supporting evidence, not a substitute for this new manual walkthrough. Retain host limits without modifying security software.
 
 Focused 4.5 evidence, 2026-11-07: a package-local lazy serialized SentencePiece

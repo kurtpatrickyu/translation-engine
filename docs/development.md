@@ -70,6 +70,10 @@ its own environment and consume them; it must not reuse a contributor's `.venv`.
 
 ## Implementation gates
 
+For the existing executable, use the [local manual guide](manual-usage.md).
+It requires no environment setup or new build. The Level A documentation task
+does not itself record the manual walkthrough or sign off local usability.
+
 The host-local real-model spike passed using package-local MiniSBD; local worker
 development and Windows builds can proceed. Explicit acquisition/provisioning
 is documented in [model-provisioning.md](model-provisioning.md). Run the worker
@@ -83,14 +87,14 @@ The controlled build uses unique `build/diagnostic-*` and `dist/diagnostic-*`
 directories, preserving earlier reports and outputs. It samples its process
 tree and system memory, and terminates only its assigned job on sustained host
 pressure. These host-protection limits are not performance acceptance budgets.
-The approved migration's single diagnostic succeeded; its ASCII-path smoke
-passed, while Unicode-path provisioning failed in SentencePiece. See
-[migration measurements and limitations](argos-migration.md). Do not repeat
-builds to investigate that known failure without a focused next instruction.
-Local output is not cleared for publication.
-Clean Windows 10 22H2/Windows 11 acceptance and license compliance gate final
-completion/publication, not producing the executable to be tested. They remain
-explicitly pending until evidence exists.
+The approved migration's diagnostic succeeded; its original Unicode-path
+failure was subsequently fixed and all five relocation scenarios passed. See
+[migration history](argos-migration.md) and [Unicode evidence](unicode-path-validation.md).
+Use the existing verified diagnostic for manual testing rather than rebuilding
+as part of usage. Local output is not cleared for publication. Clean Windows
+10/11 acceptance and bundled-code/native compliance gate Level B public support
+and release, independently of Level A local testing/documentation/completion.
+Neither public gate has been declared complete.
 
 See [implementation-status.md](implementation-status.md) for actual evidence
 and outstanding environment/model verification. Do not interpret an environment
