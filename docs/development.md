@@ -70,6 +70,18 @@ its own environment and consume them; it must not reuse a contributor's `.venv`.
 
 ## Implementation gates
 
+New change-003 builds exclude the four ordinary VC++ DLLs and require the
+[official installed x64 runtime](native-dependencies.md#external-vc-prerequisite-for-change-003).
+Run the focused policy check before the single monitored candidate build:
+`scripts\python.cmd -m pytest tests\unit\test_packaging_policy.py -q`.
+Existing build/native/ZIP checks verify the retained dependencies; no installer
+or model is added. Preserve earlier diagnostic outputs and use new report names.
+The focused diagnostic build's retention guard uses the preserved local
+`build/diagnostic-20261107-133601/native-static-audit-complete.json` inventory;
+retain that evidence with this workflow. It is not fetched automatically.
+Supplying reviewed native-inventory/build inputs with public source/build
+instructions remains part of the separate PUBLIC release preparation.
+
 For the existing executable, use the [local manual guide](manual-usage.md).
 It requires no environment setup or new build. The Level A documentation task
 does not itself record the manual walkthrough or sign off local usability.

@@ -26,3 +26,10 @@ support or redistribution clearance.
 Use the [model provisioning guide](docs/model-provisioning.md),
 [versioned worker contract](docs/protocol-v1.md), and
 [compatibility evidence and quality limits](docs/compatibility-spike.md).
+
+New change-003 worker ZIPs require the separately installed official
+[Microsoft Visual C++ x64 Redistributable](https://aka.ms/vc14/vc_redist.x64.exe).
+Install the latest supported package if needed; keep compatible newer versions.
+See [runtime requirements and remediation](docs/native-dependencies.md#external-vc-prerequisite-for-change-003).
+The older validated diagnostic remains preserved. No target Python or automatic
+prerequisite download/installation is required.

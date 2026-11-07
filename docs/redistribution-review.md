@@ -8,6 +8,16 @@ or OpenSpec completion status was changed.
 
 ## Determination
 
+Subsequent approved decision (change 003): retain Argos/MiniSBD and satisfy the
+applicable AGPL source/notices obligations; new worker builds externalize the
+four ordinary VC DLLs through the official Microsoft x64 prerequisite. See
+[deployment contract](native-dependencies.md#external-vc-prerequisite-for-change-003).
+The historical component matrix below describes the old diagnostic, not the
+new candidate. NumPy's renamed MSVCP DLL still ships with unchanged bytes and
+its separate provenance requirement; Intel OpenMP and all other actual bundled
+materials retain their release gates. The installer is not redistributed.
+This decision does not rebind the old compliance inventory or clear PUBLIC work.
+
 **Redistribution appears feasible, but the current diagnostic artifact is not
 ready for public distribution. Recommend option A: retain the working graph and
 prepare its compliance materials.** MiniSBD's AGPLv3 requires a deliberate

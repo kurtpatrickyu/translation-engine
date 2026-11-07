@@ -20,6 +20,16 @@ local testing. Do not publish this diagnostic as a cleared release.
 
 ## 1. Verify and extract the existing worker
 
+For **new change-003 ZIPs**, first install the latest supported official
+[Microsoft Visual C++ x64 Redistributable](https://aka.ms/vc14/vc_redist.x64.exe)
+separately if needed. Keep a compatible newer installation. See
+[runtime requirements and missing-runtime remediation](native-dependencies.md#external-vc-prerequisite-for-change-003).
+Then verify/extract the complete candidate ZIP using its own recorded hashes,
+obtain the upstream model/ONNX assets, provision locally and run offline; target
+Python is not needed. No prerequisite is downloaded/installed at worker startup.
+The commands/hashes below intentionally identify the preserved older diagnostic,
+which bundles the four ordinary VC DLLs; do not apply those hashes to a new ZIP.
+
 Use Windows PowerShell 5.1 or PowerShell 7 in a console, starting at the
 repository root. These commands are **PowerShell, not CMD**. If you have custom
 shell/error settings, open `powershell.exe -NoProfile` with normal defaults.

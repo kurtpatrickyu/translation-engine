@@ -21,6 +21,7 @@ import pefile
 WINDOWS_DLLS = set('user32 kernel32 advapi32 ws2_32 bcrypt version ole32 oleaut32 '
                    'iphlpapi rpcrt4 crypt32 propsys wintrust imagehlp dbghelp setupapi dxgi shell32'.split())
 EXCLUDED = {'torch', 'stanza', 'spacy', 'thinc'}
+EXTERNAL_VC_DLLS = {'msvcp140.dll', 'msvcp140_1.dll', 'vcruntime140.dll', 'vcruntime140_1.dll'}
 
 
 def digest(path):
@@ -32,10 +33,12 @@ def windows_contract(name):
     return name.lower().startswith(('api-ms-win-', 'ext-ms-win-'))
 
 
-def dependency_kind(name, bundled_names):
+def dependency_kind(name, bundled_names, external_vc_runtime=False):
     name = name.lower()
     if name in bundled_names:
         return 'bundled'
+    if external_vc_runtime and name in EXTERNAL_VC_DLLS:
+        return 'external_vc_runtime_required'
     if windows_contract(name):
         return 'windows_api_contract'
     if name.removesuffix('.dll') in WINDOWS_DLLS:
@@ -108,7 +111,23 @@ def symbol_name(pe, offset):
     return name
 
 
-def audit(build):
+def vc_runtime_files():
+    """Inspect the installed x64 runtime; never load it into the auditor."""
+    files = {}
+    for name in sorted(EXTERNAL_VC_DLLS):
+        path = Path(os.environ['SystemRoot']) / 'System32' / name
+        with pefile.PE(str(path), fast_load=True) as pe:
+            pe.parse_data_directories(directories=[2])
+            version = pe.VS_FIXEDFILEINFO[0]
+            if pe.FILE_HEADER.Machine != 0x8664:
+                raise ValueError('Installed VC runtime is not AMD64: ' + str(path))
+            files[name] = dict(path=str(path.resolve()), sha256=digest(path), file_version='.'.join(map(str, [
+                version.FileVersionMS >> 16, version.FileVersionMS & 65535,
+                version.FileVersionLS >> 16, version.FileVersionLS & 65535])))
+    return files
+
+
+def audit(build, external_vc_runtime=False):
     result = json.loads((build / 'build-result.json').read_text(encoding='utf-8'))
     if not result['passed']:
         raise ValueError('Select a successful diagnostic build')
@@ -167,12 +186,15 @@ def audit(build):
     names = {Path(b['path']).name.lower() for b in binaries}
     if len(names) != len(binaries):
         errors.append('Duplicate PE basenames require manual loader review')
+    installed_vc = vc_runtime_files() if external_vc_runtime else {}
+    if external_vc_runtime and names & EXTERNAL_VC_DLLS:
+        errors.append('Ordinary VC runtime unexpectedly bundled')
     external = set()
     for binary in binaries:
         if binary['machine'] != '0x8664':
             errors.append('Non-AMD64 PE: ' + binary['path'])
         for entry in binary['imports']:
-            entry['resolution'] = dependency_kind(entry['dll'], names)
+            entry['resolution'] = dependency_kind(entry['dll'], names, external_vc_runtime)
             if entry['resolution'] == 'unresolved':
                 errors.append('Unresolved import: ' + binary['path'] + ': ' + entry['dll'])
             if entry['resolution'] != 'bundled':
@@ -207,6 +229,7 @@ def audit(build):
                 file_count=len(files), extracted_bytes=sum(p.stat().st_size for p in files.values()),
                 all_file_sha256=hashes, pe_count=len(binaries), pe_inventory=binaries,
                 windows_dependencies=sorted(external), metadata=metadata, excluded_modules=excluded,
+                external_vc_runtime=installed_vc,
                 build_inputs_unchanged=not drift, clean_windows_acceptance=False,
                 limitations=['API-set names are OS contracts, not missing physical files',
                              'Static imports do not enumerate dynamic LoadLibrary calls or prove loader search order',
@@ -222,10 +245,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--build-dir', type=Path, required=True)
     parser.add_argument('--report', type=Path, required=True)
+    parser.add_argument('--external-vc-runtime', action='store_true', help='Declare the four installed x64 VC DLLs as prerequisites')
     args = parser.parse_args()
     if args.report.exists():
         raise SystemExit('Refusing to overwrite evidence')
-    report = audit(args.build_dir.resolve())
+    report = audit(args.build_dir.resolve(), args.external_vc_runtime)
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     print(json.dumps({k: report[k] for k in ['passed', 'errors', 'file_count', 'pe_count', 'extracted_bytes']}, indent=2))

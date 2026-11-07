@@ -12,6 +12,15 @@ at the end of this guide remains historical and is not that user session.
 
 ## Shell and tool assumptions
 
+New change-003 ZIPs require the separately installed latest supported official
+[Microsoft VC++ x64 Redistributable](https://aka.ms/vc14/vc_redist.x64.exe),
+unless a compatible x64 runtime is already installed. See
+[runtime requirements/remediation](native-dependencies.md#external-vc-prerequisite-for-change-003).
+The historical commands/hashes in this guide remain for the preserved older
+diagnostic; use the new candidate's own hashes when testing it. After extraction,
+obtain upstream assets, provision and run offline without target Python. Worker
+startup never downloads or installs prerequisites.
+
 Open Command Prompt and enter this once to use a fresh nested CMD with normal
 8-bit redirected output, AutoRun disabled and delayed expansion disabled:
 

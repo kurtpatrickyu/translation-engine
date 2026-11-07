@@ -12,6 +12,10 @@ def test_visual_cpp_is_never_assumed_to_be_in_windows():
     assert audit.dependency_kind('VCRUNTIME140_1.dll', set()) == 'unresolved'
     assert audit.dependency_kind('MSVCP140.dll', {'msvcp140.dll'}) == 'bundled'
     assert audit.dependency_kind('unknown.dll', set()) == 'unresolved'
+    assert audit.dependency_kind('MSVCP140.dll', set(), external_vc_runtime=True) == 'external_vc_runtime_required'
+    assert audit.dependency_kind('unknown.dll', set(), external_vc_runtime=True) == 'unresolved'
+    assert audit.dependency_kind('msvcp140-a4c2229bdc2a2a630acdc095b4d86008.dll', set(),
+                                 external_vc_runtime=True) == 'unresolved'
 
 
 def test_api_contract_is_distinct_from_bundled_or_missing_file():

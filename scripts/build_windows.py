@@ -12,6 +12,29 @@ import importlib.metadata as metadata
 from windows_resources import Job, process_memory, process_tree, system_memory
 
 
+def verify_package(root):
+    """Compare native payload to the preserved successful diagnostic inventory."""
+    baseline = Path(__file__).resolve().parents[1] / 'build/diagnostic-20261107-133601/native-static-audit-complete.json'
+    from audit_windows_package import EXTERNAL_VC_DLLS, digest
+    inventory = json.loads(baseline.read_text(encoding='utf-8'))
+    files = {p.relative_to(root).as_posix(): p for p in root.rglob('*') if p.is_file()}
+    forbidden = [name for name, path in files.items() if path.name.casefold() in EXTERNAL_VC_DLLS
+                 or path.name.casefold().startswith(('vc_redist', 'vcredist'))
+                 or path.suffix.casefold() in {'.argosmodel', '.onnx'}]
+    expected = {name: sha for name, sha in inventory['all_file_sha256'].items()
+                if Path(name).suffix.casefold() in {'.dll', '.pyd'}
+                and Path(name).name.casefold() not in EXTERNAL_VC_DLLS}
+    actual = {name for name, path in files.items() if path.suffix.casefold() in {'.dll', '.pyd'}}
+    errors = ['Forbidden payload: ' + name for name in forbidden]
+    if actual != set(expected):
+        errors.append('Native file-set mismatch: ' + repr(sorted(actual ^ set(expected))))
+    errors += ['Changed native bytes: ' + name for name, sha in expected.items()
+               if name in files and digest(files[name]) != sha]
+    return dict(passed=not errors, errors=errors, file_count=len(files),
+                retained_native_files=len(expected), baseline=str(baseline), baseline_sha256=digest(baseline),
+                external_vc_dlls=sorted(EXTERNAL_VC_DLLS))
+
+
 def main():
     root = Path(__file__).resolve().parents[1]
     if Path(sys.prefix).resolve() != (root / ".venv").resolve():
@@ -36,7 +59,7 @@ def main():
     def identities():
         files = list((root / "src").rglob("*.py")) + list((root / 'packaging').glob('*')) + [
             root / "requirements.lock", root / "requirements-dev.lock", root / 'pyproject.toml',
-            Path(__file__), root / 'scripts/windows_resources.py']
+            Path(__file__), root / 'scripts/windows_resources.py', root / 'scripts/audit_windows_package.py']
         return {path.relative_to(root).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest() for path in files if path.is_file()}
     source_hashes = identities()
     command = [sys.executable, '-m', 'PyInstaller', '--clean', '--noconfirm', '--distpath', str(destination),
@@ -80,6 +103,13 @@ def main():
             report['minimum_available_ram'] = min(s['system']['physical_available'] for s in report['samples'])
             report['minimum_commit_headroom'] = min(s['system']['commit_available'] for s in report['samples'])
         report['passed'] = report.get('returncode') == 0 and not report.get('error') and not report['resource_abort'] and report['source_unchanged_during_build']
+        if report['passed']:
+            try:
+                report['packaging_policy'] = verify_package(Path(report['executable']).parent)
+                report['passed'] = report['packaging_policy']['passed']
+            except Exception as error:
+                report['passed'] = False
+                report['error'] = repr(error)
         (build / 'build-result.json').write_text(json.dumps(report, indent=2)+'\n', encoding='utf-8')
         print(json.dumps({k: report.get(k) for k in ('passed','returncode','error','resource_abort','seconds','peak_tree_working_set','peak_tree_private_bytes','executable')}, indent=2))
         print('Evidence: ' + str(build))

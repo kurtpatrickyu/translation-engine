@@ -1,5 +1,135 @@
 # Windows native dependency audit — 2026-11-07
 
+## External VC++ prerequisite for change 003
+
+New builds exclude exactly `msvcp140.dll`, `msvcp140_1.dll`, `vcruntime140.dll`
+and `vcruntime140_1.dll` from PyInstaller's post-Analysis binary collection.
+Keep the complete onedir/ZIP; Python, CTranslate2, ONNX Runtime, SentencePiece,
+Intel OpenMP and all other required dependencies remain bundled. In particular,
+`numpy.libs/msvcp140-a4c2229bdc2a2a630acdc095b4d86008.dll` remains unchanged:
+NumPy's core and FFT extensions import that exact filename. The ordinary system
+runtime cannot substitute for it without changing the wheel.
+
+Install the **latest supported official Microsoft Visual C++ v14 x64
+Redistributable** if needed: [official Microsoft download](https://aka.ms/vc14/vc_redist.x64.exe).
+Run the Microsoft installer separately, complete any restart it requests, then
+retry the worker. Offline users can transfer a separately obtained official
+installer. This project does not bundle/redistribute it, and the worker never
+downloads or installs prerequisites. A compatible newer x64 installation needs
+no downgrade or forced reinstallation. An x86-only or arbitrary old v14 runtime
+does not establish compatibility.
+
+Microsoft requires the runtime to be at least as recent as the newest MSVC build
+tools used by any component, with matching application architecture. See
+[supported downloads](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170)
+and [binary compatibility](https://learn.microsoft.com/en-us/cpp/porting/binary-compat-2015-2017?view=msvc-170).
+The project therefore recommends the latest supported official x64 package.
+**14.50.35719.0 is a provisional conservative candidate, not a proven minimum.**
+The host registers `v14.50.35719.00`, `Installed=1`; all four System32 files are
+14.50.35719.0 with valid Microsoft Authenticode signatures. CPython reports
+`MSC v.1943`; installed ONNX metadata identifies 1.31.1 but not its compiler.
+Available evidence does not establish every wheel's newest toolset or a lowest
+numeric minimum. Record actual tested runtimes below; do not infer support for
+older runtimes or obtain a historical installer solely to test the provisional
+number. Clean Windows 10/11 support remains a PUBLIC gate.
+
+To inspect an existing x64 installation from CMD or PowerShell:
+
+```bat
+reg query "HKLM\SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64" /reg:64
+```
+
+Registration is a useful hint, not loader proof. Actual module snapshots must
+show the four ordinary DLLs from the installed Microsoft runtime (normally
+`%SystemRoot%\System32` for x64), and NumPy's renamed DLL from the bundle.
+If startup fails with a missing-DLL message, PyInstaller's Python-library-load
+error, or a native import failure, install/update/repair the official x64 package
+and retry. Python may never initialize, so no NDJSON error is guaranteed. Keep
+the original exit status/stdout/stderr or dialog details; absent health or failed
+initialization is not `ready=true`. No new startup detector/launcher is added.
+
+One monitored candidate build and existing frozen/native checks are used for
+003; exhaustive prerequisite version/architecture matrices are deferred unless
+a concrete issue requires a targeted check. Ordinary VC imports are declared
+explicitly with the audit's `--external-vc-runtime` option, not assumed to be OS
+contracts. Unrelated native dependencies and unexpected host modules retain
+their existing checks. The historical evidence below remains unchanged.
+
+AGPL source delivery/notices, Intel OpenMP rights, NumPy's renamed Microsoft
+DLL provenance and all other actual bundled-material requirements remain
+separate mandatory PUBLIC release work. Externalizing four DLLs clears none of
+those obligations. Candidate compliance rebinding is also separate release work.
+
+## Change 003 candidate: local verification
+
+One monitored build produced `diagnostic-20261107-211131` in 38.01 seconds,
+without a resource abort or build-input drift. It retains **176 files / 49 AMD64
+PEs**. The four ordinary VC DLLs are absent throughout the onedir and ZIP; all
+**48 retained native dependency files** match the historical native hashes,
+including NumPy's renamed DLL. No installer, translation model or ONNX asset was
+added. Complete ZIP/extracted file-set and byte comparison passed.
+
+| Candidate identity | Value |
+|---|---|
+| Directory | `dist/diagnostic-20261107-211131/translation-engine-worker/` |
+| ZIP | `build/diagnostic-20261107-211131/frozen-unicode-all.worker.zip` |
+| ZIP bytes | 57,783,318 |
+| Extracted bytes | 159,167,808 |
+| ZIP SHA-256 | `8bf0010042f2259d477a29b19c7fa5e15aa53d9ae8a7ba238900926fd2ed5fd0` |
+| EXE SHA-256 | `ec06bf07399b9d96d140e2c828772666aa12124b8991a2d622ebca52ced79d7d` |
+
+The installed **14.50.35719.0 x64 runtime** passed local frozen execution:
+all four ordinary DLLs loaded from System32 at readiness and after translation,
+with hashes matching the inspected Microsoft-signed installed files. NumPy's
+renamed DLL and Python loaded from the bundle. This identifies an actually
+tested runtime, **not a proven lowest compatible version** or clean-OS support
+claim. Recommend the latest supported official x64 package; available wheel
+metadata still does not establish every component's newest toolset. No historical
+installer was acquired and no runtime installation was changed.
+
+The locked source suite with real-model integration passed **64 tests**, including
+the single focused policy test; the four focused policy/audit guards also passed
+after adding explicit external-VC classification assertions. Four frozen runs
+(independent Unicode model, executable and state paths, then combined Unicode)
+pass version/startup, production provisioning, `health ready=true`, persistent
+requests/error recovery/shutdown, integrity rejection/failed-reprovision safety
+and missing-model handling. The native run passes the same functional checks.
+Across those five runs, **75 translation outputs match the historical baseline
+exactly**, with unchanged original model and ONNX hashes and identical candidate
+ZIP hashes. Minimal child PATH/environment and native origins demonstrate no
+loaded development/global Python dependency locally; the host itself has Python,
+so clean no-system-Python acceptance remains pending.
+
+Strict native isolation remains **failed**, with `functional_smoke_passed=true`:
+the same two external Teruten DLLs (`T_Prevent64.dll`, `TDCommonLib64.dll`) appear
+in both snapshots. They were not allowlisted and host security software was not
+modified. The local/static success is separate from that strict failure. No clean
+Windows 10 22H2 or Windows 11 VM/Sandbox acceptance environment was available in
+this session; OS-denied networking and both PUBLIC OS rows remain unexecuted.
+
+Evidence in `build/diagnostic-20261107-211131/`: `build-result.json`,
+`native-static-audit.json`, `native-runtime-audit.json`,
+`frozen-unicode-{all,model,executable,state}.json`,
+`installed-runtime-signatures.json` and `candidate-comparison.json`.
+Source/guard results are `runtime/external-vc-prebuild-tests.xml` and
+`runtime/external-vc-postbuild-guard-tests.xml`. The preservation comparison
+rehashed all **180 historical distribution files** and **26 evidence/input
+files**, with zero mismatches, including original diagnostics/ZIPs, manual
+transcripts, locks, Argos identity, model/ONNX assets and `001` task records.
+
+To recheck this candidate without rebuilding, choose unused report names:
+
+```bat
+.venv\Scripts\python scripts\audit_windows_package.py --build-dir build\diagnostic-20261107-211131 --external-vc-runtime --report build\diagnostic-20261107-211131\native-static-recheck.json
+.venv\Scripts\python scripts\validate_windows.py --exe dist\diagnostic-20261107-211131\translation-engine-worker\translation-engine-worker.exe --native-audit --external-vc-runtime --report build\diagnostic-20261107-211131\native-runtime-recheck.json
+```
+
+No release is authorized by these local results. The old compliance inventory
+still describes the old diagnostic. PUBLIC source/notices/native-rights and
+new-candidate inventory binding remain separate work; `001` Level A is unchanged.
+
+## Historical bundled-runtime diagnostic audit
+
 The existing Unicode-fixed diagnostic artifact has no demonstrated missing native
 dependency and is ready to be taken into clean-machine testing. This is a local
 technical assessment, not platform acceptance or redistribution clearance.

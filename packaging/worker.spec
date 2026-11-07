@@ -20,6 +20,12 @@ a = Analysis(
     excludes=['spacy', 'stanza', 'torch'],
     noarchive=False,
 )
+# Ordinary VC runtimes are supplied by the official installed x64 redist.
+# Exact basenames preserve NumPy's wheel-local, renamed MSVCP dependency.
+external_vc = {'msvcp140.dll', 'msvcp140_1.dll',
+               'vcruntime140.dll', 'vcruntime140_1.dll'}
+a.binaries = [entry for entry in a.binaries
+              if Path(entry[0]).name.casefold() not in external_vc]
 pyz = PYZ(a.pure)
 exe = EXE(
     pyz, a.scripts, [],

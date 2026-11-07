@@ -8,6 +8,14 @@ for the legal/source decisions that still gate release.
 
 ## Generate and inspect from Windows CMD
 
+Change 003 uses an [external official x64 VC runtime](native-dependencies.md#external-vc-prerequisite-for-change-003)
+for new candidates. This staging workflow/inventory remains bound to the old
+diagnostic and its 180 files. Do not remove its ordinary-VC ownership entries or
+substitute candidate hashes without the separate PUBLIC candidate-rebinding work.
+The new diagnostic build/regression need not wait for that work. NumPy's renamed
+DLL, Intel OpenMP, AGPL source/notices and all actual bundled-material blockers
+remain independently required. No Microsoft installer is staged or redistributed.
+
 Run from the repository root with an existing **Node.js 22 or later** installation.
 No npm packages are needed. Node is a maintainer tooling requirement only; the
 worker does not require it. This runner was chosen because the review account

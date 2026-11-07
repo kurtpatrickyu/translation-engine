@@ -33,6 +33,7 @@ def main():
     parser.add_argument('--unicode-component', choices=['model', 'executable', 'state', 'all'],
                         help='Independently locate this directory under Unicode; default all')
     parser.add_argument('--native-audit', action='store_true', help='Snapshot loaded native paths in a minimal child environment')
+    parser.add_argument('--external-vc-runtime', action='store_true', help='Verify the four VC DLLs load from the installed x64 runtime')
     args = parser.parse_args()
     if args.report.exists():
         raise SystemExit('Refusing to overwrite existing validation evidence')
@@ -42,6 +43,8 @@ def main():
         parser.error('Executable relocation requires the frozen artifact')
     if args.source and args.native_audit:
         parser.error('Native audit requires the frozen artifact')
+    if args.external_vc_runtime and not args.native_audit:
+        parser.error('--external-vc-runtime requires --native-audit')
     component = 'none' if args.ascii_paths else (args.unicode_component or 'all')
     report = {"passed": False, "clean_machine": False, "os_firewall_isolation": False,
               "os": platform.platform(), "cpu": platform.processor(), "machine": platform.machine(),
@@ -58,6 +61,7 @@ def main():
     handle = None
     monitor_thread = None
     stop = threading.Event()
+    stderr, stdout_frames = [], []
     @contextmanager
     def workspace():
         temporary = tempfile.TemporaryDirectory(prefix="packaged Caf\u00e9 " if component == 'all' else "packaged-ascii ", dir=runtime)
@@ -106,15 +110,30 @@ def main():
                 report['child_environment_keys'] = sorted(env)
                 report['native_modules'] = {}
                 report['native_isolation_findings'] = []
+                from audit_windows_package import EXTERNAL_VC_DLLS, vc_runtime_files
+                installed_vc = vc_runtime_files() if args.external_vc_runtime else {}
+                report['external_vc_runtime'] = installed_vc
                 def snapshot(stage):
                     from audit_windows_package import loaded_modules
                     modules = loaded_modules(process.pid, relocated)
                     report['native_modules'][stage] = modules
                     report['native_isolation_findings'] += [
                         'External host module: ' + item['path'] for item in modules if item['scope'] == 'external_host']
-                    # A VC runtime in System32 is not an OS-guaranteed dependency.
+                    if args.external_vc_runtime:
+                        observed = {Path(item['path']).name.casefold(): item for item in modules
+                                    if Path(item['path']).name.casefold() in EXTERNAL_VC_DLLS}
+                        if set(observed) != EXTERNAL_VC_DLLS or any(
+                                Path(item['path']) != Path(installed_vc[name]['path'])
+                                or item['sha256'] != installed_vc[name]['sha256']
+                                for name, item in observed.items()):
+                            raise RuntimeError('Required VC runtime did not load from the installed system location')
+                        if not any(Path(item['path']).name.casefold() == 'msvcp140-a4c2229bdc2a2a630acdc095b4d86008.dll'
+                                   and item['scope'] == 'bundle' for item in modules):
+                            raise RuntimeError('NumPy renamed runtime is not loaded from the bundle')
+                    # System32 VC is permitted only with the explicit prerequisite.
                     if any(item['scope'] != 'bundle' and Path(item['path']).name.lower().startswith(
                             ('msvcp140', 'vcruntime140', 'python3', 'libiomp', 'libscipy', 'ctranslate2', 'onnxruntime'))
+                           and not (args.external_vc_runtime and Path(item['path']).name.casefold() in EXTERNAL_VC_DLLS)
                            for item in modules):
                         raise RuntimeError('Application runtime loaded from the host')
             models, state = directory('external-models', 'model'), directory('worker-state', 'state')
@@ -125,16 +144,24 @@ def main():
                 "--state-dir", str(directory('provision-state', 'state')),
             ], capture_output=True, env=env, cwd=base, timeout=120)
             report['provisioning_stdout'] = provision.stdout.decode('utf-8', errors='replace')
+            report['provisioning_returncode'] = provision.returncode
             report['provisioning_stderr'] = provision.stderr.decode('utf-8', errors='replace')
             report['provisioning_stderr_base64'] = base64.b64encode(provision.stderr).decode('ascii')
             if provision.returncode or provision.stdout:
                 raise RuntimeError("Frozen provisioning failed: " + provision.stderr.decode(errors="replace"))
-            pending, stderr = queue.Queue(), []
+            version = subprocess.run(worker_command + ['--version'], capture_output=True, env=env, cwd=base, timeout=30)
+            report['version_stdout'] = version.stdout.decode('utf-8', errors='replace')
+            report['version_stderr'] = version.stderr.decode('utf-8', errors='replace')
+            report['version_returncode'] = version.returncode
+            if version.returncode or version.stderr or not version.stdout.strip():
+                raise RuntimeError('Worker version check failed')
+            pending = queue.Queue()
             launch = time.perf_counter()
             process = subprocess.Popen(worker_command + ["--models-dir", str(models), "--state-dir", str(state)],
                                        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env, cwd=base)
             def read_stdout():
                 for frame in iter(process.stdout.readline, b""):
+                    stdout_frames.append(frame)
                     pending.put(frame)
                 pending.put(None)
             def read_stderr():
@@ -190,6 +217,7 @@ def main():
             report["model_initialization_seconds"] = elapsed
             if not health["ready"]:
                 raise RuntimeError("Frozen readiness failed: " + repr(health))
+            report['health'] = health
             report["ready_memory"] = sample()
             if args.native_audit:
                 snapshot('ready')
@@ -204,12 +232,24 @@ def main():
                                          "text": text, "output": translated["text"]})
             if args.native_audit:
                 snapshot('after_translation')
+            process.stdin.write(b'{"protocol_version":1,"id":"bad","command":"unknown"}\n')
+            process.stdin.flush()
+            rejected_command = json.loads(pending.get(timeout=30))
+            if (rejected_command.get('id') != 'bad' or rejected_command.get('ok') is not False
+                    or rejected_command.get('error', {}).get('code') != 'UNKNOWN_COMMAND'):
+                raise RuntimeError('Persistent request error mapping failed')
+            recovered, _ = send('health')
+            if not recovered['ready']:
+                raise RuntimeError('Readiness lost after request error')
+            report['persistent_error_recovery'] = 'passed'
             send("shutdown")
             if process.wait(timeout=30):
                 raise RuntimeError("Frozen worker did not exit cleanly")
             errors_thread.join(timeout=5)
             if b"".join(stderr):
                 raise RuntimeError("Unexpected frozen stderr: " + b"".join(stderr).decode(errors="replace"))
+            if pending.get(timeout=5) is not None:
+                raise RuntimeError('Unexpected stdout after shutdown')
             stop.set()
             monitor_thread.join(timeout=5)
             report["memory_peak_observed"] = {key: max(item[key] for item in memory) for key in memory[0]} if memory else None
@@ -281,6 +321,10 @@ def main():
         if process is not None and process.poll() is None:
             process.kill()
             process.wait()
+        if process is not None:
+            report['worker_returncode'] = process.returncode
+        report['failure_stdout'] = b''.join(stdout_frames).decode('utf-8', errors='replace')
+        report['failure_stderr'] = b''.join(stderr).decode('utf-8', errors='replace')
     finally:
         stop.set()
         if monitor_thread:
