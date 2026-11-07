@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "candidate_id": "0.1.0-rc.1",
+  "candidate_id": "0.1.0",
   "worker_version": "0.1.0",
   "source_commit": "b064e29517fb793b2fcf0bf309b6fc78f623367d",
   "materials_commit": "6faf8a8d40713e7f5bafb787a2e900b104995ddb",

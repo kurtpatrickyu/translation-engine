@@ -63,10 +63,13 @@ function validateManifest(m) {
     'artifacts', 'worker_files', 'evidence', 'compliance', 'blockers', 'assembly'], 'manifest');
   assert.equal(m.schema_version, 1); assert.equal(m.platform, 'windows'); assert.equal(m.architecture, 'x64');
   assert.equal(m.protocol_version, 1); assert.match(m.worker_version, /^\d+\.\d+\.\d+$/);
-  assert.equal(m.candidate_id, m.worker_version + '-rc.1');
+  assert([m.worker_version, m.worker_version + '-rc.1'].includes(m.candidate_id));
   for (const key of ['commit', 'materials_commit']) assert.match(m.source[key], /^[a-f0-9]{40}$/);
   assert.equal(m.source.url, REPO + '/tree/' + m.source.commit);
-  assert.deepEqual(m.publication, {status: 'local-candidate', tag: null, release_url: null, release_ready: false});
+  assert.deepEqual(m.publication, m.candidate_id === m.worker_version ?
+    {status: 'prepared-release', tag: 'v' + m.worker_version,
+      release_url: REPO + '/releases/tag/v' + m.worker_version, release_ready: false} :
+    {status: 'local-candidate', tag: null, release_url: null, release_ready: false});
   assert.equal(m.backend, 'argos'); assert(m.dependencies.length >= 17);
   assert.equal(new Set(m.dependencies.map(c => c.id)).size, m.dependencies.length);
   for (const p of m.external_prerequisites) assert(p.bundled === false && /^https:\/\//.test(p.url));
@@ -93,6 +96,11 @@ function outputPath(root, output) {
 }
 function prepare(root, configPath) {
   const cfg = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+  assert([cfg.worker_version, cfg.worker_version + '-rc.1'].includes(cfg.candidate_id), 'Unsupported release identity');
+  const stable = cfg.candidate_id === cfg.worker_version;
+  const publication = stable ? {status: 'prepared-release', tag: 'v' + cfg.worker_version,
+    release_url: REPO + '/releases/tag/v' + cfg.worker_version, release_ready: false} :
+    {status: 'local-candidate', tag: null, release_url: null, release_ready: false};
   const invPath = s.safe(root, 'packaging/compliance-inventory.json');
   const inv = JSON.parse(fs.readFileSync(invPath, 'utf8'));
   const candidate = s.verifyCandidate(root, inv);
@@ -125,6 +133,9 @@ function prepare(root, configPath) {
   });
   const provenance = JSON.parse(s.pinned(s.safe(root, 'models/provenance.json'), cfg.provenance_sha256));
   assert.deepEqual(cfg.models, {translation: provenance.translation, sentence_boundary: provenance.sentence_boundary});
+  const windows10Transcript = 'docs/evidence/windows10-rc1-cmd-2026-11-08.txt';
+  const windows10Sha = '7bf2949e1b9f30e6f3a0d0d082713f4bdfe1312304728c348e3a376c82ebb1ac';
+  s.pinned(s.safe(root, windows10Transcript), windows10Sha);
   const sourcePaths = git(root, ['ls-tree', '-r', '--name-only', cfg.source_commit]).toString().trim().split('\n')
     .filter(f => /^(src|scripts|packaging|tests)\//.test(f) ||
       /^(LICENSE|README\.md|pyproject\.toml|requirements(?:-dev)?\.lock|models\/provenance\.json)$/.test(f) ||
@@ -141,11 +152,14 @@ function prepare(root, configPath) {
   }
   for (const file of compliance.files.filter(f => f.path.startsWith('licenses/') || f.path.startsWith('docs/') ||
     ['LICENSE', 'SOURCE_AVAILABILITY.md', 'THIRD_PARTY_NOTICES.md', 'THIRD_PARTY_NOTICES.txt', 'BLOCKERS.txt'].includes(f.path))) {
-    workerEntries.set('translation-engine-worker/release-info/' + file.path, s.pinned(s.safe(complianceDir, file.path), file.sha256));
+    const destination = file.path.startsWith('docs/') ? 'historical/' + file.path : file.path;
+    workerEntries.set('translation-engine-worker/release-info/' + destination, s.pinned(s.safe(complianceDir, file.path), file.sha256));
   }
   workerEntries.set('translation-engine-worker/release-info/WINDOWS-CANDIDATE.md', usage);
   for (const file of ['README.md', 'docs/development.md', 'docs/protocol-v1.md',
-    'docs/releasing.md', 'docs/troubleshooting.md'])
+    'docs/releasing.md', 'docs/troubleshooting.md', 'docs/compatibility-spike.md',
+    'docs/unicode-path-validation.md', 'docs/argos-migration.md', windows10Transcript,
+    'src/translation_engine/AGENTS.md', 'models/provenance.json'])
     workerEntries.set('translation-engine-worker/release-info/' + file, fs.readFileSync(s.safe(root, file)));
   const allCompliance = new Map(s.walk(complianceDir).map(f => [f, fs.readFileSync(s.safe(complianceDir, f))]));
   const sources = new Map([...allCompliance].filter(([f]) => f.startsWith('sources/') || f.startsWith('licenses/') ||
@@ -153,21 +167,31 @@ function prepare(root, configPath) {
   for (const [file, content] of repository) if (!file.endsWith('/')) sources.set('repository/' + file, content());
   for (const file of ['scripts/assemble_release.cjs', 'scripts/stage_compliance.cjs', 'scripts/verify_release_checksums.ps1',
     'packaging/release-candidate.json', 'packaging/release-manifest.schema.json', 'README.md',
-    'docs/development.md', 'docs/protocol-v1.md', 'docs/releasing.md', 'docs/troubleshooting.md'])
+    'docs/development.md', 'docs/protocol-v1.md', 'docs/releasing.md', 'docs/troubleshooting.md',
+    'docs/compatibility-spike.md', 'docs/unicode-path-validation.md', 'docs/argos-migration.md',
+    windows10Transcript, 'src/translation_engine/AGENTS.md', 'models/provenance.json'])
     sources.set('assembly/' + file, fs.readFileSync(s.safe(root, file)));
   sources.set('SOURCE_COMMIT.json', Buffer.from(s.json({repository: REPO, commit: cfg.source_commit,
     materials_commit: cfg.materials_commit, source_url: REPO + '/tree/' + cfg.source_commit,
-    release_tag: null, tag_rule: 'Future immutable tag must resolve to a commit with these unchanged binary build inputs; otherwise build and revalidate a new candidate.'})));
+    release_tag: publication.tag, release_url: publication.release_url,
+    source_asset_url: stable ? REPO + '/releases/download/' + publication.tag + '/' + SOURCE : null,
+    build_inputs: candidate.build.source_sha256,
+    tag_rule: 'The tag commit must retain or clearly identify these original inputs. repository/ is the exact binary source commit; assembly/ contains later packaging and documentation, not a rebuilt worker.'})));
   const payload = new Map([[WORKER, zip(workerEntries)], [COMPLIANCE, zip(allCompliance)], [SOURCE, zip(sources)],
     ['WINDOWS-CANDIDATE.md', usage], ['verify-checksums.ps1', verifier], ['manifest.schema.json', schema]]);
   const roles = ['worker', 'compliance', 'corresponding-source-preparation', 'usage', 'checksum-verifier', 'manifest-schema'];
   const manifest = validateManifest({schema_version: 1, candidate_id: cfg.candidate_id, worker_version: cfg.worker_version,
     protocol_version: 1, platform: 'windows', architecture: 'x64',
     source: {repository: REPO, commit: cfg.source_commit, materials_commit: cfg.materials_commit, url: REPO + '/tree/' + cfg.source_commit},
-    publication: {status: 'local-candidate', tag: null, release_url: null, release_ready: false},
+    publication,
     baseline: {worker: inv.candidate.worker, executable_sha256: inv.candidate.exe_sha256,
       diagnostic_zip_sha256: inv.candidate.zip_sha256, audit_sha256: inv.candidate.audit.sha256,
-      build_sha256: inv.candidate.build.sha256, native_files: candidate.audit.pe_count},
+      build_sha256: inv.candidate.build.sha256, native_files: candidate.audit.pe_count,
+      platform_support: {
+        windows10_x64: {status: 'clean-VM core smoke passed with limitations; full acceptance pending',
+          transcript: windows10Transcript, sha256: windows10Sha},
+        windows11_x64: {status: 'expected compatible, UNTESTED', separate_acceptance: 'deferred for v0.1.0'}
+      }},
     backend: 'argos', dependencies: inv.components.filter(c => c.pyz_roots?.length || ['python', 'pyinstaller'].includes(c.id))
       .map(c => ({id: c.id, version: c.version, source_identity: c.source_identity})),
     external_prerequisites: inv.candidate.external_prerequisites,
@@ -212,8 +236,13 @@ function assemble(root, configPath, output, check = false) {
     const manifestBytes = fs.readFileSync(s.safe(output, 'manifest.json'));
     if (s.hash(manifestBytes) === 'c3451790abf20551e470048a417d0653a6802a055ee3d382151c26029d02cb5f') {
       const m = validateManifest(JSON.parse(manifestBytes));
-      s.pinned(configPath, m.assembly.config_sha256);
-      const cfg = JSON.parse(fs.readFileSync(configPath));
+      // Read the original configuration from the hash-bound source archive;
+      // current configuration can advance to stable without rewriting rc.1.
+      const sourceArtifact = m.artifacts.find(a => a.name === SOURCE);
+      const originalSources = s.zipMembers(s.pinned(s.safe(output, SOURCE), sourceArtifact.sha256));
+      const configBytes = originalSources.get('assembly/packaging/release-candidate.json')();
+      assert.equal(s.hash(configBytes), m.assembly.config_sha256);
+      const cfg = JSON.parse(configBytes);
       assert.equal(cfg.source_commit, m.source.commit);
       assert.equal(cfg.materials_commit, m.source.materials_commit);
       assert.equal(cfg.compliance_manifest_sha256, m.compliance.staged_manifest_sha256);

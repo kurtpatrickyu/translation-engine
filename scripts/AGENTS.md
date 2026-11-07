@@ -43,7 +43,8 @@ Packaging changes must reconcile native inventory, spec and tests together.
 
 Staging requires a fresh `candidate-staging/` destination; use `--check` for an
 existing one. Valid blocked compliance preparation returns **2**, failure **1**.
-Release assembly/check returns **0** for a valid local candidate, always retaining
+Release assembly/check returns **0** for valid candidate or prepared stable assets,
+retaining
 `release_ready: false`. Neither tool publishes, rebuilds inference code or acquires
 models. Do not treat an exit-zero assembly or source comparison as compliance
 clearance. Avoid copying generation commands into checks that would overwrite
@@ -52,7 +53,8 @@ evidence. Full command sequences and prerequisites belong in the linked guides.
 Documentation materials pinned to the existing candidate resolve from
 `packaging/sources/candidate-documentation/` with their original hashes. New
 assemblies carry current README and guides; `--check` verifies immutable rc.1
-against its exact recorded manifest and complete artifact hashes. It must not
+against its exact recorded manifest, archived configuration and complete artifact
+hashes. It must not
 rewrite that candidate to reflect newer instructions.
 
 ## Verification

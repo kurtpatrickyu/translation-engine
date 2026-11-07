@@ -62,6 +62,19 @@ test('real candidate manifest, archive, source commit and artifact hashes agree'
   // Current docs/tool bytes must not force rewriting the immutable candidate.
   assert.deepEqual(r.assemble(root, path.join(root, 'packaging/release-candidate.json'), directory, true), m);
   const fresh = r.prepare(root, path.join(root, 'packaging/release-candidate.json'));
+  assert.equal(fresh.manifest.candidate_id, '0.1.0');
+  assert.deepEqual(fresh.manifest.publication, {status: 'prepared-release', tag: 'v0.1.0',
+    release_url: 'https://github.com/kurtpatrickyu/translation-engine/releases/tag/v0.1.0', release_ready: false});
+  const identity = JSON.parse(fresh.sources.get('SOURCE_COMMIT.json'));
+  assert.equal(identity.commit, cfg.source_commit);
+  assert.equal(identity.release_tag, 'v0.1.0');
+  assert.deepEqual(identity.build_inputs, require('../' + require('../packaging/compliance-inventory.json').candidate.build.path).source_sha256);
+  for (const mutate of [m => { m.candidate_id = '0.1.0-rc.2'; },
+    m => { m.worker_version = '0.1.1'; }, m => { m.publication.tag = 'v0.1.1'; },
+    m => { m.publication.release_ready = true; }]) {
+    const changed = structuredClone(fresh.manifest); mutate(changed);
+    assert.throws(() => r.validateManifest(changed));
+  }
   r.validateWorker(fresh.payload.get('translation-engine-worker-win-x64.zip'), fresh.manifest, fresh.audit);
   assert(fresh.payload.get('WINDOWS-CANDIDATE.md').equals(fs.readFileSync(path.join(root, 'README.md'))));
   for (const file of ['README.md', 'docs/development.md', 'docs/protocol-v1.md', 'docs/releasing.md', 'docs/troubleshooting.md']) {

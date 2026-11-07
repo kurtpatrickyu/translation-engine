@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "candidate_id": "0.1.0-rc.1",
+  "candidate_id": "0.1.0",
   "worker_version": "0.1.0",
   "protocol_version": 1,
   "platform": "windows",
@@ -12,9 +12,9 @@
     "url": "https://github.com/kurtpatrickyu/translation-engine/tree/b064e29517fb793b2fcf0bf309b6fc78f623367d"
   },
   "publication": {
-    "status": "local-candidate",
-    "tag": null,
-    "release_url": null,
+    "status": "prepared-release",
+    "tag": "v0.1.0",
+    "release_url": "https://github.com/kurtpatrickyu/translation-engine/releases/tag/v0.1.0",
     "release_ready": false
   },
   "baseline": {
@@ -23,7 +23,18 @@
     "diagnostic_zip_sha256": "8bf0010042f2259d477a29b19c7fa5e15aa53d9ae8a7ba238900926fd2ed5fd0",
     "audit_sha256": "f7a5e7462b671cd9703c373a4c920e8da73589f8ede057b0ee64775a8879f7e8",
     "build_sha256": "4f686c44b7ee52a46dfa3100730111d322b33aa69286e4363a371850004e0587",
-    "native_files": 49
+    "native_files": 49,
+    "platform_support": {
+      "windows10_x64": {
+        "status": "clean-VM core smoke passed with limitations; full acceptance pending",
+        "transcript": "docs/evidence/windows10-rc1-cmd-2026-11-08.txt",
+        "sha256": "7bf2949e1b9f30e6f3a0d0d082713f4bdfe1312304728c348e3a376c82ebb1ac"
+      },
+      "windows11_x64": {
+        "status": "expected compatible, UNTESTED",
+        "separate_acceptance": "deferred for v0.1.0"
+      }
+    }
   },
   "backend": "argos",
   "dependencies": [
@@ -331,8 +342,8 @@
   "artifacts": [
     {
       "name": "translation-engine-worker-win-x64.zip",
-      "bytes": 58819680,
-      "sha256": "708add4798814b8e7d2298ad36ae9697368afa639a4ae6ea99e391f4457fb28d",
+      "bytes": 58854655,
+      "sha256": "82568a2864a8e30626c3e48c225135bd331351ba281cd1adcd33ea2479268eab",
       "role": "worker"
     },
     {
@@ -343,14 +354,14 @@
     },
     {
       "name": "translation-engine-corresponding-source.zip",
-      "bytes": 4855013,
-      "sha256": "5e1e5edbc134f0659de8c8d3ce178cb64f513edea37aa152e6e213c3a8afdcc3",
+      "bytes": 4889394,
+      "sha256": "52b3a484f04ed1af68d3a0e6805032338b1b01b59092fe0c6bff653cd2b20397",
       "role": "corresponding-source-preparation"
     },
     {
       "name": "WINDOWS-CANDIDATE.md",
-      "bytes": 7021,
-      "sha256": "77d8d3cbd779ad8496d765f2a731dc984415a9d5a74a7ac59dd2c4e7dc32e0d3",
+      "bytes": 5155,
+      "sha256": "877384f45816d61c269b6a1810b89aba25327d008423540fe1574d564891a7a6",
       "role": "usage"
     },
     {
@@ -361,8 +372,8 @@
     },
     {
       "name": "manifest.schema.json",
-      "bytes": 4040,
-      "sha256": "77759d970a18390182be5d06cbacbec5769db64b862435e4982458ab2b2bff60",
+      "bytes": 4243,
+      "sha256": "01dc74899b8713eb52294b696db57815d05991a8a21b25f4503cc6501efbbc54",
       "role": "manifest-schema"
     }
   ],
@@ -1253,6 +1264,11 @@
       "sha256": "37af1807adb76f23c16b90c9c1b9dd0817e8b6714a3e3896b8ef15b103ad93f7"
     },
     {
+      "name": "translation-engine-worker/release-info/README.md",
+      "bytes": 5155,
+      "sha256": "877384f45816d61c269b6a1810b89aba25327d008423540fe1574d564891a7a6"
+    },
+    {
       "name": "translation-engine-worker/release-info/SOURCE_AVAILABILITY.md",
       "bytes": 4614,
       "sha256": "35c133565d3648604e88bb00afd97d844f19fc0b452449234a6513ba3289a8d2"
@@ -1269,18 +1285,28 @@
     },
     {
       "name": "translation-engine-worker/release-info/WINDOWS-CANDIDATE.md",
-      "bytes": 7021,
-      "sha256": "77d8d3cbd779ad8496d765f2a731dc984415a9d5a74a7ac59dd2c4e7dc32e0d3"
+      "bytes": 5155,
+      "sha256": "877384f45816d61c269b6a1810b89aba25327d008423540fe1574d564891a7a6"
     },
     {
-      "name": "translation-engine-worker/release-info/docs/manual-testing-cmd.md",
-      "bytes": 21283,
-      "sha256": "f9875c8a9cc37eb46b656f94d60f5fe28de92f57180f18a4ca77bb611b838610"
+      "name": "translation-engine-worker/release-info/docs/argos-migration.md",
+      "bytes": 8638,
+      "sha256": "fe9ee55cb106f1453c7a5560cacc55cdc86962d4d0e87a8bcebfddb2d679d888"
     },
     {
-      "name": "translation-engine-worker/release-info/docs/model-provisioning.md",
-      "bytes": 4692,
-      "sha256": "c47d556bcdb482c29a43b2651ca0524c716ce95901e7ac5347f64c90d349a6a2"
+      "name": "translation-engine-worker/release-info/docs/compatibility-spike.md",
+      "bytes": 9597,
+      "sha256": "61da50eb94c9f5aa7b94cd79c17a8421c1f3cee164c4c902706c861ce764bf3e"
+    },
+    {
+      "name": "translation-engine-worker/release-info/docs/development.md",
+      "bytes": 8952,
+      "sha256": "209d14e6a569144e2e303c5f6168ed61f2e0ce8d382eeb48e08da60e271ca79b"
+    },
+    {
+      "name": "translation-engine-worker/release-info/docs/evidence/windows10-rc1-cmd-2026-11-08.txt",
+      "bytes": 7260,
+      "sha256": "7bf2949e1b9f30e6f3a0d0d082713f4bdfe1312304728c348e3a376c82ebb1ac"
     },
     {
       "name": "translation-engine-worker/release-info/docs/protocol-v1.md",
@@ -1288,7 +1314,37 @@
       "sha256": "d0e465cd455807a1b81e118bbda4eab15182229ddb68e16b6f89a1dcf2adeda3"
     },
     {
-      "name": "translation-engine-worker/release-info/docs/rebuilding-worker.md",
+      "name": "translation-engine-worker/release-info/docs/releasing.md",
+      "bytes": 16905,
+      "sha256": "dee3ab59c6544d95a6e218c51aa7ca700b25fd72d66c0cbc994de253ac8eb0fb"
+    },
+    {
+      "name": "translation-engine-worker/release-info/docs/troubleshooting.md",
+      "bytes": 3162,
+      "sha256": "92112b2dbcc0693d804498b4de145b7a667e60b90136ab86054170800aa4cf88"
+    },
+    {
+      "name": "translation-engine-worker/release-info/docs/unicode-path-validation.md",
+      "bytes": 7949,
+      "sha256": "24a6ee924064b20e126ed9ad37b0be20055f819a7ce6c93d81df00d4a0a1dd78"
+    },
+    {
+      "name": "translation-engine-worker/release-info/historical/docs/manual-testing-cmd.md",
+      "bytes": 21283,
+      "sha256": "f9875c8a9cc37eb46b656f94d60f5fe28de92f57180f18a4ca77bb611b838610"
+    },
+    {
+      "name": "translation-engine-worker/release-info/historical/docs/model-provisioning.md",
+      "bytes": 4692,
+      "sha256": "c47d556bcdb482c29a43b2651ca0524c716ce95901e7ac5347f64c90d349a6a2"
+    },
+    {
+      "name": "translation-engine-worker/release-info/historical/docs/protocol-v1.md",
+      "bytes": 4298,
+      "sha256": "d0e465cd455807a1b81e118bbda4eab15182229ddb68e16b6f89a1dcf2adeda3"
+    },
+    {
+      "name": "translation-engine-worker/release-info/historical/docs/rebuilding-worker.md",
       "bytes": 5545,
       "sha256": "d7e2ec8c36935b277fcc017a8d98a0c939c0c33b173c802a6086036967e4fecc"
     },
@@ -1553,6 +1609,16 @@
       "sha256": "8d3928f9dc4490fd635707cb88eb26bd764102a7282954307d3e5167a577e8a4"
     },
     {
+      "name": "translation-engine-worker/release-info/models/provenance.json",
+      "bytes": 2483,
+      "sha256": "158fb4456db6edcb70776216da1f44a4935bf04ba5dc487af852a57ee207f2f9"
+    },
+    {
+      "name": "translation-engine-worker/release-info/src/translation_engine/AGENTS.md",
+      "bytes": 3760,
+      "sha256": "467ee0787357f2c7b819afaa04ef1437e55342ab93697c4c98023ada207b6013"
+    },
+    {
       "name": "translation-engine-worker/translation-engine-worker.exe",
       "bytes": 5655172,
       "sha256": "ec06bf07399b9d96d140e2c828772666aa12124b8991a2d622ebca52ced79d7d"
@@ -1721,14 +1787,14 @@
   "blockers": [
     "Intel/native redistribution and NumPy renamed Microsoft DLL terms remain unresolved.",
     "Remaining corresponding-source/license supplier mappings and final immutable public delivery remain pending.",
-    "Clean Windows 10 22H2 x64 and Windows 11 x64 acceptance remain pending.",
+    "Full Windows 10 22H2 x64 acceptance remains pending; Windows 11 is expected compatible, UNTESTED, and optional for v0.1.0.",
     "OS-denied networking and complete clean-target measurements remain pending.",
     "Final explicit publication approval has not been given."
   ],
   "assembly": {
     "node": "22.11.0",
     "zlib": "1.3.0.1-motley-71660e1",
-    "config_sha256": "fdcce345e62719bd533754fdfd0f4a0ad42a75b015b5b2e69eb8f7d0955bf87e",
-    "tool_sha256": "46c616c101383a3683001c07234a2c71e38245d8102b8328f01a11fd55d5dff9"
+    "config_sha256": "561525f86043dff58c4677fc72a06bcaa6df90d5fa82a86f055fc373992020ff",
+    "tool_sha256": "4d97ed927e158727f26d5924645f840cee15cd23fa272274963201d5057b3d61"
   }
 }

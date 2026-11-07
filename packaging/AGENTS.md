@@ -25,7 +25,7 @@ components. Target machines need no Python or Node. See
   source archives; `../LICENSES/` holds collected supplier texts.
 - `release-candidate.json` pins binary-source and materials commits, compliance
   manifest, external asset metadata and regression evidence.
-  `release-manifest.schema.json` defines the candidate contract;
+  `release-manifest.schema.json` defines the candidate/prepared stable contract;
   `release-manifest.example.json` records an actual example, not a public release.
   Reconcile schema/config/example/assembler/tests when that contract changes.
 
@@ -55,7 +55,8 @@ Distribute no external model/ONNX binaries or caches. Preserve provenance and
 attribution without claiming model clearance. MiniSBD remains AGPLv3; source and
 notice preparation does not settle all native rights or source obligations. The
 [release workflow](../docs/releasing.md) prepares local acceptance
-artifacts only. For initial v0.1.0, Windows 10 acceptance, OS-denied networking,
+and stable review artifacts, always with `release_ready:false`. For initial v0.1.0,
+Windows 10 acceptance, OS-denied networking,
 source/native clearance and publication remain separate gates. Windows 11 is
 expected compatible but UNTESTED; separate acceptance is waived for v0.1.0 and
 optional future validation. Follow the [scope decision](../docs/releasing.md).

@@ -2,7 +2,44 @@
 
 No production release or tag has been published. Local assembly verifies bytes;
 it does not establish legal clearance, clean Windows support or publication
-approval. The current candidate is `0.1.0-rc.1` for initial `v0.1.0`.
+approval. The prepared stable asset set is `0.1.0` for initial `v0.1.0`.
+It retains the validated executable; no runtime rebuild is involved.
+
+## Stable v0.1.0 review package
+
+Final assets: `candidate-staging/worker-0.1.0/`; independent repeat:
+`candidate-staging/worker-0.1.0-repeat/`. The eight-file set contains the worker,
+compliance and corresponding-source ZIPs, manifest/schema, `SHA256SUMS`,
+`verify-checksums.ps1` and `WINDOWS-CANDIDATE.md` (the current README; the
+filename is retained for verifier compatibility). `SHA256SUMS` covers the other
+seven files. The manifest records `prepared-release`, planned tag/URL and
+`release_ready:false`; planned URLs are not claims of existing publication.
+The worker's current instructions are in `release-info/README.md` and `docs/`;
+the byte-pinned older compliance instructions are under `release-info/historical/`.
+The unchanged compliance ZIP remains an archival dossier, not current usage guidance.
+
+The binary source remains `b064e29517fb793b2fcf0bf309b6fc78f623367d`.
+The source ZIP's `repository/` is that commit, `sources/worker/` preserves the
+original pinned build inputs, and `evidence/build.json` retains the original
+build record. `assembly/` carries current tooling and documentation separately.
+`SOURCE_COMMIT.json` identifies those inputs and planned source delivery URL.
+The eventual tag commit identifies the original build through these records;
+it must not be described as a fresh build from the tag's documentation changes.
+
+```bat
+node scripts\assemble_release.cjs --check candidate-staging\worker-0.1.0
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File candidate-staging\worker-0.1.0\verify-checksums.ps1
+```
+
+All required materials listed in the current inventory are present. Its 19
+unresolved review entries are retained unchanged, including Intel OpenMP grant
+and NumPy renamed MSVC entitlement questions. These are unresolved rights and
+provenance questions, not established prohibitions. No specific missing mandatory
+material is established by the current material check. Native/static source
+completeness and supplier entitlement still need a maintainer decision backed by
+evidence; Python source correspondence alone cannot answer them. Do not assert
+legal clearance or silently treat incomplete historical provenance as a proven
+license violation. Remaining acceptance/publication gates below still apply.
 
 ## Current evidence and release scope
 
@@ -25,7 +62,7 @@ Development-host Unicode/native functional tests passed, but strict native
 isolation retained two Teruten host modules as findings; do not allowlist or
 distribute those modules. Python audit hooks are not OS firewall proof.
 
-Final candidate: `candidate-staging/worker-0.1.0-rc.1-final/`; independent repeat:
+Retained historical rc.1 candidate: `candidate-staging/worker-0.1.0-rc.1-final/`; independent repeat:
 `candidate-staging/worker-0.1.0-rc.1-final-repeat/`. All eight files match between
 the assemblies. `SHA256SUMS` covers the other seven, including the manifest.
 
@@ -46,8 +83,8 @@ Binary source commit: `b064e29517fb793b2fcf0bf309b6fc78f623367d`;
 licensing materials commit: `6faf8a8d40713e7f5bafb787a2e900b104995ddb`.
 The baseline `diagnostic-20261107-211131` has 176 original files / 49 native
 binaries. The worker ZIP adds 62 release-info files without changing those bytes.
-`packaging/release-manifest.example.json` is the actual local manifest, with
-null public URLs and `release_ready:false`. Diagnostic ZIP hashes are distinct
+`packaging/release-manifest.example.json` records the prepared stable manifest,
+with planned public URLs and `release_ready:false`. Diagnostic ZIP hashes are distinct
 from the candidate ZIP hash above.
 
 ## Verify or prepare artifacts
@@ -183,8 +220,8 @@ Review the complete diff, source correspondence, checksum/manifest coverage and
 license/source delivery together. Choose a version-specific immutable tag and
 record its full commit plus same-release source asset URLs. A tag must preserve
 the exact binary build inputs; changed inputs need a rebuilt, revalidated worker.
-The current local-candidate schema deliberately cannot declare a public release;
-final public metadata must be reviewed before publication.
+The schema supports a prepared stable release while retaining `release_ready:false`;
+stable versioning does not bypass unresolved gates or approve publication.
 
 After explicit publication approval, create the reviewed version tag and GitHub
 Release, attach the complete worker, verification materials, corresponding-source
@@ -194,3 +231,45 @@ for corrections and retain prior verified versions for rollback. Download publis
 assets afresh, verify all hashes and source links, test the documented user flow,
 and keep source accessible at no extra charge for as long as the binary is offered.
 No publication or tag creation is authorized by repository cleanup.
+
+For this prepared set, review and commit only the release changes on
+`development` first (do not add ignored assets). After resolving the remaining
+gates and approving this exact set, use Windows CMD from the repository root:
+
+```bat
+git switch development
+git status --short
+node --test tests\compliance-staging.test.cjs tests\release-assembly.test.cjs
+node scripts\assemble_release.cjs --check candidate-staging\worker-0.1.0
+git fetch origin
+git switch main
+git merge --ff-only origin/main
+git merge --no-ff development -m "Release translation-engine v0.1.0"
+git diff --exit-code development -- .
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File candidate-staging\worker-0.1.0\verify-checksums.ps1
+git tag -a v0.1.0 -m "translation-engine v0.1.0; binary source b064e29517fb793b2fcf0bf309b6fc78f623367d"
+git push origin main
+git push origin v0.1.0
+```
+
+Stop if the working tree is dirty, any command fails, a conflict occurs, or
+`v0.1.0` already exists. Do not force a branch or overwrite a tag. In GitHub
+Releases choose **Draft a new release**, select existing tag `v0.1.0`, title it
+`translation-engine v0.1.0`, paste the notes below and upload all eight files
+from `candidate-staging/worker-0.1.0/`. Review hashes and source links before
+publishing. Re-download and verify the complete set after publication.
+
+Suggested release notes (publish only after the gates are resolved):
+
+> First standalone Windows x64 offline Chinese-to-English translation worker.
+> Extract the complete worker ZIP and follow WINDOWS-CANDIDATE.md. No system
+> Python is needed. Install the official Microsoft VC++ v14 x64 prerequisite
+> separately; translation and MiniSBD ONNX models are acquired separately.
+> No models or prerequisite installer are bundled. Windows 10 x64 clean-VM core
+> smoke testing passed with recorded limitations; Windows 11 is expected
+> compatible, UNTESTED, with separate acceptance deferred for v0.1.0.
+> Verify all downloads using SHA256SUMS and verify-checksums.ps1. Corresponding
+> source and compliance ZIPs are adjacent release assets at no extra charge;
+> preserve the included licenses, including MiniSBD AGPLv3. The executable is
+> unchanged from the validated build at source commit
+> b064e29517fb793b2fcf0bf309b6fc78f623367d; later changes prepare release materials.

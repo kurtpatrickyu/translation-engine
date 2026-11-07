@@ -1,13 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/kurtpatrickyu/translation-engine/release-manifest.schema.json",
-  "title": "Local Windows worker release candidate, schema 1",
+  "title": "Windows worker prepared release or local candidate, schema 1",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_version", "candidate_id", "worker_version", "protocol_version", "platform", "architecture", "source", "publication", "baseline", "backend", "dependencies", "external_prerequisites", "external_models", "artifacts", "worker_files", "evidence", "compliance", "blockers", "assembly"],
   "properties": {
     "schema_version": {"const": 1},
-    "candidate_id": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+-rc\\.1$"},
+    "candidate_id": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-rc\\.1)?$"},
     "worker_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
     "protocol_version": {"const": 1},
     "platform": {"const": "windows"},
@@ -22,7 +22,7 @@
         "url": {"type": "string", "pattern": "^https://github.com/kurtpatrickyu/translation-engine/tree/[a-f0-9]{40}$"}
       }
     },
-    "publication": {"const": {"status": "local-candidate", "tag": null, "release_url": null, "release_ready": false}},
+    "publication": {"oneOf": [{"const": {"status": "local-candidate", "tag": null, "release_url": null, "release_ready": false}}, {"const": {"status": "prepared-release", "tag": "v0.1.0", "release_url": "https://github.com/kurtpatrickyu/translation-engine/releases/tag/v0.1.0", "release_ready": false}}]},
     "baseline": {"type": "object"},
     "backend": {"const": "argos"},
     "dependencies": {"type": "array", "minItems": 17, "items": {"type": "object", "required": ["id", "version", "source_identity"]}},

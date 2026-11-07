@@ -8,7 +8,7 @@ independently of the consuming application; the host owns process supervision.
 Windows 10 x64 build 19045.3803 has passed core smoke testing with limitations.
 Windows 11 is **expected compatible, UNTESTED**. Full Windows 10 acceptance and
 redistribution clearance remain pending. **No production release is published.**
-The local candidate is `0.1.0-rc.1`; see [release status and requirements](docs/releasing.md).
+The prepared stable asset set is `0.1.0`; see [release status and requirements](docs/releasing.md).
 
 ## Install and try the Windows worker
 
