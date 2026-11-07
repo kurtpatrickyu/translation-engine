@@ -8,6 +8,11 @@ Chinese-English archive, and an explicitly provisioned MiniSBD ONNX resource.
 Host-local real-model tests pass; clean Windows acceptance and redistribution
 clearance remain pending. No production release is available.
 
+**Level A local usability is complete.** The user's actual CMD transcript and
+additional PowerShell recovery/translation transcript are recorded in
+[manual validation results](docs/manual-test-results.md). Public Windows support,
+OS-denied networking, compliance and release readiness remain separate pending gates.
+
 See [Windows development setup](docs/development.md) and
 [implementation evidence and blockers](docs/implementation-status.md).
 

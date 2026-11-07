@@ -1,6 +1,6 @@
 ## Context
 
-See proposal.md for motivation and scope. Initial inspection on 2026-11-06 found no application source, tests, packaging, dependency configuration, workflows, or existing capability specs. Preserve `LICENSE` (MIT, 2026 kurtpatrickyu), README project identity, and `openspec/config.yaml` (`spec-driven`). `.agent/` and `.codex/` contain local skills, not application code. At refinement, `.gitignore` is tracked and already excludes virtual environments, model downloads/state, build outputs, local tooling, and `openspec/`. Preserve its entries and explicitly add this change's planning artifacts to Git despite that rule; do not stage the adjacent ZIP or generated files. A1 verifies continued planning-artifact tracking and ignored development outputs. No ignore-file edit is needed for this scoped refinement.
+See proposal.md for motivation and scope. Initial inspection on 2026-11-06 found no application source, tests, packaging, dependency configuration, workflows, or existing capability specs. Preserve the existing MIT `LICENSE`, README project identity, and `openspec/config.yaml` (`spec-driven`). `.agent/` and `.codex/` contain local skills, not application code. At refinement, `.gitignore` is tracked and already excludes virtual environments, model downloads/state, build outputs, local tooling, and `openspec/`. Preserve its entries and explicitly add this change's planning artifacts to Git despite that rule; do not stage the adjacent ZIP or generated files. A1 verifies continued planning-artifact tracking and ignored development outputs. No ignore-file edit is needed for this scoped refinement.
 
 The installed CLI works through `openspec.cmd` with access to its user-profile installation. PowerShell's `.ps1` launcher is blocked by execution policy. Git inspection used a command-scoped safe-directory override, without changing global Git configuration. This refinement updates the existing repo-local `001-build-offline-translation-engine` change in place; there is no registered-store indication.
 
@@ -26,9 +26,14 @@ ASCII/Unicode relocation, limited local performance measurements, and a manual
 usage guide plus a recorded manual walkthrough. Local checks report their
 coverage limits rather than require clean OS images or redistribution clearance.
 Task 4.9's guide is complete in `docs/manual-usage.md`, with syntax/schema/link,
-CLI-help/version and existing artifact/asset hash checks only. The actual manual
-session and Level A sign-off remain pending (4.10, 4.8); documentation checks
-do not count as that session or as new inference evidence.
+CLI-help/version and existing artifact/asset hash checks, plus the CMD guide in
+`docs/manual-testing-cmd.md`. The user's subsequent actual CMD transcript and
+additional PowerShell recovery/translation transcript are recorded in
+`docs/manual-test-results.md`. Tasks 4.10 and 4.8 are now complete: Level A is
+accepted, LOCAL 37/37 and overall 37/54; PUBLIC remains 0/17. The PowerShell
+capture includes initial failures and recovery; broader guide completion beyond
+that subset is user-confirmed, without invented outputs/timings. Earlier documentation
+checks are not relabelled as the user's session, and no test is rerun here.
 
 Existing verified evidence includes 60 passing source tests; five frozen path
 scenarios and 75 matching translations; 53 AMD64 native binaries and all 180 ZIP
@@ -267,7 +272,7 @@ Retain the existing source/frozen worker, approved Argos revision, Unicode fix, 
 
 These are planned evidence gates, not assumptions silently deferred as open architectural choices:
 
-1. Level A: technical source/frozen/provisioning/local-attempt/native/relocation/measurement checks are evidenced. Write 4.9's manual guide, record 4.10's independent manual walkthrough, then complete 4.8's local sign-off. Do not invent a manual session from automated results.
+1. Level A: complete. Existing technical evidence plus the user's complete CMD session and additional PowerShell recovery/translation log satisfy 4.9/4.10/4.8; see `docs/manual-test-results.md`. Preserve PowerShell's initial missing-asset failures and limited capture; broader completion is user-confirmed. Unrecorded timings/host details remain evidence limits, not invented results or new public-gate prerequisites.
 2. Level B: 3.8b/4.5b/4.6/4.7b still require clean OS-denied-network, support and complete target measurements for both Windows rows against the same final worker and external asset hashes. Teruten observations remain a host limitation; no clean-isolation or untested support claim is made.
 3. Level B: 3.2/4.3b/5.3 retain bundled MiniSBD AGPLv3/source/notices, Visual C++/OpenMP/native and other component compliance. System32-collected VC hashes are technical provenance, not approved acquisition/rights clearance. Model hosting is excluded; preserve unknown external model terms without adding their redistribution clearance to the local milestone.
 4. Level B: final worker-only ZIP, manifest/checksums/compliance materials, consumer docs and candidate verification remain pending. Explicit publication approval is still required. Advanced automation, mandatory platform immutability integration and attestations are deferred; versioned non-overwrite and integrity requirements remain mandatory.

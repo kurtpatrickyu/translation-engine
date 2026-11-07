@@ -3,6 +3,11 @@
 Prefer Command Prompt? Use the [CMD-only guide](manual-testing-cmd.md), which
 uses Windows tar/certutil and the same executable/protocol without PowerShell.
 
+The user's subsequent completed CMD walkthrough and PowerShell recovery/session
+evidence are recorded in [manual-test-results.md](manual-test-results.md).
+Level A has since been accepted. The documentation-verification descriptions
+and blank record template below remain distinct from that later user session.
+
 Use the existing Windows x64 CPU diagnostic without installing Python, dependencies
 or rebuilding. There is no public production release yet. Future GitHub Releases
 distribute the worker and integrity/compliance material; users obtain original
@@ -59,6 +64,7 @@ $assets = Join-Path $work 'upstream assets'
 New-Item -ItemType Directory -Path $assets -ErrorAction Stop | Out-Null
 $models = Join-Path $work 'models Café 中文'
 $state = Join-Path $work 'state Café 中文'
+$assetsVerified = $false
 ```
 
 Model/state paths must be separate and writable, with state outside the app
@@ -68,11 +74,17 @@ copy only the EXE or place state inside `_internal`.
 
 ## 2. Obtain and verify the original upstream files
 
-This is explicit networked **user acquisition**, separate from the worker. Save
-the files into `$assets` using the exact original filenames. You may copy and
-reuse already acquired originals from this repository's `downloads/` directory;
-do not download again when existing bytes verify. Record actual source/date,
-including reuse. Browser downloads may follow upstream redirects.
+The new `$assets` directory starts empty. **Populate it before hashing.** The
+block below copies missing files from this repository's existing `downloads/`
+originals using `Copy-Item -LiteralPath ... -ErrorAction Stop`; it does not
+redownload or modify those originals. An existing workspace asset is left in
+place and must still pass its hash check.
+
+If you do not already have an original in `downloads/`, obtain it explicitly
+from the upstream links below and save it into `$assets` with the exact filename,
+then rerun the whole block. Acquisition may use networking and browser
+redirects; the worker never downloads assets. Record the actual source/date,
+including reuse. Do not skip a failed check or continue to provisioning.
 
 | Asset | Upstream URL | Version / bytes / SHA-256 |
 |---|---|---|
@@ -80,8 +92,28 @@ including reuse. Browser downloads may follow upstream redirects.
 | `zh-hans.onnx` | [MiniSBD upstream v0.0.1](https://github.com/LibreTranslate/MiniSBD/releases/download/v0.0.1/zh-hans.onnx) | Chinese Simplified; 616,442 bytes; `b2a6e45ebb43df44ac3c8e4100ea1cb30ec8319c5698b678ed3f203e5edc5d0e` |
 
 ```powershell
+$assetsVerified = $false
 $modelFile = Join-Path $assets 'translate-zh_en-1_9.argosmodel'
 $sbdFile = Join-Path $assets 'zh-hans.onnx'
+if (-not (Test-Path -LiteralPath $modelFile -PathType Leaf -ErrorAction Stop)) {
+    $localModel = Join-Path $repo 'downloads\translate-zh_en-1_9.argosmodel'
+    if (-not (Test-Path -LiteralPath $localModel -PathType Leaf -ErrorAction Stop)) {
+        throw "Missing translation asset: $localModel. Obtain the original from the upstream link, save it as $modelFile, then rerun step 2. Stop before provisioning."
+    }
+    Copy-Item -LiteralPath (Join-Path $repo 'downloads\translate-zh_en-1_9.argosmodel') -Destination $modelFile -ErrorAction Stop
+}
+if (-not (Test-Path -LiteralPath $sbdFile -PathType Leaf -ErrorAction Stop)) {
+    $localSbd = Join-Path $repo 'downloads\zh-hans.onnx'
+    if (-not (Test-Path -LiteralPath $localSbd -PathType Leaf -ErrorAction Stop)) {
+        throw "Missing MiniSBD asset: $localSbd. Obtain the original from the upstream link, save it as $sbdFile, then rerun step 2. Stop before provisioning."
+    }
+    Copy-Item -LiteralPath (Join-Path $repo 'downloads\zh-hans.onnx') -Destination $sbdFile -ErrorAction Stop
+}
+foreach ($assetPath in @($modelFile, $sbdFile)) {
+    if (-not (Test-Path -LiteralPath $assetPath -PathType Leaf -ErrorAction Stop)) {
+        throw "Required asset is missing: $assetPath. Stop before hashing or provisioning."
+    }
+}
 $expectedModel = '62e7af5a3a48b530e47b7b3e5c78c2de79073ecd815750d2bf3ab35b4a67da2d'
 $expectedSbd = 'b2a6e45ebb43df44ac3c8e4100ea1cb30ec8319c5698b678ed3f203e5edc5d0e'
 if ((Get-FileHash -LiteralPath $modelFile -Algorithm SHA256 -ErrorAction Stop).Hash -ine $expectedModel) {
@@ -90,8 +122,14 @@ if ((Get-FileHash -LiteralPath $modelFile -Algorithm SHA256 -ErrorAction Stop).H
 if ((Get-FileHash -LiteralPath $sbdFile -Algorithm SHA256 -ErrorAction Stop).Hash -ine $expectedSbd) {
     throw 'MiniSBD asset checksum mismatch. Stop before provisioning.'
 }
-Get-Item -LiteralPath $modelFile, $sbdFile | Select-Object Name, Length
+Get-Item -LiteralPath $modelFile, $sbdFile -ErrorAction Stop | Select-Object Name, Length
+$assetsVerified = $true
 ```
+
+Run the block from its first line, not selected hash/copy lines out of order.
+It starts with verification false; a missing file, copy error or wrong hash
+throws immediately, and verification becomes true only after **both** assets
+exist and match. Step 3 refuses to provision unless this block completed.
 
 Stop if upstream is unavailable, returns an HTML/error page, or changes bytes.
 Do not substitute a newer model, rename another resource, or relax hashes.
@@ -111,6 +149,9 @@ network restriction; an online run is not OS-denied-network proof. Do not change
 security software or system networking just to complete this local guide.
 
 ```powershell
+if ($assetsVerified -ne $true) {
+    throw 'Assets are not verified. Complete step 2 successfully before provisioning.'
+}
 & $exe --version
 if ($LASTEXITCODE -ne 0) { throw 'Executable version check failed.' }
 & $exe provision-model --file $modelFile --sbd-file $sbdFile --models-dir $models --state-dir $state
@@ -143,19 +184,38 @@ $stderrFile = Join-Path $work 'worker.stderr.log'
 & $exe --models-dir $models --state-dir $state 2> $stderrFile
 ```
 
-There is **no greeting**. It is waiting for input. Now send each JSON line below
-individually, press Enter, and read the response before the next line. Do not
-paste Markdown fences or blank lines. Console input echo is not worker stdout;
-a console transcript alone does not establish byte-level stdout purity.
+There is **no greeting**. It is waiting for a **request**, not PowerShell code.
+Every `json` block below contains complete **requests to send**; expected
+responses are described separately in prose and are **read-only output**.
 
-Inspect before initialization:
+- Paste only one complete request object on exactly **one line**, press Enter,
+  then wait for its response before sending the next request.
+- Each request needs `protocol_version`, `id`, `command`, plus `source`, `target`
+  and `text` for translation. Copy the whole object, including those fields.
+- **Do not paste response JSON**, such as an object containing `ok`/`result`,
+  or a response's inner `source`/`target`/`text` object. It is not a request.
+- **Do not paste blank/whitespace-only lines, Markdown fences, headings, or
+  console prompts.** Blank lines are invalid JSON, not separators. A block with
+  two examples means two separate sends, with no blank line between them.
+- Keep a paragraph break inside a JSON string as the literal escape `\n`, not
+  an actual newline splitting that request. The `\u` escapes are ready to paste.
+
+A response-shaped object missing request fields yields `INVALID_REQUEST`;
+blank lines yield `INVALID_JSON`. After either error, send the next complete
+request rather than pasting the error response back. Console input echo is not
+worker stdout; a transcript alone does not establish byte-level stdout purity.
+
+**Request to send — inspect before initialization:**
 
 ```json
 {"protocol_version":1,"id":"info-before","command":"info"}
 ```
 
-Expect `ok:true`, engine `0.1.0`, Argos `1.11.1`, protocol 1, configured `zh`→`en`
-and empty `ready_pairs`. Info does not initialize or prove readiness. Initialize:
+**Expected response (read, do not paste):** `ok:true`, engine `0.1.0`, Argos
+`1.11.1`, protocol 1, configured `zh`→`en` and empty `ready_pairs`. Info does not
+initialize or prove readiness.
+
+**Request to send — initialize:**
 
 ```json
 {"protocol_version":1,"id":"health","command":"health"}
@@ -166,7 +226,7 @@ health can take longer than subsequent calls; this is not a performance budget.
 If not ready, retain error/stderr and troubleshoot. Provisioning warm-up is not
 a substitute for readiness in this new process.
 
-Translate `你好，世界！` twice in the same process:
+**Requests to send separately — translate `你好，世界！` twice in the same process:**
 
 ```json
 {"protocol_version":1,"id":"t1","command":"translate","source":"zh","target":"en","text":"\u4f60\u597d\uff0c\u4e16\u754c\uff01"}
@@ -176,7 +236,7 @@ Translate `你好，世界！` twice in the same process:
 Expect successful responses correlated to `t1` and `t2`, with matching nonempty
 English. The pinned-model evidence records `Hello, world!`; record what this
 run actually returns. The worker retains initialized resources across requests.
-Check paragraph newlines and empty input:
+**Requests to send separately — paragraph newlines and empty input:**
 
 ```json
 {"protocol_version":1,"id":"paragraph","command":"translate","source":"zh","target":"en","text":"\u8fd9\u662f\u7b2c\u4e00\u6bb5\u3002\n\u8fd9\u662f\u7b2c\u4e8c\u6bb5\u3002"}
@@ -186,7 +246,7 @@ Check paragraph newlines and empty input:
 Expect translated paragraph text with an escaped `\n` in its JSON string and
 `result.text:""` for empty input. Translation quality/Unicode preservation is
 not lossless; see [known model limits](compatibility-spike.md).
-Check request errors and recovery without changing any files:
+**Requests to send separately — intentional errors and recovery:**
 
 ```json
 {"protocol_version":1,"id":"unsupported","command":"translate","source":"fr","target":"en","text":"Bonjour"}
@@ -199,7 +259,7 @@ with the corresponding IDs preserved. `info-after` must succeed and list the
 ready pair. Responses contain `protocol_version`, `id`, `ok` and exactly one of
 `result`/`error`. Follow the [authoritative protocol v1 and limits](protocol-v1.md);
 the unknown command above is deliberately invalid. No command installs assets.
-Finish this same process:
+**Request to send — finish this same process:**
 
 ```json
 {"protocol_version":1,"id":"shutdown","command":"shutdown"}
@@ -232,7 +292,7 @@ $missingStderr = Join-Path $work 'missing-model.stderr.log'
 & $exe --models-dir $missingModels --state-dir $missingState 2> $missingStderr
 ```
 
-Send individually to that running worker:
+**Requests to send individually** to that running worker (not to PowerShell):
 
 ```json
 {"protocol_version":1,"id":"missing-health","command":"health"}

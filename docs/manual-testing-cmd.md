@@ -5,6 +5,11 @@ worker. The [PowerShell guide](manual-usage.md) remains available; both follow
 the [same protocol v1](protocol-v1.md) and [local provisioning rules](model-provisioning.md).
 This guide does not sign off OpenSpec task 4.10 or Level A acceptance for you.
 
+The user's subsequent full CMD transcript and additional PowerShell recovery/
+translation transcript are recorded in [manual-test-results.md](manual-test-results.md), where
+4.10/4.8 and Level A are now accepted. The original documentation-check account
+at the end of this guide remains historical and is not that user session.
+
 ## Shell and tool assumptions
 
 Open Command Prompt and enter this once to use a fresh nested CMD with normal

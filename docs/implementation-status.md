@@ -1,12 +1,17 @@
 # Milestone A implementation evidence
 
-Local usage documentation is available in [manual-usage.md](manual-usage.md).
-Only task 4.9 is complete for this documentation session: syntax/request/link,
-CLI-help/version and existing hash checks passed without running provisioning
-or translation. Manual walkthrough 4.10 and local sign-off 4.8 remain pending.
-Current accounting is 35/54 overall, LOCAL 35/37, PUBLIC 0/17; the historical
-counts and test reports below predate the separate completion levels in the
-[current tasks](../openspec/changes/001-build-offline-translation-engine/tasks.md).
+**Level A is complete (2026-11-07): LOCAL 37/37; overall 37/54; PUBLIC 0/17.**
+The user personally executed both manual guides using the existing diagnostic.
+The supplied full CMD transcript is retained and reviewed in
+[manual-test-results.md](manual-test-results.md), including artifact/asset hashes,
+Unicode provisioning, persistence/custom translation, error recovery, stderr,
+exit codes and cleanup. A supplied PowerShell log also records initial setup
+failures, corrected provisioning, malformed-request recovery, translation and
+shutdown; broader guide completion is user-confirmed beyond that capture, with
+no invented outputs/timings. Tasks 4.10 and 4.8 are
+complete; all Level B support/network/compliance/release gates remain pending.
+This evidence update ran no new translation or heavy tests and changed no runtime.
+See [current tasks](../openspec/changes/001-build-offline-translation-engine/tasks.md).
 
 Current status after the approved migration: Argos source revision
 `17ed1a9b055c5ba1b51d76b683bbb0c64e2a4a88` is adopted in a fresh environment.
@@ -21,7 +26,8 @@ validated ZIP contents pass static inventory/import/export checks. Inference
 loads application runtimes from the relocated bundle with a minimal child
 environment. External Teruten modules prevent a strict clean-isolation pass on
 this development host. See [native audit](native-dependencies.md); no build or
-packaging correction was needed and progress remains 29/47.
+packaging correction was needed. Its historical progress snapshot was 29/47;
+the current separate-level accounting appears above.
 
 The user invoked `openspec-apply-change` for the reviewed
 `001-build-offline-translation-engine` change on 2026-11-06. This authorizes
