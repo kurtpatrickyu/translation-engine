@@ -12,6 +12,45 @@ The initial research established a candidate baseline. Implementation now verifi
 
 **Non-Goals:** Backend discovery, registry, dependency injection framework, runtime downloads, GUI, HTTP service, consumer-specific path conventions, and changes to external applications. Engine release automation ends at this repository's artifacts.
 
+## Completion levels and current evidence
+
+This approved amendment separates **Level A (local usability/manual testing)**
+from **Level B (public Windows redistribution/support)** within the same A1–A5
+change. It supersedes the earlier combined model-hosting/completion gates;
+historical evidence documents and raw success/failure reports remain unchanged.
+
+Level A requires locked source/frozen worker functionality, exact-hash external
+asset provisioning and rollback/integrity, protocol/stdout/shutdown correctness,
+local network-attempt instrumentation, technical native inventory, host-local
+ASCII/Unicode relocation, limited local performance measurements, and a manual
+usage guide plus a recorded manual walkthrough. Local checks report their
+coverage limits rather than require clean OS images or redistribution clearance.
+The guide, manual session and Level A sign-off remain pending (4.9, 4.10, 4.8).
+
+Existing verified evidence includes 60 passing source tests; five frozen path
+scenarios and 75 matching translations; 53 AMD64 native binaries and all 180 ZIP
+files checked; and local size/startup/init/memory/latency/build-resource reports.
+See `docs/unicode-path-validation.md`, `docs/argos-migration.md` and
+`docs/native-dependencies.md`, plus their referenced raw reports. Artifact:
+`diagnostic-20261107-133601`, ZIP SHA-256
+`965cf2b166443a27ddfecf4d09b756420febaafb8d065f5ca97af8a3244a264b`.
+This is a diagnostic, not a compliant public release ZIP.
+
+Level B additionally requires clean Windows 10 22H2 x64 and Windows 11 x64 with
+OS-denied networking, matching final worker/external model hashes and complete
+target measurements; bundled-code/native redistribution compliance; final
+worker-only manifest/checksums/notices/source-delivery and consumer docs;
+candidate verification and explicit publication approval. None is inferred from
+Level A. A1–A5 remain independently verifiable phases, with LOCAL/PUBLIC task
+labels and split suffixes. The old 29/47 count is historical, not an OS result.
+
+External Teruten modules in this development host remain strict isolation
+findings. They are absent from the artifact/static imports and are not proven
+application dependencies. Record their observed signatures/paths and unknown
+influence without copying/allowlisting them or modifying security software.
+They limit clean-host claims but do not negate separately passed local worker
+functionality or prevent documentation/manual testing.
+
 ## Decisions
 
 ### 1. Small package with explicit construction
@@ -126,21 +165,21 @@ Pin the separately acquired Chinese Simplified asset from MiniSBD release `v0.0.
 
 The host-local real-model spike passed nine requests with fresh isolated paths, zero audited Python network attempts, and retained translator/detector identities. It covers sentences, products, punctuation, mixed scripts, Unicode, paragraphs, and longer input. Quality limits remain: some Chinese exclamation/question punctuation is grouped; the translation model can lose mixed Unicode content and mistranslate English terms. See `docs/compatibility-spike.md`. Python instrumentation is not OS firewall or clean-machine proof. A Stanza-specific adapter and direct-CTranslate2 production bypass are unnecessary.
 
-MiniSBD's AGPLv3 code and Stanza-derived ONNX provenance require a redistribution compliance plan for covered combined distributions, license/notices and corresponding-source delivery, and explicit model-specific terms. Preserve the project's MIT license; it does not clear third-party obligations. This is a publication gate, not a block on private local experiments or local builds.
+MiniSBD's bundled AGPLv3 code requires a public worker compliance review covering applicable combined-distribution obligations, license/notices and corresponding-source/build/install delivery. Visual C++/OpenMP/native DLL rights and other bundled components remain independent public gates. Preserve the project's MIT license; it does not clear third-party obligations. The separately obtained Stanza-derived ONNX and translation model retain upstream provenance, attribution and known/unknown terms without a clearance claim. They are not hosted by this project; future model redistribution needs separate review. None of these publication gates blocks Level A testing/documentation.
 
 ### 5. Explicit model provisioning and provenance
 
 The [upstream index](https://raw.githubusercontent.com/argosopentech/argospm-index/main/index.json) lists `zh` to `en` package **1.9**, declared Argos **1.9.0**, at `https://argos-net.com/v1/translate-zh_en-1_9.argosmodel`. Treat this as the candidate approved source, not a compatibility guarantee for Argos 1.11.0. `zt` is a separate upstream code; do not silently map Traditional Chinese aliases to `zh` or promise their quality.
 
-At the first A2 spike, retrieve the exact candidate once for local evaluation, inspect contents, compute SHA-256, and capture upstream index commit/retrieval evidence. A3 reuses those exact bytes/digest, reviews model-specific redistribution permission, and commits reviewed provenance metadata. Subsequent acquisition verifies that reviewed digest; never learn a new digest automatically in CI. The [index README license](https://github.com/argosopentech/argospm-index/blob/main/README.md) is not evidence that every model/training corpus has identical redistribution terms. Exact checksum and model license remain **unverified publication blockers**; no placeholder digest is usable. Do not upload the evaluation model as a public CI/release artifact before rights review.
+The completed A2 spike inspected the original candidate and recorded its checksum/index identity. A3 preserves those exact asset identities and available provenance/attribution, including unknown terms, without claiming model license clearance. Users obtain the original `.argosmodel` and `zh-hans.onnx` directly from their recorded upstream providers and verify the reviewed hashes. Subsequent acquisition never learns a new digest or silently selects a new version. The index/engine license is not proof of model rights. No model/ONNX binaries are uploaded in this project's releases or public CI artifacts; future hosting requires separate scope/legal clearance rather than blocking the current local milestone or worker-only release path solely for model redistribution permission.
 
-Distribution preserves `.argosmodel` bytes. Provisioning is a separate explicit operation accepting a local file from this repository's release and an external destination; a maintainer-only acquisition option can fetch the pinned upstream URL. Before Argos `install_from_path`, inspect ZIP paths, symlinks, file count, and total extracted bytes with documented finite limits, then extract/install into staging. Validate identity, tokenizer, native model, and offline SBD; atomically promote on the same volume without replacing unrelated packages. Refuse concurrent active-worker mutation; stop worker before provisioning and restart afterward. Failures preserve the prior valid installation.
+Provisioning preserves original `.argosmodel` bytes and accepts local upstream-obtained files plus an external destination. A separate explicit maintainer acquisition helper may fetch the pinned upstream URL; the public worker itself performs no downloads. Preserve the existing safe ZIP path/symlink/count/expansion bounds, staged extraction, metadata/tokenizer/native/SBD validation, exact hashes and atomic promotion. Immutable installations and failure rollback preserve prior valid/unrelated files and prevent active-worker mutation. No distribution-direction amendment weakens these checks.
 
 Provisioning must work without target Python. Provide an explicit executable subcommand `provision-model --file <asset.argosmodel> --sbd-file <zh-hans.onnx> --models-dir <packages> --state-dir <state>`. Verify both hashes, stage archive extraction plus package-local ONNX, and validate metadata/native/tokenizer/SBD warm-up before promotion. Installations are immutable: never overwrite an active worker's files; use a new managed directory for replacements. Ordinary translation requests never provision. Additional languages require reviewed resource/provenance/compatibility updates without changing the protocol envelope.
 
 ### 6. Windows packaging and acceptance
 
-Use a checked-in PyInstaller spec with console/stdio enabled, `onedir`, name `translation-engine-worker`, CPU execution, and external models. Build with `.venv\Scripts\python.exe -m PyInstaller --clean --noconfirm packaging\worker.spec` on Windows x64. ZIP the complete output directory, including `_internal` and notices; a lone EXE is not the artifact.
+Use the existing checked-in PyInstaller spec with console/stdio enabled, `onedir`, name `translation-engine-worker`, CPU execution, and external models. The `.venv`-bound monitored build helper preserves output/logs and controls resource pressure. ZIP the complete output directory including `_internal`; a lone EXE is not an artifact. The existing local diagnostic ZIP is verified; the final public ZIP must additionally include reviewed notices/compliance material. Pending public notices do not invalidate the separate diagnostic ZIP task or require a new build for this amendment.
 
 First use pinned standard hooks. Inspect warnings, import graph, metadata lookups, and native dependencies for CTranslate2, SentencePiece, Stanza/Torch, SpaCy/Thinc, MiniSBD/ONNX Runtime, NumPy, and their transitive libraries. Only add targeted `collect_dynamic_libs`, data/metadata collection, hidden imports, or hooks when an observed frozen failure justifies each addition. Do not globally collect every optional package or exclude mandatory imports without evidence. Record hook rationale. Audit Visual C++/OpenMP DLL requirements and redistribution terms; include legally redistributable app-local dependencies where supported. If a system redistributable is still required, resolve it before claiming a self-contained artifact; do not quietly introduce a consumer installer prerequisite.
 
@@ -151,11 +190,11 @@ Assess **Windows 10 and Windows 11 x64 CPU** as candidate targets. [Python 3.12 
 | Windows 10 22H2 x64 (19045 family; record edition/update/ESU state) | Real runtime/model spike, native imports, relocated onedir/provisioning/protocol tests, clean Python-free offline inference, measurements | Candidate; pending validation |
 | Windows 11 x64 (record tested edition/version/build) | Same checks against the same artifact/model hashes | Candidate; pending validation |
 
-A successful host-local real translation spike gates local worker integration and packaging. Exact Windows 10/11 VM images are identified when available for final A4 acceptance; their availability and completed OS acceptance do not gate A1 exit, local development, or producing the executable that must be tested. Keep VM-dependent tasks pending. Final acceptance and publication require both clean OS rows with the same worker/model/SBD hashes; claim only tested platforms. A support reduction needs reviewed evidence, and OS servicing status is recorded separately from binary compatibility.
+A successful host-local real translation spike gates local worker integration and packaging. Both clean Windows rows with the same final worker/model/SBD hashes are required for Level B public support/release acceptance; their availability does not gate Level A local completion, manual use or documentation. Keep VM tasks pending and label support unvalidated until tested. A support reduction needs reviewed evidence; OS servicing status is recorded separately from binary compatibility.
 
-Packaged smoke tests relocate the full folder, remove development paths and environment variables, use paths containing spaces/Unicode, provision locally, and exercise the real protocol. They verify repeated translations, errors, flush behavior, stdout purity, and missing resources. A clean VM or Windows Sandbox where available on each target, with networking disabled, no system Python/Argos, and no inherited model/SBD caches, performs final acceptance. Record artifact/model hashes, OS/CPU, process logs, network controls, and results per matrix row. Hosted runner tests or mocked sockets alone are not clean-machine evidence. **Pending manual verification** on both rows until actual evidence is captured; no build or executable verification has occurred in this proposal.
+Host-local packaged smoke tests have passed full-folder relocation, separate/combined Unicode model/executable/state paths, provisioning, repeated translation, resource failures, stdout purity and shutdown. These satisfy 4.5a, not 4.5b/4.6. Each clean target row still needs its own OS-denied-network, Python/Argos-free, empty-cache evidence with artifact/model hashes, OS/CPU, logs and network controls. Hosted or Python-only instrumentation is not clean-machine proof. Both rows remain pending for Level B; no new tests/builds are performed by this planning amendment.
 
-Record A4 packaging measurements for each matrix row using the final candidate hashes, as baseline evidence rather than invented pass/fail budgets:
+Split measurement evidence: 4.7a credits the recorded limited development-host diagnostic baseline with explicit missing storage/power/cold-cache details. 4.7b retains complete per-target measurements for Level B. Use candidate hashes and baseline evidence rather than invented budgets:
 
 | Measurement | Definition |
 |---|---|
@@ -170,7 +209,7 @@ Record OS edition/version/build, CPU/features, RAM, storage, VM allocation, powe
 
 ### 7. Releases, manifest, and trust
 
-Engine uses SemVer with initial proposed `0.1.0`, protocol uses integer v1, and model package version remains upstream 1.9. Protocol breaking changes increment its version and engine major; compatible additions require documented consumer handling. Dependency/model changes require new engine release metadata and revalidation. Never silently replace a model within a published release.
+Engine uses SemVer with initial proposed `0.1.0`, protocol uses integer v1, and external model package version remains upstream 1.9. Protocol breaking changes increment its version and engine major; compatible additions require documented consumer handling. Dependency/external model changes require versioned metadata and revalidation. Never silently replace an external model identity/hash in published metadata.
 
 Design the manifest JSON Schema as strict version 1 with these required fields:
 
@@ -181,17 +220,18 @@ Design the manifest JSON Schema as strict version 1 with these required fields:
 | `platform.os`, `platform.arch` | `windows`, `x64` |
 | `worker.filename`, `worker.url`, `worker.sha256` | Exact ZIP, HTTPS tag-specific release URL, 64 lowercase hex characters |
 | `runtime.argos_version` | Actual pinned Argos version |
-| `models[]` | Each has source/target codes, package version, declared Argos version, filename, HTTPS tag-specific URL, SHA-256, provenance/license reference |
+| `models[]` | External original filenames, source/target codes, package/declared Argos versions, upstream HTTPS URLs, SHA-256, provenance/known-unknown terms and compatibility; not project release assets |
+| `sentence_boundary` | External MiniSBD ONNX filename, language, upstream release URL/identity, version, SHA-256, provenance/known-unknown terms and compatible package-local layout |
 | `compatibility` | Supported OS/build baseline, CPU requirements, protocol versions, tested runtime/model combinations, external package layout, SBD requirements, and any prerequisites |
-| `build` | Source commit, Python/tool versions, lock digests, CI run identity |
+| `build` | Source commit, Python/tool versions, lock/native input digests, manual build or CI identity; CI is not mandatory |
 
-Generate only from final validated bytes. Derive owner/repository from the actual configured repository in implementation; do not assume an origin from the license author. Asset URLs use `/releases/download/v<engine-version>/...`, never `latest`. Publish worker ZIP, original `.argosmodel`, manifest, `SHA256SUMS`, and `THIRD_PARTY_NOTICES.txt` plus required license texts. `SHA256SUMS` covers worker, model, manifest, and notices; do not embed the manifest's own hash in itself. Tests reject duplicate model entries, unknown schemas, wrong URL/tag identities, placeholders, and mismatched hashes/versions.
+The project publishes only its worker ZIP and integrity/compliance material: manifest, `SHA256SUMS`, third-party notices/license texts and required corresponding source/build/install materials (or a reviewed compliant source-delivery mechanism). External model/ONNX files are never attached. Derive repository identity from actual configuration. Worker URLs are version-specific project release URLs; external model URLs refer directly to upstream original assets/release identities, not this project's tags or floating `latest`. Generate worker/compliance hashes from final verified files. `SHA256SUMS` covers all distributed files except itself, including the manifest, but not unattached external binaries. Do not embed a manifest self-hash. Validate external model metadata separately for exact trusted hashes, identity, provenance and compatibility; fail on unavailable/changed upstream bytes rather than replacing pins.
 
-Build the first independently working Windows executable in A4 before implementing extensive release automation in A5. Start with direct build/validation scripts and a small explicit workflow; avoid a general release framework, plugin layer, or reusable pipeline abstraction without demonstrated reuse. This sequencing does not postpone correctness, model rights, or integrity requirements.
+Keep A5 focused on the worker-only ZIP, integrity manifest/checksums, bundled third-party compliance/source delivery, consumer docs, verified candidate and explicit publication approval. Direct scripts and a reviewed manual checklist suffice. Advanced CI orchestration/publication pipelines, mandatory platform immutability integration and attestation infrastructure are deferred, not unfinished prerequisites to Level A or Level B. Existing integrity, non-overwrite, code/native compliance and support-evidence requirements remain mandatory.
 
-GitHub Actions stages: PR unit/protocol/manifest tests in an independent locked environment; controlled real-model offline job; Windows x64 build; relocated packaged-worker validation; checksum/manifest/notices generation; clean-machine matrix evidence validation; protected publication job with minimal `contents:write` permission. Pin third-party Actions by commit. Release jobs depend on all required validation jobs and the same commit/artifact digests. Clean-machine evidence can be produced manually on clean VMs and supplied for explicit review, but must bind to exact candidate hashes and identify each OS row; a checked boolean is insufficient. Use a focused schema/check script for evidence rather than a general attestation service. Routine integration can be optional locally after the early mandatory spike, but is mandatory for release.
+Verify the exact candidate's tests, worker hash/file inventory, external model identities, clean OS rows, OS-level offline controls, target measurements, bundled-code/native compliance and source/notices delivery. Manual evidence review can be used but must bind to exact bytes and record commands/results; a checked boolean is insufficient. Any changed/repacked worker needs appropriately renewed evidence. Optional future CI must use locked environments, pinned external Actions and no public model uploads; it does not replace clean OS acceptance.
 
-Enable repository immutable releases before first production publication. Create a draft, attach and verify the full asset set, then publish only after gates pass. [GitHub immutable release documentation](https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases) describes tag/asset locking and release attestations. Verify expected repository identity and attested release assets using [GitHub's verification guidance](https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/secure-your-dependencies/verify-release-integrity). Checksums detect corruption only relative to trusted metadata; an unauthenticated manifest and matching digest can be replaced together. Document the GitHub account/platform trust assumption, attestation verification, and offline verification with previously trusted metadata. Do not equate GitHub attestation with Windows Authenticode signing.
+Prepare a verified candidate, obtain explicit approval for that exact version/asset set, then attach/check the worker-only assets and publish through a direct reviewed procedure with minimal permissions. Never replace published tags/assets; corrections require a new version. No proposal, build, or candidate rehearsal authorizes publication. Checksums detect corruption relative to trusted metadata and do not authenticate themselves; document repository identity, trust assumptions and independently trusted offline metadata without claiming deferred attestation or Authenticode signing exists.
 
 No release settings are changed or release created during proposal work.
 
@@ -199,7 +239,7 @@ No release settings are changed or release created during proposal work.
 
 Unit tests use a deterministic fake backend and no real models. Cover parsing/encoding, strict types, IDs, limits and line-draining recovery, every command, sequential requests, Unicode, health state, errors, EOF/shutdown, output flush, and stderr isolation. Backend tests exercise isolated paths, dependency failure, incompatible metadata, duplicate/missing models, retained resource initialization, and forbidden network calls.
 
-The minimal real-model spike is mandatory at A2 entry after A1. Thereafter real-model tests run opt-in during routine local development with explicit model paths and mandatorily at A3/A4 acceptance and before release, with caches empty and networking denied. Check nonempty sensible English output using reviewed sample assertions rather than fragile universal exact strings; preserve empty input and paragraph behavior, and record segmentation/quality tradeoffs for the selected SBD. Instrument initialization counts in unit tests, and run repeated real inference to detect resource-reload regressions. Archive/manifest tests cover hash mismatch, safe extraction, invalid schema, broken provenance, and publication gates. A4 captures the performance baseline on both Windows matrix rows without adding speculative thresholds.
+Preserve the completed mandatory A2 real-model spike and A3/A4 host-local tests. Local tests use explicit asset paths, fresh isolated state/caches and Python network-attempt instrumentation with stated native/OS limits. Level B separately adds OS-denied networking and complete measurements on both clean rows. Keep actual segmentation/quality limits, empty/paragraph behavior, retained-resource tests, archive/hash/schema/provenance rejection and stdout/protocol safety. Add a distinct manual guide and recorded manual session for Level A, without waiting for public support or compliance completion.
 
 Documentation deliverables: expanded README; Windows setup/CMD and lock maintenance; test/build guide; explicit model acquisition/provisioning; authoritative versioned v1 protocol and error reference; manifest schema/example; validated Windows matrix and performance baseline; version/compatibility policy; release/trust process; third-party notices; troubleshooting native DLLs, missing models/SBD, malformed frames, path permissions, and timeouts; neutral external integration guide using argument lists, explicit paths, independent stderr draining, bounded buffering, request IDs, exit handling, restart and reprovisioning. The guide directs future Freya integration to the public protocol contract; no Freya-specific fields or code enter this repository.
 
@@ -208,23 +248,23 @@ Documentation deliverables: expanded README; Windows setup/CMD and lock maintena
 - [Full Argos dependency graph is large and metadata is permissive] → Lock the complete Windows graph and validate it before backend work; do not treat top-level Python classifiers as proof.
 - [Runtime/model/SBD incompatibility discovered late] → Gate extensive A2 work on the immediate post-A1 real-model spike; choose the simplest validated offline path and retain version-change blockers.
 - [Windows dependency documentation is broader than frozen-artifact evidence] → Validate Windows 10/11 separately and record technical failures; unavailable test environments remain pending rather than unsupported.
-- [Exact model rights/checksum unknown] → Review and pin before any model publication; library/index licenses are insufficient evidence.
+- [External model terms/provenance incomplete] → Preserve exact known hashes and accurate attribution/unknown terms; do not host binaries. Future model hosting requires separate clearance; library/index licenses are insufficient evidence.
 - [Native DLLs or descriptor output escape ordinary Python tests] → Frozen executable tests plus clean VM acceptance; add only evidenced hooks and app-local runtime files.
 - [Sequential inference can block shutdown] → Document host timeouts/termination and restart; asynchronous cancellation is outside v1.
 - [Reproducible inputs do not imply byte-identical ZIPs/EXEs] → Record tooling and hashes for each candidate and bind acceptance evidence to those exact bytes.
-- [GitHub identity compromise can undermine authenticated distribution] → Immutable releases and attestations improve traceability; document the trust boundary rather than claiming hashes alone prove authenticity.
+- [GitHub identity compromise can undermine trusted distribution] → Verify expected repository/version and independently trusted metadata, never overwrite published assets, and explain that hashes alone do not authenticate. Advanced immutability/attestation integration is deferred.
 - [Ignore rules hide planning/provenance files] → Explicitly track reviewed text artifacts while preserving user's ignore entries and exclusions for binaries, `.venv`, and build outputs.
 - [Large footprint or slow cold start from mandatory dependencies] → Measure A4 size/time/memory on recorded environments before setting budgets or attempting optimizations that could affect compatibility.
 
 ## Migration Plan
 
-There is no existing runtime to migrate. Implement A1-A5 with independently checked exits. Host-local real translation compatibility blocks full integration until proven; its success permits local worker/provisioning development and executable builds while VM evidence and license review remain pending. A3 validates local provisioning; unresolved redistribution clearance blocks publication, not private local packaging. A4 produces the executable before clean OS acceptance. A5 can prepare focused release tooling after a working local executable, but production publication and milestone completion require every final gate. Rollback selects previous immutable engine/model/SBD assets without rewriting published versions. No external applications are changed.
+Retain the existing source/frozen worker, approved Argos revision, Unicode fix, locks, original assets and historical evidence. A1–A3 provide the local foundation/backend/provisioning exits; A4 local technical tasks are credited independently of public OS/compliance tasks. Finish the manual guide/session and sign off Level A without waiting for Level B. A5 prepares worker-only integrity/compliance/docs/candidate materials; clean target evidence and bundled-code/native obligations still gate public support/release. Rollback uses previous versioned worker metadata and exact external model identities, never rewrites published assets, and changes no external application.
 
 ## Outstanding Verification Blockers
 
 These are planned evidence gates, not assumptions silently deferred as open architectural choices:
 
-1. A1 host-local resolution, hash locks, and imports passed on CPython 3.12.10 x64. These checks do not establish frozen compatibility; see `docs/implementation-status.md` for recovery evidence.
-2. A2's host-local real-model spike passed with unchanged runtime/model pins and the separately approved MiniSBD asset. A3 production-path tests exist; redistribution rights and OS-denied networking remain unverified. Failure of any new candidate still blocks its acceptance and requires a reviewed amendment before changing pins/assets.
-3. A4: The approved optional-Stanza source migration passed. A subsequent focused package-local serialized tokenizer adapter resolves the demonstrated SentencePiece Unicode LoadFromFile failure on the development host; original tracebacks/artifacts remain preserved. See `docs/unicode-path-validation.md` for source/frozen path evidence and measured resources. The existing artifact's local native audit verifies 53 AMD64 PEs, bundled non-OS imports/exports, ZIP integrity, and local runtime loading; no packaging fix/rebuild was needed. Host-loaded Teruten modules keep strict isolation failed. Visual C++ DLL collection from System32 is recorded native provenance, not pinned redistributable acquisition or rights clearance; see `docs/native-dependencies.md`. Task 4.5 remains incomplete because both OS matrix rows have not run; licensing/native redistribution review also remains pending. Do not infer an 11-only limitation or full standalone acceptance.
-4. A5: Confirm actual repository release identity, immutability availability/configuration, and attach all required evidence before publication. No production release is authorized by this proposal.
+1. Level A: technical source/frozen/provisioning/local-attempt/native/relocation/measurement checks are evidenced. Write 4.9's manual guide, record 4.10's independent manual walkthrough, then complete 4.8's local sign-off. Do not invent a manual session from automated results.
+2. Level B: 3.8b/4.5b/4.6/4.7b still require clean OS-denied-network, support and complete target measurements for both Windows rows against the same final worker and external asset hashes. Teruten observations remain a host limitation; no clean-isolation or untested support claim is made.
+3. Level B: 3.2/4.3b/5.3 retain bundled MiniSBD AGPLv3/source/notices, Visual C++/OpenMP/native and other component compliance. System32-collected VC hashes are technical provenance, not approved acquisition/rights clearance. Model hosting is excluded; preserve unknown external model terms without adding their redistribution clearance to the local milestone.
+4. Level B: final worker-only ZIP, manifest/checksums/compliance materials, consumer docs and candidate verification remain pending. Explicit publication approval is still required. Advanced automation, mandatory platform immutability integration and attestations are deferred; versioned non-overwrite and integrity requirements remain mandatory.

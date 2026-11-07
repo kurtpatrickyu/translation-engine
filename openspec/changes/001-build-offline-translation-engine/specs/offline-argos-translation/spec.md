@@ -27,7 +27,7 @@ As the first A2 task immediately after A1 environment setup, a blocking minimal 
 - **THEN** that path is selected without adding a more complex adapter, and its quality/long-input tradeoffs are documented
 
 ### Requirement: Explicit package-local MiniSBD resources
-The backend SHALL select MINISBD before Argos imports and use the separately pinned Chinese Simplified ONNX resource in the installed package's `minisbd/` directory. Provisioning SHALL preserve original `.argosmodel` bytes. Missing, corrupt, or ambiguous ONNX resources SHALL fail before the detector can select a download/cache fallback. A successful host-local real translation spike SHALL permit local worker implementation and packaging; clean Windows 10/11 validation SHALL remain a final acceptance/publication gate rather than an early-development prerequisite.
+The backend SHALL select MINISBD before Argos imports and use the separately pinned Chinese Simplified ONNX resource in the installed package's `minisbd/` directory. Users SHALL obtain original model/ONNX assets directly from recorded upstream sources and verify exact hashes before explicit local provisioning; project releases SHALL distribute no model binaries. Provisioning SHALL preserve original `.argosmodel` bytes. Missing, corrupt, or ambiguous ONNX resources SHALL fail before the detector can select a download/cache fallback. A successful host-local real translation spike SHALL permit local worker implementation and packaging; clean Windows 10/11 validation SHALL remain a Level B public support/release gate, not a Level A local completion prerequisite.
 
 #### Scenario: Package-local ONNX is unavailable
 - **WHEN** the ONNX resource is missing, changed, or ambiguous
