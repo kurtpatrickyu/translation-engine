@@ -40,6 +40,8 @@ class ArgosBackend:
                 # Argos explicitly sets INFO on this child logger and logs text.
                 logging.getLogger("argostranslate.utils").setLevel(logging.WARNING)
                 model = package.Package(path)
+                from .tokenizer import adapt_package_tokenizer
+                adapt_package_tokenizer(model)
                 engine = translate.PackageTranslation(
                     translate.Language("zh", "Chinese"), translate.Language("en", "English"), model,
                 )

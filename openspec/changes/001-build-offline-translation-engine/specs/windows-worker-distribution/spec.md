@@ -11,6 +11,12 @@ A Windows x64 build SHALL produce `translation-engine-worker-win-x64.zip` contai
 - **WHEN** the complete archive is extracted to a different directory including spaces and Unicode characters
 - **THEN** the executable starts using its bundled runtime and explicitly configured external models
 
+Unicode model, executable, and writable state directories SHALL also be tested
+independently, then together, to expose distinct native path dependencies.
+Each check SHALL use the unchanged model/SBD bytes and exercise production
+provisioning, readiness, repeated translation, integrity failures, stdout purity,
+and shutdown. Local diagnostic evidence SHALL remain distinct from clean OS acceptance.
+
 #### Scenario: Approved optional-dependency runtime candidate
 - **WHEN** an approved source-pinned Argos candidate passes source-level MiniSBD inference without Stanza/Torch
 - **THEN** reduced frozen collection is independently checked for complete required runtime/DLL resources, metadata, stdout purity, startup and relocated provisioning; absent unused SBD frameworks do not justify skipping packaged acceptance

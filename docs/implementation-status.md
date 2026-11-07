@@ -2,8 +2,10 @@
 
 Current status after the approved migration: Argos source revision
 `17ed1a9b055c5ba1b51d76b683bbb0c64e2a4a88` is adopted in a fresh environment.
-The controlled reduced build succeeds and ASCII-path frozen tests pass;
-Unicode-path provisioning fails in SentencePiece. See [current migration evidence](argos-migration.md).
+The controlled reduced build succeeds. The subsequent package-local SentencePiece
+adapter fixes Unicode-path provisioning; source and frozen Unicode relocation
+pass on the development host. See [Unicode repair evidence](unicode-path-validation.md)
+and [migration history](argos-migration.md). Both clean Windows rows remain pending.
 The sections below preserve earlier milestones and failure/recovery history.
 
 The user invoked `openspec-apply-change` for the reviewed

@@ -30,7 +30,16 @@ def main():
     parser.add_argument("--report", type=Path, default=root / "build/packaged-validation.json")
     parser.add_argument('--source', action='store_true', help='Measure actual source worker with the same corpus; no ZIP')
     parser.add_argument('--ascii-paths', action='store_true', help='Isolate non-Unicode operation; not Unicode acceptance')
+    parser.add_argument('--unicode-component', choices=['model', 'executable', 'state', 'all'],
+                        help='Independently locate this directory under Unicode; default all')
     args = parser.parse_args()
+    if args.report.exists():
+        raise SystemExit('Refusing to overwrite existing validation evidence')
+    if args.ascii_paths and args.unicode_component:
+        parser.error('--ascii-paths and --unicode-component are mutually exclusive')
+    if args.source and args.unicode_component == 'executable':
+        parser.error('Executable relocation requires the frozen artifact')
+    component = 'none' if args.ascii_paths else (args.unicode_component or 'all')
     report = {"passed": False, "clean_machine": False, "os_firewall_isolation": False,
               "os": platform.platform(), "cpu": platform.processor(), "machine": platform.machine(),
               "cache_conditions": "Fresh worker process; filesystem/DLL caches may be warm from provisioning/copying",
@@ -48,7 +57,7 @@ def main():
     stop = threading.Event()
     @contextmanager
     def workspace():
-        temporary = tempfile.TemporaryDirectory(prefix="packaged-ascii " if args.ascii_paths else "packaged Caf\u00e9 ", dir=runtime)
+        temporary = tempfile.TemporaryDirectory(prefix="packaged Caf\u00e9 " if component == 'all' else "packaged-ascii ", dir=runtime)
         if not Path(temporary.name).resolve().is_relative_to(runtime.resolve()):
             raise ValueError("Temporary workspace escaped the intended root")
         try:
@@ -64,7 +73,10 @@ def main():
             base = Path(temporary).resolve()
             if not base.is_relative_to(runtime.resolve()):
                 raise ValueError("Temporary validation path escaped the workspace")
-            relocated = base / "worker folder"
+            unicode_suffix = ' Caf\u00e9 \u4e2d\u6587 \U0001f60a'
+            def directory(name, kind):
+                return base / (name + (unicode_suffix if component in (kind, 'all') else ''))
+            relocated = directory('worker folder', 'executable')
             if args.source:
                 executable = Path(sys.executable)
                 worker_command = [str(executable), '-m', 'translation_engine']
@@ -73,16 +85,17 @@ def main():
                 executable = relocated / args.exe.name
                 worker_command = [str(executable)]
             report['worker_mode'] = 'source' if args.source else 'frozen'
-            report['path_mode'] = 'ascii-with-spaces' if args.ascii_paths else 'unicode-with-spaces'
+            report['path_mode'] = component
             report['argos_provenance'] = json.loads((root / 'packaging/argos-upstream.json').read_text())
             env = {key: value for key, value in os.environ.items()
                    if not key.startswith(("PYTHON", "ARGOS_", "VIRTUAL_ENV", "CONDA_"))}
             env["PATH"] = str(Path(os.environ["SystemRoot"]) / "System32")
-            models, state = base / "external-models", base / "worker-state"
+            models, state = directory('external-models', 'model'), directory('worker-state', 'state')
+            report['paths'] = dict(executable=str(executable), models=str(models), state=str(state))
             provision = subprocess.run(worker_command + [
                 "provision-model", "--file", str(root / "downloads/translate-zh_en-1_9.argosmodel"),
                 "--sbd-file", str(root / "downloads/zh-hans.onnx"), "--models-dir", str(models),
-                "--state-dir", str(base / "provision-state"),
+                "--state-dir", str(directory('provision-state', 'state')),
             ], capture_output=True, env=env, timeout=120)
             report['provisioning_stdout'] = provision.stdout.decode('utf-8', errors='replace')
             report['provisioning_stderr'] = provision.stderr.decode('utf-8', errors='replace')
@@ -173,6 +186,34 @@ def main():
             report["translation_latency"] = {"samples": observations, "median_seconds": ordered[len(ordered)//2],
                                               "p95_seconds": ordered[min(len(ordered)-1, int(len(ordered)*0.95))]}
             report["info"] = info
+            # Reject altered tokenizer bytes before initialization, including at
+            # a Unicode location; a failed reprovision must leave them untouched.
+            from translation_engine.assets import PACKAGE_NAME
+            installed = models / PACKAGE_NAME
+            tokenizer_file = installed / 'sentencepiece.model'
+            receipt = (installed / 'installation.json').read_bytes()
+            original_tokenizer = tokenizer_file.read_bytes()
+            try:
+                tokenizer_file.write_bytes(b'deliberately changed tokenizer')
+                rejected = subprocess.run(worker_command + ['--models-dir', str(models), '--state-dir', str(state)],
+                    input=b'{"protocol_version":1,"id":"h","command":"health"}\n{"protocol_version":1,"id":"s","command":"shutdown"}\n',
+                    capture_output=True, env=env, timeout=30)
+                responses = [json.loads(frame) for frame in rejected.stdout.splitlines()]
+                if (rejected.returncode or rejected.stderr or len(responses) != 2
+                        or responses[0]['result']['ready']
+                        or responses[0]['result']['error']['code'] != 'MODEL_INCOMPATIBLE'):
+                    raise RuntimeError('Changed-tokenizer integrity rejection failed')
+                reprovision = subprocess.run(worker_command + ['provision-model', '--file',
+                    str(root / 'downloads/translate-zh_en-1_9.argosmodel'), '--sbd-file', str(root / 'downloads/zh-hans.onnx'),
+                    '--models-dir', str(models), '--state-dir', str(state)], capture_output=True, env=env, timeout=30)
+                if (not reprovision.returncode or reprovision.stdout
+                        or (installed / 'installation.json').read_bytes() != receipt
+                        or tokenizer_file.read_bytes() != b'deliberately changed tokenizer'
+                        or list(models.iterdir()) != [installed]):
+                    raise RuntimeError('Failed reprovision changed the existing installation')
+                report['tokenizer_integrity_and_failed_reprovision'] = 'passed'
+            finally:
+                tokenizer_file.write_bytes(original_tokenizer)
             missing = subprocess.run(worker_command + ['--models-dir', str(base / 'missing-models'),
                 '--state-dir', str(base / 'missing-state')], input=b'{"protocol_version":1,"id":"h","command":"health"}\n{"protocol_version":1,"id":"s","command":"shutdown"}\n',
                 capture_output=True, env=env, timeout=30)

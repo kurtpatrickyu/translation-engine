@@ -45,6 +45,13 @@ An approved optional-Stanza Argos candidate SHALL revalidate the actual producti
 - **WHEN** the source-pinned optional-Stanza artifact is adopted after approval
 - **THEN** local warm-up, repeated real zh-to-en translation, retained resources, representative quality checks, no-network-attempt instrumentation, and stdout purity pass before reduced frozen dependency collection is accepted
 
+### Requirement: Unicode-safe package-local tokenizer
+The pinned SentencePiece tokenizer SHALL load its verified serialized model through Python file I/O using a package-local adapter, with a bounded temporary buffer and one retained lazy processor. It SHALL inherit Argos encoding/decoding behavior, avoid global dependency modifications, and preserve model/dependency identities and provisioning integrity checks.
+
+#### Scenario: Unicode tokenizer model location
+- **WHEN** a validated model path contains spaces, accented letters, Chinese characters, or emoji
+- **THEN** tokenizer initialization and repeated translation succeed with outputs matching the upstream tokenizer on identical model bytes and without repeated processor loading
+
 ### Requirement: Explicit isolated paths
 The worker SHALL require a configured external installed-packages directory, taking `--models-dir` before `ARGOS_PACKAGES_DIR`, and an explicit writable `--state-dir`. It SHALL resolve relative paths at startup, configure isolated data/config/cache locations before backend imports, and avoid reading or modifying the user's global Argos configuration or package directories. It SHALL NOT discover models from the current working directory or executable bundle implicitly.
 

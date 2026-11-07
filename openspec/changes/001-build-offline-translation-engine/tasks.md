@@ -47,6 +47,13 @@
 - [ ] 4.7 Measure worker ZIP/extracted bytes, cold process start to uninitialized info response, model/SBD initialization through ready warm-up, idle/ready/peak working set and private bytes, and repeated warmed translation latency on each OS row. Separately capture aggregate build-process-tree working set/private bytes, per-process peaks, and system commit/available memory during approved diagnostic builds, retaining raw observations and distinguishing collection overhead from inference. Record artifact/model hashes, external model size, OS/CPU/RAM/storage/VM allocation/power settings, SBD/thread/compute settings, corpus/input sizes, cache/warm-up policy, repetitions, instrumentation, raw results, median and tail summaries. Establish a baseline without arbitrary performance budgets.
 - [ ] 4.8 Verify A4 exit: the first independently working packaged executable provisions and repeatedly translates offline independently of `.venv` on clean Windows 10 22H2 x64 and clean Windows 11 x64 using the same exact worker ZIP/model SHA-256 hashes, with complete measurements. Missing clean-machine evidence for either row remains pending manual verification and blocks milestone completion/publication; hosted-runner or mocked tests are insufficient. Defer extensive release automation to A5.
 
+Focused 4.5 evidence, 2026-11-07: a package-local lazy serialized SentencePiece
+tokenizer resolves the reproduced Unicode native-path failure. One additional
+monitored build and source/frozen ASCII, separate Unicode model/executable/state,
+and combined Unicode checks pass on the development host. See
+`docs/unicode-path-validation.md`; retain the earlier failure reports. Task 4.5
+remains unchecked until both OS matrix rows and offline acceptance are verified.
+
 ## 5. A5 — Release artifacts, manifest, CI, and documentation
 
 - [ ] 5.1 Implement a strict manifest v1 JSON Schema, documented complete example, generator, and validator covering platform, versions, tag-specific URLs, worker/model/SBD identities and hashes, compatibility, provenance/notices, and build inputs.

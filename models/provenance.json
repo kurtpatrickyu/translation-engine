@@ -36,7 +36,8 @@
     "evidence": "docs/compatibility-spike.md",
     "runtime_evidence": "docs/argos-migration.md",
     "frozen_ascii_paths": "passed",
-    "frozen_unicode_paths": "failed: SentencePiece LoadFromFile Error #2"
+    "frozen_unicode_paths": "passed: package-local serialized tokenizer; development host only",
+    "unicode_path_evidence": "docs/unicode-path-validation.md"
   },
   "runtime": {
     "argos_version": "1.11.1",

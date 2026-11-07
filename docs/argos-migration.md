@@ -1,5 +1,10 @@
 # Approved Argos upstream migration — 2026-11-07
 
+Subsequent focused repair: the SentencePiece Unicode-path failure recorded below
+is resolved by a package-local serialized-model adapter. Source tests and a new
+frozen artifact pass Unicode relocation; see [Unicode repair evidence](unicode-path-validation.md).
+The measurements and failure reports below remain the original migration record.
+
 The user approved Approach A: unmodified upstream revision
 `17ed1a9b055c5ba1b51d76b683bbb0c64e2a4a88`, metadata version 1.11.1.
 The fresh root `.venv` adopts that artifact; the old environment, old locks and

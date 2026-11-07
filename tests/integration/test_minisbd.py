@@ -67,11 +67,17 @@ def req(command, identifier, **fields):
     return {"protocol_version": 1, "id": identifier, "command": command, **fields}
 
 
-@pytest.mark.parametrize("exclude_spacy", [False, True])
-def test_real_worker_offline_unicode_repeated_and_no_text_logs(tmp_path, monkeypatch, exclude_spacy):
+@pytest.mark.parametrize('exclude_spacy,unicode_model,unicode_state', [
+    (False, False, False), (True, False, False), (True, True, False),
+    (True, False, True), (True, True, True),
+])
+def test_real_worker_offline_unicode_repeated_and_no_text_logs(tmp_path, monkeypatch, exclude_spacy,
+                                                           unicode_model, unicode_state):
     if exclude_spacy:
         monkeypatch.setenv("ENGINE_TEST_EXCLUDE_SPACY", "1")
-    models, state = tmp_path / "models", tmp_path / "state"
+    suffix = ' Caf\u00e9 \u4e2d\u6587 \U0001f60a'
+    models = tmp_path / ('models spaces' + (suffix if unicode_model else ''))
+    state = tmp_path / ('state spaces' + (suffix if unicode_state else ''))
     cli = subprocess.run([
         sys.executable, "-c", AUDITED_WORKER, "provision-model", "--file", str(MODEL),
         "--sbd-file", str(SBD), "--models-dir", str(models), "--state-dir", str(state),
@@ -86,8 +92,11 @@ def test_real_worker_offline_unicode_repeated_and_no_text_logs(tmp_path, monkeyp
     text = "这是一个测试。今天的天气很好。"
     assert backend.engine.sentencizer.split_sentences(text) == ["这是一个测试。", "今天的天气很好。"]
     native, detector = backend.engine.translator, backend.engine.sentencizer.detector
+    tokenizer = backend.engine.pkg.tokenizer
+    processor = tokenizer.processor
     assert backend.translate("你好，世界！") == "Hello, world!"
     assert backend.engine.translator is native and backend.engine.sentencizer.detector is detector
+    assert tokenizer.processor is processor
     backend.close()
     product = "不锈钢保温杯，容量500毫升。轻便耐用，适合旅行和日常使用。"
     requests = [req("health", "h"), req("translate", "p", source="zh", target="en", text=product),
@@ -97,7 +106,7 @@ def test_real_worker_offline_unicode_repeated_and_no_text_logs(tmp_path, monkeyp
                 req("translate", "paragraph", source="zh", target="en", text="这是第一段。\n这是第二段。"),
                 req("translate", "long", source="zh", target="en", text="这是一个测试。" * 40),
                 req("translate", "empty", source="zh", target="en", text=""), req("shutdown", "s")]
-    result = call_worker(models, tmp_path / "empty-worker-state", requests)
+    result = call_worker(models, tmp_path / ('empty-worker-state' + (suffix if unicode_state else '')), requests)
     assert result.returncode == 0, result.stderr.decode(errors="replace")
     responses = [json.loads(frame) for frame in result.stdout.splitlines()]
     assert [response["id"] for response in responses] == [request["id"] for request in requests]
@@ -133,10 +142,47 @@ def test_failed_runtime_validation_never_promotes_and_original_is_unchanged(tmp_
     def fail(_):
         raise EngineError("BACKEND_UNAVAILABLE", "Deliberate runtime rejection")
     with pytest.raises(EngineError):
-        provision(MODEL, SBD, tmp_path / "models", fail)
-    assert not (tmp_path / "models" / PACKAGE_NAME).exists()
-    assert list((tmp_path / "models").iterdir()) == []
+        provision(MODEL, SBD, tmp_path / 'models Caf\u00e9 \u4e2d\u6587', fail)
+    assert not (tmp_path / 'models Caf\u00e9 \u4e2d\u6587' / PACKAGE_NAME).exists()
+    assert list((tmp_path / 'models Caf\u00e9 \u4e2d\u6587').iterdir()) == []
     assert sha256(MODEL) == original
+
+
+def test_serialized_tokenizer_matches_upstream_outputs_for_all_paths(tmp_path):
+    import zipfile
+    from argostranslate.tokenizer import SentencePieceTokenizer
+    from translation_engine.assets import MODEL_SHA256
+    from translation_engine.backends.tokenizer import SerializedSentencePieceTokenizer
+    assert sha256(MODEL) == MODEL_SHA256
+    with zipfile.ZipFile(MODEL) as archive:
+        data = archive.read(PACKAGE_NAME + '/sentencepiece.model')
+    baseline_path = tmp_path / 'baseline.model'
+    baseline_path.write_bytes(data)
+    baseline = SentencePieceTokenizer(baseline_path)
+    corpus = ['你好，世界！', '不锈钢保温杯，容量500毫升。', 'Alice café 😊 _ underscores', '', '第一段。\n第二段。']
+    for name in ('ascii', 'ascii spaces', 'Caf\u00e9 \u4e2d\u6587 \U0001f60a'):
+        path = tmp_path / name / 'sentencepiece.model'
+        path.parent.mkdir()
+        path.write_bytes(data)
+        tokenizer = SerializedSentencePieceTokenizer(path)
+        assert tokenizer.processor is None
+        for text in corpus:
+            tokens = baseline.encode(text)
+            assert tokenizer.encode(text) == tokens
+            assert tokenizer.decode(tokens) == baseline.decode(tokens)
+        processor = tokenizer.processor
+        tokenizer.encode('重复')
+        assert tokenizer.processor is processor
+
+
+def test_changed_tokenizer_under_unicode_path_rejected_before_loading(tmp_path):
+    models = tmp_path / 'models Caf\u00e9 \u4e2d\u6587'
+    installed = provision(MODEL, SBD, models)
+    (installed / 'sentencepiece.model').write_bytes(b'changed')
+    result = call_worker(models, tmp_path / 'state', [req('health', 'h'), req('shutdown', 's')])
+    assert result.returncode == 0 and not result.stderr
+    health = json.loads(result.stdout.splitlines()[0])['result']
+    assert not health['ready'] and health['error']['code'] == 'MODEL_INCOMPATIBLE'
 
 
 def test_existing_install_is_immutable_and_concurrent_provision_does_not_replace(tmp_path):

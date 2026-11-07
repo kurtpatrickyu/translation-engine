@@ -35,10 +35,12 @@ The packaged executable will expose the same `provision-model` command; it
 does not require a separate system Python. CLI failures return nonzero with
 stderr diagnostics. Ordinary stdin/stdout commands cannot provision.
 
-The approved upstream diagnostic passes local frozen provisioning with ASCII
-paths (spaces included). Unicode model paths still fail while SentencePiece
-loads `sentencepiece.model`; the traceback is retained. This is a compatibility
-limitation, not full packaged acceptance. See [migration evidence](argos-migration.md).
+Local source and frozen provisioning pass ASCII and Unicode paths, including
+spaces. A package-local adapter reads the verified tokenizer model through
+Python and passes serialized bytes to SentencePiece, retaining Argos's lazy
+processor and encode/decode behavior. The original native file-opening failure
+and traceback are retained. See [Unicode repair evidence](unicode-path-validation.md).
+Clean Windows acceptance remains pending.
 
 Missing, corrupt, or multiple ONNX files fail before Argos can fall back to a
 download. `--models-dir` overrides `ARGOS_PACKAGES_DIR`; `--state-dir` is required
