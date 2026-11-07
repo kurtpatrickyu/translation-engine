@@ -1,173 +1,151 @@
-# Candidate compliance staging (task 5.3 preparation)
+﻿# Candidate compliance staging (task 5.3)
 
-This workflow stages licensing and available source material for the exact
-existing `diagnostic-20261107-133601` worker. It does not rebuild, repack, execute
-or modify the worker, fetch dependencies/models, approve licenses, or publish.
-The dependency graph remains unchanged. See [redistribution review](redistribution-review.md)
-for the legal/source decisions that still gate release.
+The existing stager now targets the latest validated post-003 candidate,
+`diagnostic-20261107-211131`: **176 files, 49 native binaries, 17 third-party
+Python roots, 30 component groups**. It rehashes the actual onedir, original
+build/freezer/audit evidence and candidate ZIP. No executable rebuild, repack,
+translation, dependency change, model acquisition or publication is performed.
+The older 180-file diagnostic is retained only as historical evidence and the
+original monitored build helper's native-retention baseline.
 
-## Generate and inspect from Windows CMD
+See [source availability](../SOURCE_AVAILABILITY.md),
+[third-party notices](../THIRD_PARTY_NOTICES.md),
+[rebuilding instructions](rebuilding-worker.md), and original
+[redistribution review](redistribution-review.md). The decision to keep MiniSBD
+and supply AGPL corresponding source is established. Native permissions and
+unverified supplier/source mappings remain publication blockers.
 
-Change 003 uses an [external official x64 VC runtime](native-dependencies.md#external-vc-prerequisite-for-change-003)
-for new candidates. This staging workflow/inventory remains bound to the old
-diagnostic and its 180 files. Do not remove its ordinary-VC ownership entries or
-substitute candidate hashes without the separate PUBLIC candidate-rebinding work.
-The new diagnostic build/regression need not wait for that work. NumPy's renamed
-DLL, Intel OpenMP, AGPL source/notices and all actual bundled-material blockers
-remain independently required. No Microsoft installer is staged or redistributed.
+## Generate and verify
 
-Run from the repository root with an existing **Node.js 22 or later** installation.
-No npm packages are needed. Node is a maintainer tooling requirement only; the
-worker does not require it. This runner was chosen because the review account
-cannot launch the existing Store-backed `.venv` Python. No engine changes or
-environment repairs are needed to use it.
+Use Node.js 22 or later from the repository root; no npm packages are required.
+The ignored candidate evidence and exact cached wheels named by the single
+[compliance inventory](../packaging/compliance-inventory.json) must be retained.
+The tracked `LICENSES/` and `packaging/sources/` supply collected supplier texts
+and the MiniSBD/tqdm original source distributions.
 
 ```bat
-node --version
 node --test tests\compliance-staging.test.cjs
-node scripts\stage_compliance.cjs candidate-staging\diagnostic-20261107-compliance
-echo %ERRORLEVEL%
-type candidate-staging\diagnostic-20261107-compliance\BLOCKERS.txt
-type candidate-staging\diagnostic-20261107-compliance\THIRD_PARTY_NOTICES.txt
-node scripts\stage_compliance.cjs --check candidate-staging\diagnostic-20261107-compliance
-echo %ERRORLEVEL%
+node scripts\stage_compliance.cjs candidate-staging\post003-source-notices
+node scripts\stage_compliance.cjs --check candidate-staging\post003-source-notices
 ```
 
-Use a new directory name for every generation; existing outputs are refused,
-including incomplete earlier attempts. Outputs must be descendants of the ignored
-`candidate-staging/` root. Build/dist and arbitrary output paths are rejected.
-Do not upload this preparatory directory as a release asset.
+Use a fresh destination below `candidate-staging/`; existing destinations are
+refused. Exit **2** means valid preparation with readiness still blocked; exit
+**1** means invalid/stale evidence or failed integrity. The stager deliberately
+cannot declare release/compliance readiness. No worker or original build/dist
+bytes are changed. Repeated outputs are deterministic, without timestamps or
+output-directory identity. Review `BLOCKERS.txt`, `manifest.json`, the original
+license texts and source correspondence evidence before using any material.
 
-Exit codes:
+`--check` verifies exact staged file coverage, hashes/sizes, source/material
+pins, required-material accounting, retained blockers, candidate identity,
+source correspondence and checksums. It cannot prove legal permission or that
+future GitHub source download links work. Missing required materials become
+explicit blockers. Candidate/source/hash mismatches stop staging before writes.
 
-| Code | Meaning |
-|---|---|
-| 2 | Staging/check completed with valid integrity, **readiness remains blocked**. This is the expected result for the current preparatory scope. |
-| 1 | Invalid/stale candidate or inventory, unsafe input/output, or staged integrity failure. Inspect the error and preserve the failed directory for diagnosis. |
+## Source and license evidence
 
-The CLI deliberately never returns a successful release-readiness result. Both
-`compliance_ready` and `release_ready` are always false in this preparatory tool.
-Changing those fields in its output fails verification. Missing/changed
-supplier material does not disappear silently: configured required material
-that cannot be copied is recorded as a material blocker and the component becomes
-incomplete. Candidate identity/coverage failures stop generation before writes.
+- MiniSBD 0.9.5: original PyPI sdist SHA-256
+  `b40d0a32ad0b3aeb8477e06a9e4723b7fa34a30121731f6a5063d39b7b3a464e`;
+  all nine Python members byte-identical to the exact locked wheel. Preserve
+  AGPLv3, original README/pyproject, Stanza CREDITS and Apache copyright/license.
+  No local modifications; no unverified GitHub revision is asserted.
+- tqdm 4.70.1: original PyPI sdist SHA-256
+  `cefd0eca11b2a37a3aee776544d4f4ae913f02688135b5556b8788dfa474afc4`;
+  wheel Python members identical. Preserve its MPL/MIT attribution and full MPL
+  text. Matching source accompanies the preparation rather than a moving link.
+- Embedded source comparison: 319 Python modules, including all 17 frozen
+  third-party distribution roots, worker source and PyInstaller runtime modules/
+  hooks, compile equal after recursively normalizing only `co_filename`.
+  `scripts/verify_frozen_sources.py` reads actual embedded code; it does not
+  execute package code. Run with the existing build interpreter:
 
-`--check` validates staged hashes, byte counts, exact file coverage, inventory/tool
-identity, required-material accounting, preserved blockers, checksums and the
-unchanged candidate/build inputs. It does not re-download supplier material or
-require the original supplier files to remain available after staging. It cannot
-establish legal approval or source-host availability.
+  ```bat
+  scripts\python.cmd scripts\verify_frozen_sources.py --report runtime\new-source-correspondence.json
+  ```
 
-## Inputs and maintenance
+- Wheel payload comparison: 131 frozen wheel-supplied files matched original
+  wheel bytes. Installation-generated RECORD files are not wheel byte matches;
+  they remain included in the audit's complete 176-file hashes. Matching Python
+  code is not evidence of native/static source correspondence.
+- Original supplier texts are retained byte-for-byte in `LICENSES/`, with
+  provenance and SHA-256 in each material record. This includes ONNX Runtime's
+  complete supplier notices and NumPy's complete wheel license directory,
+  CTranslate2 v4.8.5 primary MIT text, SentencePiece 0.2.1 sdist primary and
+  dependency licenses, CPython's actual Store-supplier license/history/notices,
+  and PyInstaller COPYING/exception, runtime source headers and full Apache text.
+  Missing binary-to-supplier mapping remains explicit; collecting a license text
+  does not clear the corresponding native bytes.
 
-[packaging/compliance-inventory.json](../packaging/compliance-inventory.json) is
-the reviewed, candidate-specific input, not generated automatically by the stager.
-It contains 31 component entries covering the 17 frozen third-party Python
-distributions, the project, Python, PyInstaller runtime and identified native or
-statically incorporated component groups. Each entry records name/version,
-redistributed form, license identity/evidence, source obligation, source identity,
-source/license paths and hashes, status, blockers, frozen file ownership and
-Python module roots. Native versions that remain unknown are labelled unresolved,
-not represented as independently verified pins.
+## Exact build input preservation
 
-`verified` means the recorded identity/material facts are verified for this
-preparation, **not that redistribution is legally cleared**. `incomplete` and
-`blocked` entries carry specific reasons. Global obligations remain blocking even
-for components with verified permissive-license facts. Source completeness is
-not claimed by this workflow.
+The original build hashed the then-current compliance inventory as non-runtime
+metadata. Before editing it, its exact original bytes were preserved at
+`runtime/compliance-preparation/original-build-inventory.json`. The active
+inventory records one narrowly allowed relocation for this input. The stager
+verifies the original build hash and stages those bytes at their original path
+under `sources/worker/`. Runtime/source/spec/lock pins have no such exception.
+All other original build inputs are still required to match. Current compliance
+metadata is staged separately at `evidence/component-inventory.json`.
 
-The inventory pins the audit/build/PYZ/EXE-table evidence, candidate EXE and ZIP
-identity, exact frozen file ownership and module roots. The stager rehashes all
-180 worker files, checks for unexpected/missing files, verifies the successful
-audit/build records, and rehashes the 21 original build inputs. Candidate-specific
-PYZ table identity and module roots are checked; the stager does not independently
-decompile the executable or reconstruct its original compilation. The retained
-audit is the trusted link to the embedded PYZ. Preserve that evidence dossier.
+This avoids a self-referential inventory hash and does not rewrite historical
+build evidence. Retain this original input with the local dossier; it is also
+available from the generated source package. No second active inventory is used.
 
-Supplier wheel hashes are present in the existing candidate locks. The inventory
-also pins each selected archive member's hash. License texts/notices and available
-MiniSBD/tqdm Python sources are read directly from those exact cached wheels,
-without executing their code. Moving branches are not used. The installed
-PyInstaller license/hooks and Python supplier license have separately observed
-file hashes; those observations do not establish missing supplier grants.
-
-The inventory includes the observed Store Python supplier `LICENSE.txt` path.
-On a machine where it is unavailable, generation records a material blocker.
-Do not substitute a generic upstream Python license: the supplier text includes
-additional Windows binary terms. A future reviewed relocation must preserve and
-pin the same applicable supplier evidence.
-
-To support a different candidate, explicitly review its new audit, frozen graph,
-build inputs, wheel/source identities and license provenance; then update the
-inventory and tests. Do not simply learn current hashes from mutable installed
-files to bypass a mismatch. `null` source revisions/checksums mean unavailable
-identity evidence. Argos is the exception with an already reviewed exact commit,
-source archive hash and wheel mapping. The staging script has no acquisition,
-inventory-regeneration, dependency-resolution or license-election operation.
-
-## Output layout
+## Output and future GitHub Release layout
 
 | Path | Content |
 |---|---|
-| `licenses/` | Supplier license and third-party notice texts copied byte-for-byte. |
-| `sources/argostranslate/` | Original hash-pinned Argos source ZIP; valid relative source symlinks remain inside the original archive, never extracted. |
-| `sources/minisbd/`, `sources/tqdm/` | Available `.py` source members from the exact locked wheels; complete corresponding-source scope/delivery not asserted. |
-| `sources/worker/` | Exact original build inputs, Argos wheel recipe and explicitly selected build/install/provenance documentation. |
-| `sources/pyinstaller/` | Three collected runtime-hook source files. |
-| `evidence/` | Original candidate audit/build/freezer tables, distribution metadata, reviewed inventory and the running stager's source. |
-| `THIRD_PARTY_NOTICES.txt` | Component/license/material index; does not replace full supplier texts. |
-| `BLOCKERS.txt` | Human-readable exact unresolved obligations and missing/changed material failures. |
-| `manifest.json` | Deterministic input/component/blocker/file manifest with SHA-256 hashes and byte counts. No timestamp or output-directory dependence. |
-| `SHA256SUMS` | All staged files including the manifest, except itself. No manifest self-hash. |
+| `licenses/` | Unmodified supplier license/notice texts. |
+| `sources/minisbd/`, `sources/tqdm/` | Complete original versioned sdists and selected preferred Python source. |
+| `sources/argostranslate/` | Exact commit source ZIP and matching frozen Python source. |
+| `sources/<component>/` | Preferred source for other actually frozen Python modules, plus runtime hook/loader sources. |
+| `sources/worker/` | Exact build inputs, setup/build helpers, protocol/usage/build instructions, unit tests and original retention baseline. |
+| `evidence/` | Candidate audit/build/PYZ/EXE tables, frozen-source and wheel correspondence reports, distribution metadata, active inventory and stager. |
+| `SOURCE_AVAILABILITY.md`, `THIRD_PARTY_NOTICES.md`, `docs/rebuilding-worker.md` | Recipient source/license/build instructions. |
+| `THIRD_PARTY_NOTICES.txt` | Deterministic component/material index. |
+| `BLOCKERS.txt` | Concise unresolved obligations and material failures. |
+| `manifest.json`, `SHA256SUMS` | Component/source identities and every staged file hash/size; no self-hash. |
 
-The ZIP reader is bounded and read-only. Whole source archives are checked for
-model members; selected wheel members may be read from wheels containing unselected
-sample datasets, but those datasets are never copied. Plain `.argosmodel` and
-`.onnx` staging paths are rejected. No complete wheel or worker binary is copied
-as a compliance asset. External model attribution and digests remain solely in
-the preserved provenance JSON; this is not model license clearance.
+For a future release, attach the compliance package and complete corresponding
+source beside the worker ZIP, with an immutable matching public commit and
+explicit source links in the release description. Preserve original source
+archives and source/build/install materials. Complete the native/source gates
+before calling this full Corresponding Source. Do not publish this preparatory
+output as an approved release or silently bind it to a repackaged executable.
 
-## Demonstrated result and remaining blockers
+ZIP and tar/gzip member inspection rejects external model binaries and unsafe
+paths/links. No complete wheel, worker executable, model, cache or installer is
+staged. External asset identities/URLs/expected hashes remain metadata only.
+The official VC++ x64 runtime is a separately installed prerequisite: the four
+ordinary DLLs have no ownership entries in this candidate. NumPy's renamed
+Microsoft DLL remains inventoried and unresolved.
 
-Recorded run: `candidate-staging/diagnostic-20261107-compliance/`, with an identical
-second run at `candidate-staging/diagnostic-20261107-compliance-repeat/`.
+## Remaining task 5.3 gates
 
-- 31 component entries; 180 worker files hash-verified and owned; all 17 known
-  third-party frozen distribution roots covered.
-- 136 payload files, plus manifest and checksum file: **138 staged files**.
-- 40 license/notice files; 17 distribution metadata files; 40 available MiniSBD/tqdm
-  Python source files; one original Argos source archive; three PyInstaller hook
-  sources; 21 original build inputs, Argos recipe and selected documentation/evidence.
-- All configured material copies succeeded; **25 review/approval blockers remain**.
-  Ten inventory components have verified preparation facts, 18 are incomplete,
-  and three are blocked. These counts are not a legal-clearance score.
-- All 12 focused automated tests pass; generation and `--check` both return expected code
-  2. Repeat outputs are byte-for-byte identical. No worker or original build/dist
-  evidence bytes changed. No external model files were staged.
+MiniSBD/tqdm exact-source mechanics and collected Python notices are prepared.
+Final publication still requires immutable public source delivery tied to the
+final executable; any missing covered native/dependency source or justified
+exclusion; Intel OpenMP terms/notices, NumPy's wheel-local Microsoft permission,
+and remaining native/static-library supplier attribution/source mappings.
+`BLOCKERS.txt` preserves the component-specific details. No permission is marked
+legally cleared. Task 5.3 remains unchecked; unrelated Level B tasks are unchanged.
 
-Recorded manifest SHA-256:
-`60f717a04f52443ae65bbcda837d1f067c99af776d96a7f686e345ab7981d9d6`.
-This binds the demonstrated staging output, not a published release or legal approval.
+## Verified preparation result (2026-11-07)
 
-The exact reasons are recorded in `BLOCKERS.txt`; the unresolved acceptance work is:
+Final local output: `candidate-staging/post003-release-materials/`; independent
+repeat: `candidate-staging/post003-release-materials-repeat/`.
 
-| Area | Remaining evidence/decision |
-|---|---|
-| AGPL / delivery | Maintainer/legal approval of covered-work boundaries, complete Corresponding Source/build/install scope and exclusions; recipient source-delivery/availability and full frozen-source correspondence. |
-| MiniSBD | Exact source revision and inherited Stanza source/notices; available wheel Python files alone do not settle completeness. |
-| tqdm | Approve matching frozen-source correspondence and MPL recipient source availability; the wheel Python sources are now locally available. |
-| Microsoft ordinary DLLs | Approved acquisition, licensed entitlement, matching product terms and servicing for four System32-collected DLLs. |
-| Microsoft NumPy copy | Renamed MSVCP repair/redistribution provenance and downstream entitlement. |
-| Intel | Exact OpenMP supplier grant, redistribution designation, notices and compatibility. |
-| CTranslate2 / SentencePiece | Version-matched primary license texts are absent from cached wheels; obtain them with reviewed provenance. Reconcile static MKL/oneDNN/spdlog/pybind11 and protobuf-lite/Abseil sources/notices as applicable. |
-| ONNX Runtime | License and full third-party notices are staged; exact CPU build BOM, applicability of Intel/nonpermissive terms and any embedded source duties remain unresolved. |
-| NumPy / OpenBLAS | Full available license tree is staged; resolve GCC exception eligibility and exact OpenBLAS/LAPACK/compiler runtime revisions. |
-| CPython / support libraries | Supplier license is staged; review Microsoft binary conditions and incorporated versions/notices (Expat, libmpdec, bzip2, XZ, zlib), exact OpenSSL notices, actual libffi build and SQLite dedication evidence. |
-| Other frozen components | charset-normalizer compiled-runtime notices; joblib/loky/copied CPython notices; sacremoses inherited data attribution; PyYAML/LibYAML build/notices; complete PyInstaller Apache-hook text/notices and source mapping. |
-| Other public gates | Clean Windows rows, OS-denied networking, target measurements, final integrity/material assembly and explicit publication approval remain separate tasks. |
+- All **17 focused Node tests pass**; OpenSpec strict validation passes.
+- Generation and `--check` return the expected **2**, with **zero missing-material
+  failures** and **19 retained review/source-delivery blockers**.
+- **470 payload files / 472 total files**, including 52 original license/notice
+  files plus the generated notice index. The complete repeat is byte-identical.
+- The finalized embedded-source verifier again matches **319 modules**, with
+  zero mismatches; its report is byte-identical to the pinned initial report.
+- Candidate onedir, ZIP and original build-source pins still verify; no model
+  binary or installer is staged. No original build/dist evidence was rewritten.
 
-Task 5.3 preparation is implemented; its reviewed delivery/acceptance gate stays
-unchecked. Level A stays 37/37 and Level B stays 0/17. The smallest next task is
-to obtain and pin the missing exact-version CTranslate2/SentencePiece license
-texts and complete PyInstaller Apache runtime-hook notices, then regenerate this
-staging set. Maintainer/legal/native-provenance decisions proceed separately.
+Final manifest SHA-256:
+`4caf7ea74c028b05ca75d798ea93b6e49a9fbf78488ce97bd80fa8601b295308`.
+This identifies the preparatory package, not a public release or legal approval.

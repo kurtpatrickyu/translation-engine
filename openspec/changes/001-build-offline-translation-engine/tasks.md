@@ -90,15 +90,28 @@ combined 4.5 is now completed 4.5a and pending public 4.5b; no OS result is infe
 - [ ] 5.2 [PUBLIC] Generate manifest and `SHA256SUMS` from final worker/compliance files; reject hash/schema/identity/version/URL conflicts, duplicate entries, missing files and placeholders. Cover all distributed files except the checksum file itself; external model digests belong in manifest metadata, not attached-file checksum entries.
 - [ ] 5.3 [PUBLIC] Deliver reviewed third-party notices/license texts and required corresponding source/build/install material for MiniSBD AGPLv3, Visual C++/OpenMP/native and other bundled code, following 3.2/4.3b. Verify the source-delivery mechanism covers the exact binary; not shipping models does not waive bundled-code obligations.
 
-  Preparatory implementation completed 2026-11-07: `packaging/compliance-inventory.json`,
-  `scripts/stage_compliance.cjs`, focused Node tests and CMD instructions in
-  `docs/compliance-staging.md`. The ignored candidate staging run covers 31 component
-  entries / 180 frozen files / 17 third-party Python roots and stages 136 payload
-  files (138 including manifest/checksums). All configured copies succeed; 25
-  review/approval blockers remain. Matching-source scope/delivery, missing supplier
-  texts, Microsoft/Intel rights and static-native reconciliation are not cleared.
-  This is partial 5.3 preparation, not completion: PUBLIC remains 0/17, LOCAL 37/37,
-  overall 37/54. No rebuild, dependency change or release was performed.
+  Extended implementation 2026-11-07: the existing inventory/stager now binds
+  post-003 `diagnostic-20261107-211131` (176 frozen files, 49 native binaries,
+  17 third-party Python roots, 30 component groups). Added `LICENSES/`, original
+  MiniSBD/tqdm source distributions, `SOURCE_AVAILABILITY.md`,
+  `THIRD_PARTY_NOTICES.md`, rebuild instructions and a frozen-source comparison
+  helper. All 319 compared Python modules match embedded code; 131 wheel-supplied
+  runtime files match cached wheels. MiniSBD's nine Python members match the
+  exact 0.9.5 publisher sdist and locked wheel; inherited Stanza credits/notices,
+  full AGPL/Apache text, tqdm MPL text/source and missing primary supplier texts
+  are collected without local source modifications. The original build metadata
+  inventory is preserved at its original hash, with one explicit input relocation;
+  ordinary excluded VC DLLs are not current redistributed files. See
+  `docs/compliance-staging.md` for staging/verification results: 17 focused tests
+  pass; final `post003-release-materials` staging/check return expected code 2,
+  with 470 payload / 472 total files, zero missing-material failures and 19
+  retained review/source-delivery blockers. Independent repeat is byte-identical.
+  Task 5.3 remains partial: final immutable public source delivery must cover
+  the exact final executable, and Intel OpenMP/NumPy Microsoft permissions,
+  native/static attribution/source mappings and required source/exclusions
+  remain unresolved. No supplier permission is declared cleared. PUBLIC stays
+  0/17, LOCAL 37/37, overall 37/54; other tasks are unchanged. No rebuild,
+  dependency/lock/model change, tag or publication was performed.
 
 - [ ] 5.4 [PUBLIC] Use focused verification helpers and a reviewed checklist binding clean OS rows, offline isolation, target measurements, compliance and hashes to one candidate. Reject missing/stale/failed/mismatched evidence. Manual evidence review is acceptable; no generic attestation service or advanced CI is required.
 - [ ] 5.5 [PUBLIC] Prepare the exact verified worker-only candidate for explicit user publication approval after all Level B gates pass. If approved, attach/verify only worker/compliance/integrity assets through a direct reviewed release procedure, never overwrite published versions, and use minimal permissions. No implementation or candidate preparation authorizes publication by itself.

@@ -1,0 +1,3 @@
+# Preserve supplier license/source bytes and their reviewed SHA-256 identities.
+/LICENSES/** -text
+/packaging/sources/*.tar.gz -text

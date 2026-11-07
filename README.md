@@ -3,6 +3,13 @@
 Standalone, reusable offline translation worker, initially targeting Chinese
 (`zh`) to English (`en`) with Argos Translate.
 
+The project's own source retains its [MIT license](LICENSE). The bundled worker
+also includes MiniSBD under AGPLv3 and separately licensed dependencies; see
+[third-party notices](THIRD_PARTY_NOTICES.md), [source availability](SOURCE_AVAILABILITY.md)
+and [rebuilding instructions](docs/rebuilding-worker.md). Candidate-specific
+[compliance staging](docs/compliance-staging.md) preserves unresolved supplier
+obligations; these materials do not yet establish public release readiness.
+
 The persistent worker now translates with the pinned Argos runtime, original
 Chinese-English archive, and an explicitly provisioned MiniSBD ONNX resource.
 Host-local real-model tests pass; clean Windows acceptance and redistribution

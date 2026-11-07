@@ -10,6 +10,8 @@ const json = value => JSON.stringify(value, null, 2) + '\n';
 const read = file => JSON.parse(fs.readFileSync(file, 'utf8'));
 const assert = (ok, message) => { if (!ok) throw new Error(message); };
 const model = name => /\.(onnx|argosmodel)$/i.test(name);
+const recipientFiles = ['LICENSE', 'SOURCE_AVAILABILITY.md', 'THIRD_PARTY_NOTICES.md',
+  'docs/rebuilding-worker.md', 'docs/protocol-v1.md', 'docs/model-provisioning.md', 'docs/manual-testing-cmd.md'];
 
 function safe(base, relative) {
   assert(typeof relative === 'string' && relative.length && !relative.includes('\\') &&
@@ -100,6 +102,56 @@ function pyzRoots(text) {
     .filter(n => !/[\\/:]/.test(n)).map(n => n.split('.')[0]))].sort();
 }
 
+// Exact source sdists used here are small POSIX tar/gzip archives. Never extract
+// archive-controlled paths; validate directories and links as well as files.
+function tarMembers(bytes, allowUnselectedModels = false) {
+  const tar = zlib.gunzipSync(bytes, {maxOutputLength: 128 * 1024**2}), members = new Map();
+  const field = b => b.toString('utf8').replace(/\0.*$/s, '');
+  for (let pos = 0; pos + 512 <= tar.length;) {
+    const header = tar.subarray(pos, pos + 512);
+    if (header.every(b => b === 0)) break;
+    const name = (field(header.subarray(345, 500)) ? field(header.subarray(345, 500)) + '/' : '') + field(header.subarray(0, 100));
+    const lengthText = field(header.subarray(124, 136)).trim();
+    assert(/^[0-7]+$/.test(lengthText), 'Unsupported tar length');
+    const length = parseInt(lengthText, 8), start = pos + 512, type = field(header.subarray(156, 157));
+    const checksum = parseInt(field(header.subarray(148, 156)).trim(), 8);
+    assert([...header].reduce((sum, b, index) => sum + (index >= 148 && index < 156 ? 32 : b), 0) === checksum, 'Tar checksum mismatch');
+    assert(length <= 64 * 1024**2 && start + length <= tar.length, 'Tar member out of bounds');
+    if (type === 'x' || type === 'g') {
+      // The exact tqdm sdist uses PAX mtime records. Refuse path/link/size
+      // overrides instead of interpreting them as extraction instructions.
+      const metadata = tar.subarray(start, start + length).toString('utf8');
+      for (let offset = 0; offset < metadata.length;) {
+        const match = /^(\d+) ((?:m|a|c)time)=-?\d+(?:\.\d+)?\n/.exec(metadata.slice(offset));
+        assert(match && Number(match[1]) === Buffer.byteLength(match[0]), 'Unsupported tar extended metadata');
+        offset += match[0].length;
+      }
+      pos = start + Math.ceil(length / 512) * 512;
+      continue;
+    }
+    safe(ROOT, name.replace(/\/$/, ''));
+    assert(allowUnselectedModels || !model(name), 'External model in archive: ' + name);
+    assert(['', '0', '2', '5'].includes(type), 'Unsupported tar member type');
+    if (type === '2') {
+      const target = field(header.subarray(157, 257));
+      assert(!path.posix.isAbsolute(target) && !/[\\:\r\n\0]/.test(target), 'Unsafe tar link');
+      safe(ROOT, path.posix.normalize(path.posix.join(path.posix.dirname(name), target)));
+    }
+    assert(!members.has(name), 'Duplicate tar member');
+    if (type === '' || type === '0') members.set(name, () => tar.subarray(start, start + length));
+    pos = start + Math.ceil(length / 512) * 512;
+  }
+  return members;
+}
+
+function buildInput(root, candidate, file) {
+  // The build recorded the then-current compliance metadata as a non-runtime
+  // input. Preserve its original bytes; never weaken runtime/build-source pins.
+  const override = candidate.build_input_overrides?.[file];
+  assert(!override || file === 'packaging/compliance-inventory.json', 'Unapproved build-input override');
+  return safe(root, override || file);
+}
+
 function validateInventory(inv) {
   assert(inv.schema_version === 1 && inv.scope === 'preparatory-only', 'Unsupported inventory');
   assert(Array.isArray(inv.components) && inv.components.length > 0 && inv.obligations.length > 0, 'Empty inventory/gates');
@@ -140,7 +192,36 @@ function verifyCandidate(root, inv) {
   assert(candidate.third_party_roots.every(r => candidate.pyz_roots.includes(r)), 'Unfrozen component root');
   const build = JSON.parse(pinned(safe(root, candidate.build.path), candidate.build.sha256));
   assert(build.passed === true, 'Build evidence failed');
-  for (const [file, sha] of Object.entries(build.source_sha256)) pinned(safe(root, file), sha);
+  for (const [file, sha] of Object.entries(build.source_sha256)) pinned(buildInput(root, candidate, file), sha);
+  if (candidate.zip) {
+    assert(candidate.zip.sha256 === candidate.zip_sha256, 'ZIP evidence identity differs');
+    pinned(safe(root, candidate.zip.path), candidate.zip_sha256);
+  }
+  if (candidate.external_prerequisites) {
+    const excluded = new Set(['msvcp140.dll', 'msvcp140_1.dll', 'vcruntime140.dll', 'vcruntime140_1.dll']);
+    assert(!known.some(f => excluded.has(path.posix.basename(f).toLowerCase())), 'External VC prerequisite DLL bundled');
+    assert(candidate.external_prerequisites.every(p => p.bundled === false), 'Prerequisite classified as bundled');
+  }
+  if (candidate.source_correspondence) {
+    const report = JSON.parse(pinned(safe(root, candidate.source_correspondence.path), candidate.source_correspondence.sha256));
+    assert(report.passed === true && report.exe_sha256 === candidate.exe_sha256 && report.records.length > 0 &&
+      report.records.every(r => r.matches === true), 'Frozen-source correspondence failed');
+    for (const r of report.records) {
+      const c = inv.components.find(c => c.id === r.component);
+      assert(c && (r.source.member ? c.materials.some(m => m.source.member === r.source.member &&
+        m.source.archive_sha256 === r.source.archive_sha256 && m.source.sha256 === r.source_sha256) :
+        hash(fs.readFileSync(safe(root, r.source.path))) === r.source_sha256), 'Unstaged/stale matching source: ' + r.module);
+    }
+  }
+  if (candidate.wheel_correspondence) {
+    const report = JSON.parse(pinned(safe(root, candidate.wheel_correspondence.path), candidate.wheel_correspondence.sha256));
+    assert(report.passed === true && report.exe_sha256 === candidate.exe_sha256 && report.files.length > 0, 'Wheel correspondence failed');
+    for (const r of report.files) {
+      const c = inv.components.find(c => c.id === r.component);
+      assert(c && c.worker_files.includes(r.file) && audit.all_file_sha256[r.file] === r.sha256 &&
+        c.source_identity.wheel_sha256 === r.wheel_sha256, 'Wheel/candidate payload mapping differs');
+    }
+  }
   const locks = ['requirements.lock', 'requirements-dev.lock'].filter(f => fs.existsSync(safe(root, f)))
     .map(f => fs.readFileSync(safe(root, f), 'utf8')).join('\n');
   for (const c of inv.components) {
@@ -153,7 +234,7 @@ function sourceBytes(root, source, archives) {
   if (source.member) {
     assert(!model(source.member), 'External model member refused');
     const key = source.path + ':' + source.archive_sha256;
-    if (!archives.has(key)) archives.set(key, zipMembers(pinned(safe(root, source.path), source.archive_sha256), true));
+    if (!archives.has(key)) archives.set(key, (/\.tar\.gz$/i.test(source.path) ? tarMembers : zipMembers)(pinned(safe(root, source.path), source.archive_sha256), true));
     const member = archives.get(key).get(source.member);
     assert(member, 'Missing archive member: ' + source.member);
     const bytes = member(); assert(hash(bytes) === source.sha256, 'Archive material hash mismatch');
@@ -169,6 +250,7 @@ function sourceBytes(root, source, archives) {
   assert(!model(file), 'External model material refused');
   const bytes = pinned(file, source.sha256);
   if (/\.(zip|whl)$/i.test(file)) zipMembers(bytes); // Reject hidden model members too.
+  if (/\.tar\.gz$/i.test(file)) tarMembers(bytes);
   return bytes;
 }
 
@@ -213,7 +295,7 @@ function stage(root, inventoryPath, output) {
   add('evidence/component-inventory.json', inventoryBytes, 'distribution', 'inventory', 'reviewed input');
   add('evidence/stage_compliance.cjs', fs.readFileSync(__filename), 'distribution', 'staging-tool', 'scripts/stage_compliance.cjs');
   for (const [name, item] of Object.entries(inv.candidate)) {
-    if (item && item.path && item.sha256) add('evidence/' + name + path.extname(item.path),
+    if (name !== 'zip' && item && item.path && item.sha256) add('evidence/' + name + path.extname(item.path),
       pinned(safe(root, item.path), item.sha256), 'distribution', 'candidate-evidence', item.path);
   }
   for (const c of inv.components) {
@@ -230,7 +312,11 @@ function stage(root, inventoryPath, output) {
   }
   // Exact worker/build inputs, not a current checkout archive with unrelated files.
   for (const [file, sha] of Object.entries(candidate.build.source_sha256))
-    add('sources/worker/' + file, pinned(safe(root, file), sha), 'translation-engine', 'build-input', file);
+    add('sources/worker/' + file, pinned(buildInput(root, inv.candidate, file), sha), 'translation-engine', 'build-input', file);
+  for (const name of recipientFiles) {
+    const material = inv.components.flatMap(c => c.materials).find(m => m.source.path === name);
+    if (material) add(name, sourceBytes(root, material.source, archives), 'distribution', 'recipient-instructions', material.source);
+  }
   blockers.sort((a, b) => json(a) < json(b) ? -1 : json(a) > json(b) ? 1 : 0);
   add('BLOCKERS.txt', Buffer.from(blockerText(blockers)), 'distribution', 'blocker-report', 'derived from inventory and material checks');
   add('THIRD_PARTY_NOTICES.txt', Buffer.from(noticeIndex(inv, [...payload].map(([name, p]) =>
@@ -277,6 +363,10 @@ function verifyStage(root, inventoryPath, output) {
     }
   }
   for (const o of inv.obligations) assert(manifest.blockers.some(b => b.id === o.id && b.reason === o.blocker), 'Missing release blocker');
+  for (const name of recipientFiles) {
+    const material = inv.components.flatMap(c => c.materials).find(m => m.source.path === name);
+    if (material) pinned(safe(output, name), material.source.sha256);
+  }
   assert(fs.readFileSync(safe(output, 'BLOCKERS.txt'), 'utf8') === blockerText(manifest.blockers), 'Blocker report differs');
   assert(fs.readFileSync(safe(output, 'THIRD_PARTY_NOTICES.txt'), 'utf8') === noticeIndex(inv, manifest.files), 'Notice index differs');
   const names = manifest.files.map(f => f.path);
@@ -288,6 +378,7 @@ function verifyStage(root, inventoryPath, output) {
     assert(!model(f.path), 'External model in staging');
     const bytes = pinned(safe(output, f.path), f.sha256); assert(bytes.length === f.bytes, 'Staged size differs');
     if (/\.(zip|whl)$/i.test(f.path)) zipMembers(bytes);
+    if (/\.tar\.gz$/i.test(f.path)) tarMembers(bytes);
   }
   const sums = [...manifest.files.map(f => [f.path, f.sha256]), ['manifest.json', hash(fs.readFileSync(path.join(output, 'manifest.json')))]]
     .sort(([a], [b]) => a < b ? -1 : 1).map(([name, sha]) => sha + '  ' + name + '\n').join('');
@@ -308,4 +399,4 @@ if (require.main === module) {
     process.exitCode = 2; // Expected blocked-readiness result; never a release approval.
   } catch (e) { console.error(e.message); process.exitCode = 1; }
 }
-module.exports = {hash, json, safe, walk, pinned, zipMembers, pyzRoots, validateInventory, verifyCandidate, stage, verifyStage};
+module.exports = {hash, json, safe, walk, pinned, zipMembers, tarMembers, pyzRoots, validateInventory, verifyCandidate, stage, verifyStage};

@@ -124,9 +124,10 @@ To recheck this candidate without rebuilding, choose unused report names:
 .venv\Scripts\python scripts\validate_windows.py --exe dist\diagnostic-20261107-211131\translation-engine-worker\translation-engine-worker.exe --native-audit --external-vc-runtime --report build\diagnostic-20261107-211131\native-runtime-recheck.json
 ```
 
-No release is authorized by these local results. The old compliance inventory
-still describes the old diagnostic. PUBLIC source/notices/native-rights and
-new-candidate inventory binding remain separate work; `001` Level A is unchanged.
+No release is authorized by these local results. Task 5.3 preparation now binds
+the compliance inventory to this 176-file candidate; see
+[compliance staging](compliance-staging.md). PUBLIC source-delivery/native-rights
+gates remain pending; `001` Level A is unchanged.
 
 ## Historical bundled-runtime diagnostic audit
 

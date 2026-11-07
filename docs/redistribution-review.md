@@ -6,6 +6,17 @@ OpenSpec `001-build-offline-translation-engine`, PUBLIC tasks 3.2, 4.3b and
 Only this report was created. No code, dependency, license, model, executable,
 or OpenSpec completion status was changed.
 
+Subsequent task 5.3 implementation: [source availability](../SOURCE_AVAILABILITY.md),
+[third-party notices](../THIRD_PARTY_NOTICES.md) and
+[compliance staging](compliance-staging.md) now prepare the post-003
+`diagnostic-20261107-211131` candidate. MiniSBD is retained under the approved
+AGPL source-delivery strategy; exact publisher sdist/wheel/PYZ correspondence
+has been verified. Missing primary license texts and inherited notices have
+been collected. The historical review below remains evidence of the old build,
+not the current inventory or a request to reconsider that strategy. Native
+supplier rights/source mappings and final immutable release delivery still gate
+publication; no legal clearance is inferred.
+
 ## Determination
 
 Subsequent approved decision (change 003): retain Argos/MiniSBD and satisfy the

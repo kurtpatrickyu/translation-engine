@@ -143,12 +143,100 @@ test('changed build source invalidates source correspondence', t => {
   assert.throws(() => s.verifyCandidate(f.root, f.inventory), /SHA-256 mismatch/);
 });
 
-test('checked-in inventory covers the exact diagnostic native/PYZ candidate', t => {
+test('checked-in inventory covers the latest post-003 native/PYZ candidate', t => {
   const root = path.resolve(__dirname, '..');
   const inv = JSON.parse(fs.readFileSync(path.join(root, 'packaging/compliance-inventory.json')));
   s.validateInventory(inv);
   const auditPath = path.join(root, inv.candidate.audit.path);
   if (!fs.existsSync(auditPath)) return t.skip('Local diagnostic evidence is deliberately ignored; run candidate staging separately.');
   const result = s.verifyCandidate(root, inv);
-  assert.equal(result.audit.file_count, 180); assert.equal(inv.candidate.third_party_roots.length, 17);
+  assert.equal(result.audit.file_count, 176); assert.equal(result.audit.pe_count, 49);
+  assert.equal(inv.candidate.third_party_roots.length, 17);
+  assert.match(inv.candidate.worker, /diagnostic-20261107-211131/);
+  assert.equal(inv.candidate.exe_sha256, 'ec06bf07399b9d96d140e2c828772666aa12124b8991a2d622ebca52ced79d7d');
+});
+
+test('MiniSBD and tqdm exact publisher sources match locked wheel Python bytes', () => {
+  const root = path.resolve(__dirname, '..'), inv = require('../packaging/compliance-inventory.json');
+  for (const id of ['minisbd', 'tqdm']) {
+    const c = inv.components.find(c => c.id === id);
+    const archive = c.materials.find(m => m.kind === 'source-archive');
+    const tar = s.tarMembers(s.pinned(path.join(root, archive.source.path), c.source_identity.sdist_sha256));
+    const wheelPath = path.join(root, c.source_identity.wheel);
+    if (!fs.existsSync(wheelPath)) continue; // Cached wheel is optional in a source-only checkout.
+    const wheel = s.zipMembers(s.pinned(wheelPath, c.source_identity.wheel_sha256), true);
+    const members = [...wheel.keys()].filter(n => n.startsWith(id + '/') && n.endsWith('.py')).sort();
+    assert.deepEqual(members, [...c.source_identity.wheel_source_members].sort());
+    if (id === 'minisbd') assert.equal(members.length, 9);
+    for (const member of members) assert.deepEqual(wheel.get(member)(), tar.get(id + '-' + c.version + '/' + member)());
+  }
+});
+
+test('required original texts, attributions and unresolved native obligations stay mapped', () => {
+  const root = path.resolve(__dirname, '..'), inv = require('../packaging/compliance-inventory.json');
+  for (const id of ['argostranslate', 'minisbd', 'tqdm', 'ctranslate2', 'sentencepiece', 'numpy', 'onnxruntime', 'python', 'pyinstaller']) {
+    const c = inv.components.find(c => c.id === id);
+    assert.ok(c.materials.some(m => /license|notice/.test(m.kind)), id);
+  }
+  for (const c of inv.components) for (const m of c.materials.filter(m => m.source.path?.startsWith('LICENSES/'))) {
+    const bytes = s.pinned(path.join(root, m.source.path), m.source.sha256);
+    if (m.provenance?.sha256) assert.equal(s.hash(bytes), m.provenance.sha256);
+    if (m.provenance?.member && m.provenance.path && fs.existsSync(path.join(root, m.provenance.path))) {
+      const origin = s.pinned(path.join(root, m.provenance.path), m.provenance.archive_sha256);
+      const archive = /\.tar\.gz$/.test(m.provenance.path) ? s.tarMembers(origin) : s.zipMembers(origin, true);
+      assert.deepEqual(bytes, archive.get(m.provenance.member)());
+    }
+  }
+  const mini = inv.components.find(c => c.id === 'minisbd');
+  const texts = mini.materials.filter(m => m.source.path?.startsWith('LICENSES/'))
+    .map(m => fs.readFileSync(path.join(root, m.source.path), 'utf8')).join('\n');
+  for (const term of ['GNU AFFERO GENERAL PUBLIC LICENSE', 'Stanza NLP', 'Stanford Junior University', 'Apache License']) assert.ok(texts.includes(term), term);
+  assert.ok(inv.components.find(c => c.id === 'tqdm').materials.some(m => m.source.path?.endsWith('MPL-2.0.txt')));
+  for (const id of ['intel-openmp', 'msvc-numpy', 'ct2-static', 'sentencepiece-static', 'ort-static', 'openblas'])
+    assert.ok(inv.components.find(c => c.id === id).blockers.length, id);
+  assert.ok(inv.obligations.some(o => o.id === 'source-delivery'));
+  assert.equal(inv.components.some(c => c.id === 'msvc'), false);
+  const ordinary = /\/(msvcp140(?:_1)?|vcruntime140(?:_1)?)\.dll$/i;
+  assert.equal(inv.components.some(c => c.worker_files.some(f => ordinary.test(f))), false);
+  assert.ok(inv.components.find(c => c.id === 'msvc-numpy').worker_files.length);
+  assert.ok(inv.candidate.external_prerequisites.every(p => p.bundled === false));
+});
+
+test('recipient source instructions are pinned, including immutable release delivery', t => {
+  const f = fixture(t);
+  const source = f.write('SOURCE_AVAILABILITY.md', 'Source accompanies this executable.\n');
+  f.inventory.components[0].materials.push({source, destination: 'sources/worker/SOURCE_AVAILABILITY.md', kind: 'build-instructions', required: true});
+  f.save(); s.stage(f.root, f.inventoryPath, f.output);
+  fs.writeFileSync(path.join(f.output, 'SOURCE_AVAILABILITY.md'), 'moving branch only');
+  assert.throws(() => s.verifyStage(f.root, f.inventoryPath, f.output), /SHA-256 mismatch/);
+});
+
+function sourceTar(name) {
+  const h = Buffer.alloc(512), payload = Buffer.from('source');
+  h.write(name); h.write('0000644\0', 100); h.write('0000006\0', 124); h[156] = 48;
+  h.fill(32, 148, 156);
+  const sum = [...h].reduce((a, b) => a + b, 0);
+  h.write(sum.toString(8).padStart(6, '0') + '\0 ', 148);
+  return require('node:zlib').gzipSync(Buffer.concat([h, payload, Buffer.alloc(512 - payload.length + 1024)]));
+}
+
+test('source tarballs reject model binaries, traversal and invalid headers', () => {
+  assert.equal(s.tarMembers(sourceTar('package/source.py')).get('package/source.py')().toString(), 'source');
+  assert.throws(() => s.tarMembers(sourceTar('package/model.onnx')), /External model/);
+  assert.throws(() => s.tarMembers(sourceTar('../escape.py')), /Unsafe relative/);
+  const zlib = require('node:zlib'), bytes = zlib.gunzipSync(sourceTar('package/source.py'));
+  bytes[10] ^= 1;
+  assert.throws(() => s.tarMembers(zlib.gzipSync(bytes)), /Tar checksum/);
+});
+
+test('frozen-source evidence cannot be substituted or omit staged preferred source', t => {
+  const f = fixture(t);
+  const report = {passed: true, exe_sha256: f.inventory.candidate.exe_sha256,
+    records: [{component: 'minisbd', module: 'minisbd', matches: true, source_sha256: 'a'.repeat(64),
+      source: {path: 'wheel.whl', member: 'minisbd/__init__.py', archive_sha256: 'b'.repeat(64)}}]};
+  f.inventory.candidate.source_correspondence = f.write('build/correspondence.json', report); f.save();
+  assert.throws(() => s.stage(f.root, f.inventoryPath, f.output), /Unstaged\/stale matching source/);
+  report.exe_sha256 = 'c'.repeat(64);
+  f.inventory.candidate.source_correspondence = f.write('build/correspondence.json', report); f.save();
+  assert.throws(() => s.verifyCandidate(f.root, f.inventory), /Frozen-source correspondence failed/);
 });
