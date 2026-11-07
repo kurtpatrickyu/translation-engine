@@ -39,7 +39,9 @@ test-results/
 pip-wheel-metadata/
 
 # Downloaded models and local runtime state
-/models/
+!/models/
+/models/*
+!/models/provenance.json
 /model-cache/
 /downloads/
 /runtime/
