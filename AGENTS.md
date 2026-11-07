@@ -17,14 +17,12 @@ For initial v0.1.0, the maintainer waived separate Windows 11 clean acceptance:
 describe Windows 11 as **expected compatible, UNTESTED**, with optional future
 validation. Windows 10 is core smoke-tested with limitations; its remaining
 acceptance and all other release gates remain required. Follow the
-[version-limited scope decision](docs/v0.1.0-acceptance-scope.md), not historical
+[version-limited scope decision](docs/releasing.md), not historical
 two-OS gate wording. No waiver is a test pass or publication approval.
 
-Read
-[implementation status](docs/implementation-status.md) for milestone history and
-[candidate results](docs/release-candidate-results.md) for current artifact evidence.
-Do not apply old failure/recovery instructions as current architecture without
-checking their date, scope and subsequent evidence.
+README.md and docs/ describe current installation, usage, architecture and release
+procedures. OpenSpec is development history and optional change tracking; it is
+not required for everyday development. Consult historical records only for context.
 
 ## Navigation and responsibility
 
@@ -36,7 +34,7 @@ checking their date, scope and subsequent evidence.
 | `tests/` | Python unit/real-model tests and Node artifact tests; [test guide](tests/AGENTS.md). |
 | `models/provenance.json` | External model/ONNX identities, provenance and unresolved terms. |
 | `docs/` | Protocol, setup, usage, build, evidence and acceptance references. |
-| `openspec/` | Spec-driven change proposals, designs and tasks; `config.yaml` selects the workflow. Distinguish proposals and historical specs from implemented behavior. |
+| `openspec/` | Historical proposals, decisions and change tracking. |
 | `LICENSES/`, `packaging/sources/` | Collected supplier materials; preserve original bytes and provenance. |
 
 `downloads/`, `runtime/`, `.venv/`, `build/`, `dist/` and `candidate-staging/`
@@ -66,14 +64,13 @@ when `python` resolves to the exact baseline. `python.cmd` refuses a missing
 `.venv`. Node.js 22+ is used for maintainer tooling with built-in modules, without
 npm dependencies; it is not required on worker targets. Build only when needed:
 it performs native freezing and resource monitoring, not a lightweight check.
-See [development](docs/development.md) for setup/lock maintenance and
-[rebuilding](docs/rebuilding-worker.md) for build prerequisites and retained inputs.
+See [development](docs/development.md) for setup, lock maintenance, build
+prerequisites and retained inputs.
 
 Source entry is `python -m translation_engine`; frozen entry is
 `packaging/worker_entry.py`. Ordinary execution requires `--models-dir` (or
 `ARGOS_PACKAGES_DIR`) and `--state-dir`; `--version` needs neither. See
-[provisioning](docs/model-provisioning.md) for exact local-asset commands and
-[manual CMD usage](docs/manual-testing-cmd.md) for executable-only operation.
+[README](README.md) for local-asset provisioning and executable-only CMD usage.
 
 ## Dependency, implementation and verification rules
 

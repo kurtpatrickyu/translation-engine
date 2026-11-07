@@ -22,12 +22,12 @@ AGPL source delivery, license notices, Intel OpenMP rights, other actual bundled
 ### Requirement: ZIP prerequisite instructions and neutral consumer contract
 Standalone documentation SHALL describe obtaining/extracting the worker ZIP, installing the official x64 prerequisite separately if needed, acquiring the pinned model/ONNX assets directly from upstream, provisioning locally, and running offline without target Python. It SHALL recommend the latest supported official Microsoft package at `https://aka.ms/vc14/vc_redist.x64.exe`, document a version requirement supported by available toolset evidence and tested runtimes, label 14.50.35719.0 provisional rather than a proven minimum, and explain missing/broken installation remediation, acceptance of newer compatible installations, and early loader failure diagnostics. Users MAY obtain Microsoft's installer separately for offline transfer; the worker and project release SHALL NOT redistribute or automatically acquire it.
 
-The architecture/version/failure/download contract SHALL remain application-neutral. Freya installer integration SHALL require a separate explicitly approved change; this worker change SHALL implement no Freya installer behavior. Existing Argos revision, MiniSBD implementation, locks, model/ONNX hashes, protocol v1, offline inference, provisioning integrity/rollback and successful historical evidence SHALL remain preserved. `001` Level A completion records SHALL remain unchanged.
+The architecture/version/failure/download contract SHALL remain application-neutral. host application installer integration SHALL require a separate explicitly approved change; this worker change SHALL implement no host application installer behavior. Existing Argos revision, MiniSBD implementation, locks, model/ONNX hashes, protocol v1, offline inference, provisioning integrity/rollback and successful historical evidence SHALL remain preserved. `001` Level A completion records SHALL remain unchanged.
 
 #### Scenario: Independent ZIP user
 - **WHEN** a user follows the standalone instructions with no system Python
 - **THEN** they install the official prerequisite only if needed, obtain assets upstream, provision with the frozen CLI and run the offline worker without any worker-triggered prerequisite installation
 
-#### Scenario: Future Freya installer author
+#### Scenario: Future host application installer author
 - **WHEN** a future consumer consults the prerequisite contract
-- **THEN** architecture, evidence-based version guidance, compatible-newer-version acceptance and installation remedy are available without changes to Freya or the NDJSON protocol in this change
+- **THEN** architecture, evidence-based version guidance, compatible-newer-version acceptance and installation remedy are available without changes to host application or the NDJSON protocol in this change

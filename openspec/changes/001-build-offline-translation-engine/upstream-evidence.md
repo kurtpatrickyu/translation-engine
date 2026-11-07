@@ -1,7 +1,7 @@
 # Optional-Stanza upstream evaluation
 
 Status: investigation completed on 2026-11-07; the user subsequently approved A.
-See [adoption results](argos-migration.md) for the current runtime and diagnostic.
+See [adoption results](../../../docs/argos-migration.md) for the subsequent runtime and diagnostic.
 The following records the investigation before approval: no executable build was run. The working `.venv`, application source,
 `pyproject.toml`, and production locks remain unchanged. OpenSpec progress remains
 27/47; these experiments do not complete packaging acceptance.

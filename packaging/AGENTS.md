@@ -11,8 +11,8 @@ The spec excludes exactly `msvcp140.dll`, `msvcp140_1.dll`, `vcruntime140.dll` a
 prerequisite; preserve NumPy's differently named wheel-local Microsoft DLL. Do not
 bundle an installer, auto-install prerequisites or treat ordinary VC DLLs as OS
 components. Target machines need no Python or Node. See
-[native requirements](../docs/native-dependencies.md) and
-[rebuilding instructions](../docs/rebuilding-worker.md).
+[runtime requirements](../README.md) and
+[rebuilding instructions](../docs/development.md).
 
 ## Metadata ownership
 
@@ -33,9 +33,14 @@ Do not change historical executable/source hashes just because current docs or
 tooling changed. The compliance inventory has one documented relocation for its
 original build-input bytes; it is not permission to relax runtime/spec/lock pins.
 Build input hashing includes top-level packaging files. See
-[compliance evidence](../docs/compliance-staging.md) for original-input handling
-and [candidate results](../docs/release-candidate-results.md) for source-versus-
-assembly identity. Changed executable inputs need a new build and validation.
+[release evidence](../docs/releasing.md) for original-input handling and
+source-versus-assembly identity. Changed executable inputs need a new build and validation.
+
+`sources/candidate-documentation/` preserves exact historical material bytes at
+the inventory's original hashes. Current docs may change independently; staging
+resolves only documentation through this archive and still enforces every pin.
+Inventory evidence paths referring to old guides identify these archived inputs,
+not current procedures. Preserve original supplier files and machine metadata.
 
 ## Verification and release boundaries
 
@@ -49,8 +54,8 @@ of a passing candidate.
 Distribute no external model/ONNX binaries or caches. Preserve provenance and
 attribution without claiming model clearance. MiniSBD remains AGPLv3; source and
 notice preparation does not settle all native rights or source obligations. The
-[release workflow](../docs/windows-release-candidate.md) prepares local acceptance
+[release workflow](../docs/releasing.md) prepares local acceptance
 artifacts only. For initial v0.1.0, Windows 10 acceptance, OS-denied networking,
 source/native clearance and publication remain separate gates. Windows 11 is
 expected compatible but UNTESTED; separate acceptance is waived for v0.1.0 and
-optional future validation. Follow the [scope decision](../docs/v0.1.0-acceptance-scope.md).
+optional future validation. Follow the [scope decision](../docs/releasing.md).

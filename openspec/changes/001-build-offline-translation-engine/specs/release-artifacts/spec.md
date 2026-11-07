@@ -42,7 +42,7 @@ Direct scripts and reviewed manual checklists SHALL suffice to bind source/tools
 - **THEN** it fails and requires a new version rather than overwriting assets
 
 ### Requirement: Neutral contributor and consumer documentation
-Documentation SHALL include README, Windows CMD environment setup, build/test procedures, model provisioning, the authoritative final versioned protocol reference and examples, manifest schema/trust, release process, validated Windows compatibility matrix, measured performance baseline, versioning, third-party notices, troubleshooting, and an application-neutral subprocess guide covering startup, draining stderr, framing, timeouts, shutdown, and failure recovery. Additional model introduction SHALL be documented without requiring a wire protocol change. Future Freya integration SHALL align to the same public contract without adding Freya-specific behavior to the engine.
+Documentation SHALL include README, Windows CMD environment setup, build/test procedures, model provisioning, the authoritative final versioned protocol reference and examples, manifest schema/trust, release process, validated Windows compatibility matrix, measured performance baseline, versioning, third-party notices, troubleshooting, and an application-neutral subprocess guide covering startup, draining stderr, framing, timeouts, shutdown, and failure recovery. Additional model introduction SHALL be documented without requiring a wire protocol change. Future host application integration SHALL align to the same public contract without adding host application-specific behavior to the engine.
 
 A distinct local manual guide SHALL explain complete onedir extraction, upstream asset acquisition/hash verification, explicit offline CLI provisioning, model/state paths, readiness, repeated protocol-v1 translation, stderr handling and shutdown. A recorded manual session SHALL bind commands/results and limitations to artifact/model hashes. Pending OS acceptance or publication compliance SHALL NOT prevent writing or using the guide; unvalidated support and unknown external model terms SHALL be labelled accurately.
 
@@ -52,4 +52,4 @@ A distinct local manual guide SHALL explain complete onedir extraction, upstream
 
 #### Scenario: Independent external consumer
 - **WHEN** an external application follows the integration guide
-- **THEN** it can launch, inspect, translate, shut down, and recover from worker failure without any Freya dependency
+- **THEN** it can launch, inspect, translate, shut down, and recover from worker failure without any host application dependency

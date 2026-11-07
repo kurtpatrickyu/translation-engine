@@ -5,7 +5,7 @@ separate Windows 11 clean acceptance for initial v0.1.0. Windows 11 remains
 expected compatible but UNTESTED; future compatibility validation is optional.
 Windows 10 core smoke and initial missing-runtime failure are preserved, with
 its remaining acceptance criteria and every other release gate unchanged. See
-[decision](../../../docs/v0.1.0-acceptance-scope.md). Earlier migration/diagnostic
+[decision](../../../docs/releasing.md). Earlier migration/diagnostic
 snapshots below describe their original scope, not a continuing v0.1.0 two-OS gate.
 
 See proposal.md for motivation and scope. Initial inspection on 2026-11-06 found no application source, tests, packaging, dependency configuration, workflows, or existing capability specs. Preserve the existing MIT `LICENSE`, README project identity, and `openspec/config.yaml` (`spec-driven`). `.agent/` and `.codex/` contain local skills, not application code. At refinement, `.gitignore` is tracked and already excludes virtual environments, model downloads/state, build outputs, local tooling, and `openspec/`. Preserve its entries and explicitly add this change's planning artifacts to Git despite that rule; do not stage the adjacent ZIP or generated files. A1 verifies continued planning-artifact tracking and ignored development outputs. No ignore-file edit is needed for this scoped refinement.
@@ -33,11 +33,11 @@ local network-attempt instrumentation, technical native inventory, host-local
 ASCII/Unicode relocation, limited local performance measurements, and a manual
 usage guide plus a recorded manual walkthrough. Local checks report their
 coverage limits rather than require clean OS images or redistribution clearance.
-Task 4.9's guide is complete in `docs/manual-usage.md`, with syntax/schema/link,
+Task 4.9's guide is complete in `README.md`, with syntax/schema/link,
 CLI-help/version and existing artifact/asset hash checks, plus the CMD guide in
-`docs/manual-testing-cmd.md`. The user's subsequent actual CMD transcript and
+`README.md`. The user's subsequent actual CMD transcript and
 additional PowerShell recovery/translation transcript are recorded in
-`docs/manual-test-results.md`. Tasks 4.10 and 4.8 are now complete: Level A is
+`docs/releasing.md`. Tasks 4.10 and 4.8 are now complete: Level A is
 accepted, LOCAL 37/37 and overall 37/54; PUBLIC remains 0/17. The PowerShell
 capture includes initial failures and recovery; broader guide completion beyond
 that subset is user-confirmed, without invented outputs/timings. Earlier documentation
@@ -47,7 +47,7 @@ Existing verified evidence includes 60 passing source tests; five frozen path
 scenarios and 75 matching translations; 53 AMD64 native binaries and all 180 ZIP
 files checked; and local size/startup/init/memory/latency/build-resource reports.
 See `docs/unicode-path-validation.md`, `docs/argos-migration.md` and
-`docs/native-dependencies.md`, plus their referenced raw reports. Artifact:
+`docs/releasing.md`, plus their referenced raw reports. Artifact:
 `diagnostic-20261107-133601`, ZIP SHA-256
 `965cf2b166443a27ddfecf4d09b756420febaafb8d065f5ca97af8a3244a264b`.
 This is a diagnostic, not a compliant public release ZIP.
@@ -124,7 +124,7 @@ Immediately after A1's environment setup/lock/import exit, the first A2 task is 
 
 The user approved Approach A on 2026-11-07, including dependency migration, actual-worker validation, and one controlled diagnostic build after source tests pass. The current runtime is the unmodified upstream commit `17ed1a9b055c5ba1b51d76b683bbb0c64e2a4a88` (2026-08-08, metadata 1.11.1). It catches missing Stanza imports, avoids automatic Stanza selection when absent, and moves Stanza into an optional extra. It does not prevent importing Stanza if left installed, and spaCy remains a default dependency. Create a fresh reduced environment rather than relying on an in-place upgrade.
 
-The revision is thirteen commits beyond v1.11.0 and also omits the explicit CTranslate2 compute argument for `auto`. Review that delta; do not describe it as only the optional-dependency patch. Isolated tests of the exact revision and a four-file functional/metadata backport both passed the unchanged ten-case real-model corpus, with identical outputs and `int8_float32` on this host. Stanza/Torch were absent from installation and loaded modules; a simulated unavailable spaCy import also left spaCy/Thinc unloaded. The full upstream approach avoids a maintained source patch. The disposable backport required derivative versioning and reconstructing a requirements file omitted from the published sdist. Keep it as comparison evidence, not the production strategy. See `docs/upstream-argos-evaluation.md` for identities, limits, and commands/material locations.
+The revision is thirteen commits beyond v1.11.0 and also omits the explicit CTranslate2 compute argument for `auto`. Review that delta; do not describe it as only the optional-dependency patch. Isolated tests of the exact revision and a four-file functional/metadata backport both passed the unchanged ten-case real-model corpus, with identical outputs and `int8_float32` on this host. Stanza/Torch were absent from installation and loaded modules; a simulated unavailable spaCy import also left spaCy/Thinc unloaded. The full upstream approach avoids a maintained source patch. The disposable backport required derivative versioning and reconstructing a requirements file omitted from the published sdist. Keep it as comparison evidence, not the production strategy. See `docs/development.md` for identities, limits, and commands/material locations.
 
 After approval, build the exact upstream source into a reviewed wheel using pinned tools and record source digest, commit, recipe/timestamp policy, wheel digest, and dependency provenance. Consume the identified wheel through hash-verified locks and controlled artifact storage; never substitute a floating branch, weaken hash mode for a VCS requirement, or assume a PyPI artifact with the same version is identical. Two local wheel builds with pinned tools and SOURCE_DATE_EPOCH produced the same SHA-256; cross-environment byte reproducibility remains unclaimed. Update the Argos declaration, strict backend/spike expectations, and both locks; retain all other referenced runtime pins and model/SBD hashes. Remove Stanza/Torch and orphaned dependencies from the regenerated closure without dropping shared requirements. Preserve default spaCy metadata for a consistent source environment; evaluate its exclusion only in the fixed-MiniSBD frozen worker. Production requests cannot choose another SBD implementation.
 
@@ -138,7 +138,7 @@ Source tests must pass before one additional monitored diagnostic build for this
 
 ### 3. Protocol v1
 
-The finalized versioned protocol reference and corresponding capability spec are the authoritative consumer contract. Publish exact framing, fields, errors, limits, readiness/lifecycle semantics, and examples alongside the engine release and test the worker against them. Every external consumer, including a future Freya integration in its own repository, aligns to that contract; consumer expectations do not add application-specific commands, paths, fields, or behavior to this worker.
+The finalized versioned protocol reference and corresponding capability spec are the authoritative consumer contract. Publish exact framing, fields, errors, limits, readiness/lifecycle semantics, and examples alongside the engine release and test the worker against them. Every external consumer, including a future host application integration in its own repository, aligns to that contract; consumer expectations do not add application-specific commands, paths, fields, or behavior to this worker.
 
 No unsolicited greeting. Commands use a common envelope with no optional field aliases. Allowed fields are `protocol_version`, `id`, `command`; `translate` additionally requires `source`, `target`, `text`. Unknown fields and duplicate keys fail validation. Integer checks reject booleans. IDs are nonempty strings, maximum 128 Unicode scalar values; callers use unique IDs for outstanding requests, but the sequential worker does not retain an ID history. JSON scalar strings must be valid Unicode, rejecting lone surrogates. Empty text translates successfully to an empty string when the pair is ready.
 
@@ -207,8 +207,8 @@ Assess **Windows 10 and Windows 11 x64 CPU** as candidate targets. [Python 3.12 
 | Windows 11 x64 | Optional future checks against the same artifact/model hashes | Expected compatible but UNTESTED; separate acceptance explicitly waived for initial v0.1.0 on 2026-11-08. |
 
 Acceptance update recorded 2026-11-08: see
-[Windows 10 transcript review](../../../docs/windows10-smoke-results.md) and
-[current matrix/remaining gates](../../../docs/windows-acceptance.md).
+[Windows 10 transcript review](../../../docs/releasing.md) and
+[current matrix/remaining gates](../../../docs/releasing.md).
 The exact rc.1 ZIP/EXE and external asset hashes match; local provisioning,
 readiness, translation, shutdown, exit 0 and empty normal stderr pass twice.
 The initial loader failure is retained as missing-prerequisite evidence, with
@@ -271,7 +271,7 @@ Unit tests use a deterministic fake backend and no real models. Cover parsing/en
 
 Preserve the completed mandatory A2 real-model spike and A3/A4 host-local tests. Local tests use explicit asset paths, fresh isolated state/caches and Python network-attempt instrumentation with stated native/OS limits. Level B separately adds OS-denied networking and complete measurements on mandatory Windows 10 for v0.1.0; Windows 11 validation/measurements are optional under the maintainer waiver. Keep actual segmentation/quality limits, empty/paragraph behavior, retained-resource tests, archive/hash/schema/provenance rejection and stdout/protocol safety. Add a distinct manual guide and recorded manual session for Level A, without waiting for public support or compliance completion.
 
-Documentation deliverables: expanded README; Windows setup/CMD and lock maintenance; test/build guide; explicit model acquisition/provisioning; authoritative versioned v1 protocol and error reference; manifest schema/example; validated Windows matrix and performance baseline; version/compatibility policy; release/trust process; third-party notices; troubleshooting native DLLs, missing models/SBD, malformed frames, path permissions, and timeouts; neutral external integration guide using argument lists, explicit paths, independent stderr draining, bounded buffering, request IDs, exit handling, restart and reprovisioning. The guide directs future Freya integration to the public protocol contract; no Freya-specific fields or code enter this repository.
+Documentation deliverables: expanded README; Windows setup/CMD and lock maintenance; test/build guide; explicit model acquisition/provisioning; authoritative versioned v1 protocol and error reference; manifest schema/example; validated Windows matrix and performance baseline; version/compatibility policy; release/trust process; third-party notices; troubleshooting native DLLs, missing models/SBD, malformed frames, path permissions, and timeouts; neutral external integration guide using argument lists, explicit paths, independent stderr draining, bounded buffering, request IDs, exit handling, restart and reprovisioning. The guide directs future host application integration to the public protocol contract; no host application-specific fields or code enter this repository.
 
 ## Risks / Trade-offs
 
@@ -294,7 +294,7 @@ Retain the existing source/frozen worker, approved Argos revision, Unicode fix, 
 
 These are planned evidence gates, not assumptions silently deferred as open architectural choices:
 
-1. Level A: complete. Existing technical evidence plus the user's complete CMD session and additional PowerShell recovery/translation log satisfy 4.9/4.10/4.8; see `docs/manual-test-results.md`. Preserve PowerShell's initial missing-asset failures and limited capture; broader completion is user-confirmed. Unrecorded timings/host details remain evidence limits, not invented results or new public-gate prerequisites.
+1. Level A: complete. Existing technical evidence plus the user's complete CMD session and additional PowerShell recovery/translation log satisfy 4.9/4.10/4.8; see `docs/releasing.md`. Preserve PowerShell's initial missing-asset failures and limited capture; broader completion is user-confirmed. Unrecorded timings/host details remain evidence limits, not invented results or new public-gate prerequisites.
 2. Level B: 3.8b/4.5b/4.6/4.7b still require clean OS-denied-network, support and complete target measurements for required Windows 10 in v0.1.0 against the exact final worker and external asset hashes. Windows 11 is expected compatible but UNTESTED, optional under the maintainer waiver. Teruten observations remain a host limitation; no clean-isolation or untested support claim is made.
 3. Level B: 3.2/4.3b/5.3 retain bundled MiniSBD AGPLv3/source/notices, Visual C++/OpenMP/native and other component compliance. System32-collected VC hashes are technical provenance, not approved acquisition/rights clearance. Model hosting is excluded; preserve unknown external model terms without adding their redistribution clearance to the local milestone.
 4. Level B: final worker-only ZIP, manifest/checksums/compliance materials, consumer docs and candidate verification remain pending. Explicit publication approval is still required. Advanced automation, mandatory platform immutability integration and attestations are deferred; versioned non-overwrite and integrity requirements remain mandatory.

@@ -6,7 +6,7 @@ relocation/native and measurement checks. Windows 11 is **expected compatible,
 UNTESTED**; optional future validation is not a completed test. Required Windows
 10 evidence, artifact integrity, AGPL source/notices, other native obligations,
 release review/documentation and final approval are not waived. See
-[decision](../../../docs/v0.1.0-acceptance-scope.md). Keep all 54 task IDs and
+[decision](../../../docs/releasing.md). Keep all 54 task IDs and
 checkboxes: 38 complete, 16 open; only the Windows 11 part of combined public
 requirements is waived. Earlier two-OS snapshots retain historical meaning.
 
@@ -32,7 +32,7 @@ tasks; this is not a new implementation/test run. Documentation task 4.9's
 snapshot was **35/54 overall; LOCAL 35/37; PUBLIC 0/17**. After reviewing the
 user's full CMD transcript and additional PowerShell recovery/translation log, 4.10
 and 4.8 are complete: **37/54 overall; LOCAL 37/37; PUBLIC 0/17**. Level A is
-complete; no local task remains. See `docs/manual-test-results.md` for evidence,
+complete; no local task remains. See `docs/releasing.md` for evidence,
 source distinctions and acceptance reconciliation. Historical reports retaining
 old model-hosting/combined-gate wording are evidence, not the current policy;
 reconcile active usage/public docs in 4.9/5.7 without rewriting raw history.
@@ -61,7 +61,7 @@ reconcile active usage/public docs in 4.9/5.7 without rewriting raw history.
 - [x] 2.10 Configure stderr diagnostics and stable public error mapping; exclude text from default logs. Test response-only stdout first; add scoped Python redirection or native descriptor/handle redirection only where observed dependency leakage requires it, recording the evidence and retaining mandatory purity tests.
 - [x] 2.11 Add deterministic fake-backend tests for IDs, repeated requests, Unicode, empty text, malformed JSON/UTF-8, invalid types/fields/versions, size boundaries and recovery, unsupported languages, readiness, shutdown/EOF, flush behavior, and stdout/stderr separation.
 - [x] 2.12 Add isolated backend tests for missing/corrupt/ambiguous models, dependency incompatibility, path precedence, global-state isolation, and resource reuse; verify no package index/download/install functions are reachable through ordinary requests.
-- [x] 2.13 Verify A2 exit: retain the host-local real-model evidence and explicit pending final OS checklist, run the deterministic suite in a fresh locked environment, and drive multiple commands through one subprocess. Confirm the versioned consumer contract matches behavior and contains no Freya-specific extensions.
+- [x] 2.13 Verify A2 exit: retain the host-local real-model evidence and explicit pending final OS checklist, run the deterministic suite in a fresh locked environment, and drive multiple commands through one subprocess. Confirm the versioned consumer contract matches behavior and contains no host application-specific extensions.
 
 ## 3. A3 — Language model provisioning and offline validation
 
@@ -80,7 +80,7 @@ reconcile active usage/public docs in 4.9/5.7 without rewriting raw history.
 
 - [x] 4.1 Add the checked-in console/stdio PyInstaller onedir spec and `.venv`-bound Windows build script producing `translation-engine-worker.exe` and preserving external model loading and provisioning CLI.
 - [x] 4.2 Inspect frozen imports, metadata, resources, and native dependencies for the complete approved graph. Use the 2026-11-07 approval for the unmodified Argos commit `17ed1a9b055c5ba1b51d76b683bbb0c64e2a4a88` (metadata 1.11.1), record source-to-wheel provenance and reviewed wheel hash, update Argos declaration/backend/spike expectations and both hash locks in a fresh environment, and revalidate the actual worker/provisioning path without Stanza/Torch. Preserve other referenced runtime pins and model/SBD hashes. Evaluate spaCy exclusion with Thinc absence, then inspect reduced collection while retaining CTranslate2, SentencePiece, MiniSBD/ONNX Runtime, NumPy and all required native libraries. Preserve historical baseline evidence; isolated source tests do not pass frozen acceptance. Add only demonstrably necessary hooks with recorded reasons; only one controlled diagnostic build after passing source-worker tests is authorized in this migration; stop on source failure or serious resource pressure.
-- [x] 4.3a [LOCAL] Complete technical native inventory/import/export/metadata and actual DLL-origin audit of the existing worker. Evidence: `docs/native-dependencies.md` and `native-static-audit-complete.json` for build `diagnostic-20261107-133601`: 53 AMD64 PEs, all 180 ZIP files matching, application runtimes loaded from the bundle. Preserve the strict native runtime audit failure from two external Teruten modules as a development-host limitation, not a proven app dependency. Do not alter security software or certify clean isolation.
+- [x] 4.3a [LOCAL] Complete technical native inventory/import/export/metadata and actual DLL-origin audit of the existing worker. Evidence: `docs/releasing.md` and `native-static-audit-complete.json` for build `diagnostic-20261107-133601`: 53 AMD64 PEs, all 180 ZIP files matching, application runtimes loaded from the bundle. Preserve the strict native runtime audit failure from two external Teruten modules as a development-host limitation, not a proven app dependency. Do not alter security software or certify clean isolation.
 - [ ] 4.3b [PUBLIC] Review Visual C++/OpenMP and other native redistribution rights, approved acquisition provenance and servicing. Bind exact redistributable bytes/notices to the release candidate; host-System32 collection hashes alone do not establish rights or reproducible acquisition. Implement only reviewed requirements before public distribution.
 - [x] 4.4a [LOCAL] Produce and hash-check the complete diagnostic worker-only ZIP, excluding external translation/ONNX assets. Existing evidence: `frozen-unicode-all.worker.zip` in build `diagnostic-20261107-133601`, 58,072,023 ZIP bytes / 159,927,584 extracted bytes; full file comparison passed in the native audit. This local diagnostic is not a compliant public release asset.
 - [ ] 4.4b [PUBLIC] Assemble the final versioned `translation-engine-worker-win-x64.zip` with runtime, reviewed notices/compliance materials, no model/ONNX binaries or development files; record final source/tool/lock/native and artifact hashes. Revalidate any changed candidate; do not substitute diagnostic hashes after repackaging.
@@ -90,10 +90,10 @@ reconcile active usage/public docs in 4.9/5.7 without rewriting raw history.
   current post-003 176-file runtime plus 62 notice/instruction files. Two final
   assemblies are byte-identical; all 238 extracted files match the manifest and
   extracted `--version` returns 0.1.0. New worker ZIP has its own hash; original
-  executable/native bytes are unchanged. See `docs/release-candidate-results.md`.
+  executable/native bytes are unchanged. See `docs/releasing.md`.
   Keep unchecked: reviewed native/source compliance and final public acceptance
   remain unresolved; this candidate is ready for clean-machine testing only.
-- [x] 4.5a [LOCAL] Complete host-local ASCII/spaces, separate Unicode model/executable/state and combined Unicode relocation smoke tests, with environment paths removed, actual provisioning/readiness, repeated translation, integrity/failure preservation, stdout purity and shutdown. Evidence: five passing frozen reports and 75 matching translation outputs in `docs/unicode-path-validation.md`; the later minimal-environment functional smoke also passed in `docs/native-dependencies.md`. This is not clean OS isolation.
+- [x] 4.5a [LOCAL] Complete host-local ASCII/spaces, separate Unicode model/executable/state and combined Unicode relocation smoke tests, with environment paths removed, actual provisioning/readiness, repeated translation, integrity/failure preservation, stdout purity and shutdown. Evidence: five passing frozen reports and 75 matching translation outputs in `docs/unicode-path-validation.md`; the later minimal-environment functional smoke also passed in `docs/releasing.md`. This is not clean OS isolation.
 - [ ] 4.5b [PUBLIC] Execute the packaged protocol/provisioning/relocation/error/flush/stdout/shutdown checks on the mandatory clean Windows 10 row for v0.1.0; Windows 11 checks are optional and UNTESTED under the maintainer waiver, against the same candidate and external model hashes, retaining full results and loader errors. Add native stdout redirection only if leakage is demonstrated.
 - [ ] 4.6 [PUBLIC] Execute required clean Windows 10 22H2 x64 acceptance for initial v0.1.0; separate Windows 11 acceptance is waived on 2026-11-08 and remains optional future validation, expected compatible but UNTESTED. Use the same exact ZIP/model/ONNX hashes on clean VMs or Windows Sandbox where available, without system Python/Argos and with network access disabled. Record exact edition/build/update state, CPU, commit, commands, network controls, stderr/stdout, and results. Document any technical incompatibility before proposing a support reduction. Coordinate distinct 3.8b offline and 4.5b protocol/relocation assertions; no duplicate claim of completed evidence.
 
@@ -101,8 +101,8 @@ reconcile active usage/public docs in 4.9/5.7 without rewriting raw history.
   clean x64 VirtualBox VM, build 19045.3803; exact rc.1 worker ZIP
   `708add4798814b8e7d2298ad36ae9697368afa639a4ae6ea99e391f4457fb28d`
   and EXE `ec06bf07399b9d96d140e2c828772666aa12124b8991a2d622ebca52ced79d7d`.
-  See [review](../../../docs/windows10-smoke-results.md) and
-  [matrix/remaining tests](../../../docs/windows-acceptance.md).
+  See [review](../../../docs/releasing.md) and
+  [matrix/remaining tests](../../../docs/releasing.md).
 
   | Windows 10 acceptance subrequirement | Supplied evidence status |
   | --- | --- |
@@ -120,9 +120,9 @@ reconcile active usage/public docs in 4.9/5.7 without rewriting raw history.
   for the missing clean-target criteria. Overall stays 38/54.
 - [x] 4.7a [LOCAL] Record the diagnostic worker ZIP/extracted size, fresh-process startup, warm-up/init, idle/ready/observed peak working set/private bytes and repeated latency, separately from monitored build memory/system headroom. Evidence: raw build/frozen reports and `docs/argos-migration.md`, `docs/unicode-path-validation.md`; record known host/CPU/RAM/settings/corpus/cache/sample methods and explicitly missing storage/power/cold-cache conditions. This limited local baseline does not complete target measurements or invent performance budgets.
 - [ ] 4.7b [PUBLIC] Capture complete clean-target measurements on the mandatory Windows 10 row for v0.1.0 (Windows 11 measurements are optional with its waived acceptance) with final artifact/external model hashes, OS/CPU/RAM/storage/VM allocation/power details, SBD/thread/compute settings, cache/warm-up policy, corpus/input sizes, repetitions, raw timing/memory observations and median/tail summaries. Review a baseline without arbitrary thresholds.
-- [x] 4.8 [LOCAL] Verify Level A exit after 4.9/4.10: source/frozen/provisioning/local-attempt/native/relocation/limited measurement evidence and manual guides/user session reconciled in `docs/manual-test-results.md` (2026-11-07). All 37 LOCAL tasks complete. Retain native/OS-network, Teruten, timing/environment and licensing limits; no PUBLIC task or unsupported OS claim is advanced. This sign-off uses actual user CMD transcript evidence in addition to prior technical checks, not automated evidence alone.
-- [x] 4.9 [LOCAL] Write a distinct manual testing/usage guide for the existing onedir: upstream model/ONNX URLs and exact hashes, user acquisition/verification, offline `provision-model`, explicit Unicode-capable model/state paths, launch/readiness, protocol-v1 repeated translations/errors, stderr handling and shutdown. Link existing developer/protocol docs; label unknown external terms, Teruten host limits and unvalidated OS support. Evidence: `docs/manual-usage.md`, linked from README/development/provisioning, plus `docs/manual-testing-cmd.md`. Initial documentation checks covered six PowerShell blocks, 13 request examples, seven links, help/version and existing hashes, without inference. 4.10/4.8 were pending at that documentation snapshot and are subsequently completed below/above from actual user evidence.
-- [x] 4.10 [LOCAL] User personally completed CMD and PowerShell walkthroughs using the existing artifact without rebuilding. Full CMD transcript is retained in `docs/evidence/manual-cmd-2026-11-07.txt`; additional PowerShell transcript is in `docs/evidence/manual-powershell-2026-11-07.txt`. `docs/manual-test-results.md` records hashes, Unicode provisioning, persistence/custom/repeated translation, request errors/recovery, exits/stderr and CMD cleanup. Preserve initial PowerShell missing-asset failures and successful recovery; broader PowerShell completion remains user-confirmed beyond the captured subset. No unprinted outputs/timings or clean host/network claims are inferred; no new heavy test was run to record this evidence.
+- [x] 4.8 [LOCAL] Verify Level A exit after 4.9/4.10: source/frozen/provisioning/local-attempt/native/relocation/limited measurement evidence and manual guides/user session reconciled in `docs/releasing.md` (2026-11-07). All 37 LOCAL tasks complete. Retain native/OS-network, Teruten, timing/environment and licensing limits; no PUBLIC task or unsupported OS claim is advanced. This sign-off uses actual user CMD transcript evidence in addition to prior technical checks, not automated evidence alone.
+- [x] 4.9 [LOCAL] Write a distinct manual testing/usage guide for the existing onedir: upstream model/ONNX URLs and exact hashes, user acquisition/verification, offline `provision-model`, explicit Unicode-capable model/state paths, launch/readiness, protocol-v1 repeated translations/errors, stderr handling and shutdown. Link existing developer/protocol docs; label unknown external terms, Teruten host limits and unvalidated OS support. Evidence: `README.md`, linked from README/development/provisioning, plus `README.md`. Initial documentation checks covered six PowerShell blocks, 13 request examples, seven links, help/version and existing hashes, without inference. 4.10/4.8 were pending at that documentation snapshot and are subsequently completed below/above from actual user evidence.
+- [x] 4.10 [LOCAL] User personally completed CMD and PowerShell walkthroughs using the existing artifact without rebuilding. Full CMD transcript is retained in `docs/evidence/manual-cmd-2026-11-07.txt`; additional PowerShell transcript is in `docs/evidence/manual-powershell-2026-11-07.txt`. `docs/releasing.md` records hashes, Unicode provisioning, persistence/custom/repeated translation, request errors/recovery, exits/stderr and CMD cleanup. Preserve initial PowerShell missing-asset failures and successful recovery; broader PowerShell completion remains user-confirmed beyond the captured subset. No unprinted outputs/timings or clean host/network claims are inferred; no new heavy test was run to record this evidence.
 
 Focused 4.5 evidence, 2026-11-07: a package-local lazy serialized SentencePiece
 tokenizer resolves the reproduced Unicode native-path failure. One additional
@@ -167,7 +167,7 @@ combined 4.5 is now completed 4.5a and pending public 4.5b; no OS result is infe
   are collected without local source modifications. The original build metadata
   inventory is preserved at its original hash, with one explicit input relocation;
   ordinary excluded VC DLLs are not current redistributed files. See
-  `docs/compliance-staging.md` for staging/verification results: 17 focused tests
+  `docs/releasing.md` for staging/verification results: 17 focused tests
   pass; final `post003-release-materials` staging/check return expected code 2,
   with 470 payload / 472 total files, zero missing-material failures and 19
   retained review/source-delivery blockers. Independent repeat is byte-identical.
@@ -182,7 +182,7 @@ combined 4.5 is now completed 4.5a and pending public 4.5b; no OS result is infe
 - [ ] 5.5 [PUBLIC] Prepare the exact verified worker-only candidate for explicit user publication approval after all Level B gates pass. If approved, attach/verify only worker/compliance/integrity assets through a direct reviewed release procedure, never overwrite published versions, and use minimal permissions. No implementation or candidate preparation authorizes publication by itself.
 - [ ] 5.6 [PUBLIC] Document trusted repository/release identity, versioned non-overwritten artifacts, SemVer/protocol/external-model compatibility, integrity versus authenticity, trusted offline metadata and rollback. Platform immutability/attestation infrastructure is deferred; do not promise an unimplemented authentication mechanism.
 - [ ] 5.7 [PUBLIC] Finalize public README/development/build/provisioning/protocol/support/performance/troubleshooting references and accurate bundled/external attribution. Reuse the Level A manual guide without making local instructions wait for OS acceptance. Verify examples against the consumer contract.
-- [ ] 5.8 [PUBLIC] Finalize neutral consumer subprocess guidance for paths, framing/IDs, stderr, readiness, timeouts, shutdown, recovery and upstream asset provisioning. Future consumer integration follows protocol v1 in its own repository; no Freya-specific worker behavior.
+- [ ] 5.8 [PUBLIC] Finalize neutral consumer subprocess guidance for paths, framing/IDs, stderr, readiness, timeouts, shutdown, recovery and upstream asset provisioning. Future consumer integration follows protocol v1 in its own repository; no host application-specific worker behavior.
 - [ ] 5.9 [PUBLIC] Rehearse and verify the complete worker-only release candidate without publishing: ZIP, manifest, checksums, notices/source delivery, support/offline/measurement evidence and documentation agree on exact bytes. Confirm there are no hosted model/ONNX assets, including public CI uploads.
 
   Local artifact portion rehearsed: deterministic worker/compliance/source ZIPs,

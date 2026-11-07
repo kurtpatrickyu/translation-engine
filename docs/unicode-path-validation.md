@@ -1,9 +1,6 @@
 # SentencePiece Unicode-path repair — 2026-11-07
 
-The source and standalone frozen worker now provision and translate from Unicode
-model paths on the Windows development host. Unicode executable and state paths
-also pass independently and together. Clean Windows 10/11 acceptance, OS-denied
-networking, native redistribution review, and licensing clearance remain pending.
+Historical development-host evidence; current platform scope and release requirements are in [releasing](releasing.md).
 
 ## Confirmed cause and adaptation
 
@@ -129,5 +126,5 @@ or regression. Private memory remains around 1.3 GiB. No performance budget is
 invented and no further optimization/build is part of this repair.
 
 Previous successful/failing diagnostics and distributions remain intact. No
-release was published. Task 4.5's host-local Unicode blocker is resolved, but the
-task still requires both OS matrix rows; OpenSpec progress remains **29/47**.
+release was published. Current remaining acceptance is recorded in
+[releasing](releasing.md).

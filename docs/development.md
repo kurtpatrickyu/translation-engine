@@ -1,12 +1,8 @@
-# Windows development
+# Development and architecture
 
 The current development/build baseline is CPython **3.12.10 x64**. Keep Python
 3.12, the approved runtime pins, and model version unchanged until compatibility
-evidence justifies a reviewed amendment. For initial v0.1.0, Windows 10 22H2 x64
-is the mandatory acceptance target; build 19045.3803 is core smoke-tested with
-limitations. Windows 11 is expected compatible but UNTESTED, with separate
-acceptance waived and optional future validation under the
-[maintainer decision](v0.1.0-acceptance-scope.md).
+evidence justifies a reviewed amendment. Platform evidence and publication requirements are recorded in [releasing](releasing.md).
 
 Use Windows CMD from the repository root. No dependency installation is global.
 If `python` resolves to the selected interpreter:
@@ -71,47 +67,96 @@ Record Python, pip, pip-tools, setuptools, wheel, OS build, and lock digests wit
 validation evidence. These locks target Windows CPython 3.12 x64. CI must create
 its own environment and consume them; it must not reuse a contributor's `.venv`.
 
-## Implementation gates
+## Running and testing
 
-New change-003 builds exclude the four ordinary VC++ DLLs and require the
-[official installed x64 runtime](native-dependencies.md#external-vc-prerequisite-for-change-003).
-Run the focused policy check before the single monitored candidate build:
-`scripts\python.cmd -m pytest tests\unit\test_packaging_policy.py -q`.
-Existing build/native/ZIP checks verify the retained dependencies; no installer
-or model is added. Preserve earlier diagnostic outputs and use new report names.
-The focused diagnostic build's retention guard uses the preserved local
-`build/diagnostic-20261107-133601/native-static-audit-complete.json` inventory;
-retain that evidence with this workflow. It is not fetched automatically.
-Supplying reviewed native-inventory/build inputs with public source/build
-instructions remains part of the separate PUBLIC release preparation.
-
-For the existing executable, use the [local manual guide](manual-usage.md).
-It requires no environment setup or new build. Level A local usability is
-complete; the [manual validation results](manual-test-results.md) retain the
-user's walkthrough evidence. Public support and release gates remain separate.
-
-The host-local real-model spike passed using package-local MiniSBD; local worker
-development and Windows builds can proceed. Explicit acquisition/provisioning
-is documented in [model-provisioning.md](model-provisioning.md). Run the worker
-with explicit model/state paths as described in [protocol-v1.md](protocol-v1.md).
+From the repository root, explicitly acquire the pinned assets for local tests:
 
 ```bat
+scripts\python.cmd scripts\acquire_assets.py
+scripts\python.cmd -m translation_engine provision-model --file downloads\translate-zh_en-1_9.argosmodel --sbd-file downloads\zh-hans.onnx --models-dir runtime\local-models --state-dir runtime\local-state
+scripts\python.cmd -m translation_engine --models-dir runtime\local-models --state-dir runtime\local-state
+scripts\test.cmd tests\unit -q
+node --test tests\compliance-staging.test.cjs tests\release-assembly.test.cjs
+```
+
+Acquisition is a separate networked maintainer operation using recorded URLs and
+hashes. Provisioning and execution use local files. For real-model regressions:
+
+```bat
+set ENGINE_INTEGRATION=1
+scripts\test.cmd tests\integration -q
+```
+
+The integration suite skips without that flag and both expected assets in
+`downloads/`. Python audit hooks cover exercised network/process attempts, not
+OS firewall isolation. Node.js 22+ uses built-in modules with no npm dependencies
+and is needed only for maintainer tooling. There is no checked-in CI pipeline or
+configured formatter/linter. Do not run inference/build suites for doc-only edits.
+
+## Structure and current architecture
+
+| Location | Responsibility |
+| --- | --- |
+| `src/translation_engine/` | CLI, configuration, bounded framing, sequential service, Argos backend, tokenizer and local provisioning |
+| `scripts/` | Setup, explicit acquisition, monitored build, native/source audit, staging and assembly |
+| `packaging/` | Frozen entry/spec, upstream identities, compliance inventory and candidate metadata |
+| `tests/` | Fake-backend unit contracts, opt-in real-model regressions and Node artifact tests |
+| `models/provenance.json` | Original external asset identities and unresolved terms |
+| `LICENSES/`, `packaging/sources/` | Original supplier materials and retained source inputs |
+
+CLI configuration resolves paths before lazy backend imports. Protocol/service
+initialization imports no ML libraries. The backend validates the pinned direct
+pair and warms once; later requests reuse the translator, MiniSBD detector and
+lazy SentencePiece tokenizer. The package-local tokenizer reads bounded serialized
+bytes through Python for Windows Unicode paths, preserving upstream encode/decode
+behavior without a process-global monkeypatch. Initialization failure stays cached
+until restart. Provisioning safely stages, validates and warms before atomic
+promotion; failure preserves an existing installation. Models are immutable.
+
+State/config/cache paths are isolated from installed models. Requests are serial;
+the supervising host drains stderr, imposes timeouts and owns termination/restart.
+Shutdown drops service references; full native reclamation belongs to process exit.
+See [protocol v1](protocol-v1.md) for the public contract and [runtime guidance](../src/translation_engine/AGENTS.md)
+for component responsibilities. Translation quality is model-dependent, including
+punctuation, mixed-language and paragraph normalization.
+
+## Building or modifying the Windows worker
+
+Use Windows x64, CPython 3.12.10 x64 and the separately installed official VC++
+v14 x64 runtime. No model is required to freeze the worker. Run focused checks
+before a build:
+
+```bat
+scripts\test.cmd tests\unit\test_packaging_policy.py -q
 scripts\python.cmd scripts\build_windows.py
 ```
 
-The controlled build uses unique `build/diagnostic-*` and `dist/diagnostic-*`
-directories, preserving earlier reports and outputs. It samples its process
-tree and system memory, and terminates only its assigned job on sustained host
-pressure. These host-protection limits are not performance acceptance budgets.
-The approved migration's diagnostic succeeded; its original Unicode-path
-failure was subsequently fixed and all five relocation scenarios passed. See
-[migration history](argos-migration.md) and [Unicode evidence](unicode-path-validation.md).
-Use the existing verified diagnostic for manual testing rather than rebuilding
-as part of usage. Local output is not cleared for publication. Required Windows
-10 acceptance for v0.1.0 and bundled-code/native compliance gate Level B public support
-and release, independently of Level A local testing/documentation/completion.
-Neither public gate has been declared complete.
+The helper uses `packaging/worker.spec`, unique `build/diagnostic-*` and
+`dist/diagnostic-*` directories, process-tree monitoring and host-memory limits.
+These limits protect the build host; they are not acceptance performance budgets.
+Its historical native-retention input is required at
+`build/diagnostic-20261107-133601/native-static-audit-complete.json`. Missing
+evidence blocks the build; do not remove the guard or fetch a substitute.
+The matching source delivery retains it under `sources/worker/build/`.
 
-See [implementation-status.md](implementation-status.md) for actual evidence
-and outstanding environment/model verification. Do not interpret an environment
-setup or module version check as successful translation or clean-machine proof.
+The console PyInstaller onedir includes required metadata and excludes
+Stanza/Torch/spaCy and exactly `msvcp140.dll`, `msvcp140_1.dll`,
+`vcruntime140.dll`, `vcruntime140_1.dll`. NumPy's differently named DLL stays.
+Keep the entire directory. Byte-identical builds across supplier installations
+are unproven; each new build needs new hashes and frozen/native validation.
+
+To modify worker code, edit `src/translation_engine/`; frozen entry is
+`packaging/worker_entry.py`. Preserve notices and record changes/date. MiniSBD
+and tqdm matching source tarballs are in `packaging/sources/`. For a direct-source
+freeze, extract the matching tarball separately and copy edited package `.py`
+files into the prepared `.venv/Lib/site-packages/`, keeping metadata honest.
+Ordinary setup reinstalls unmodified hash-locked wheels. Upstream MiniSBD declares
+Hatchling and tqdm setuptools/setuptools-scm; publisher wheel-build tool versions
+are unknown, and repacking original wheel bytes is not claimed reproducible.
+Rebind modified source identities and rerun source correspondence before release.
+
+Use a full repository checkout plus retained dossier for compliance regeneration;
+the minimal staged `sources/worker/` tree is a rebuild input, not a second active
+compliance workspace. No signing key, activation secret or project server is
+required to run a modified worker. See [releasing](releasing.md) for validation,
+source delivery and publication gates.

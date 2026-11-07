@@ -45,10 +45,10 @@ Stdout SHALL contain protocol responses only; logs, dependency output, warnings,
 - **THEN** stdout remains parseable response-only JSON and diagnostics appear on stderr
 
 ### Requirement: Authoritative application-neutral consumer contract
-The finalized versioned protocol reference SHALL be the authoritative contract for external consumers, documenting framing, fields, limits, errors, readiness, versioning, shutdown, and failure recovery consistently with this spec and conformance tests. The worker SHALL NOT introduce Freya-specific commands, paths, fields, or behavior to accommodate a future integration. Stdout purity SHALL be tested with actual dependencies; native redirection SHALL be introduced only when observed behavior or tests require it, without weakening response-only stdout acceptance.
+The finalized versioned protocol reference SHALL be the authoritative contract for external consumers, documenting framing, fields, limits, errors, readiness, versioning, shutdown, and failure recovery consistently with this spec and conformance tests. The worker SHALL NOT introduce host application-specific commands, paths, fields, or behavior to accommodate a future integration. Stdout purity SHALL be tested with actual dependencies; native redirection SHALL be introduced only when observed behavior or tests require it, without weakening response-only stdout acceptance.
 
 #### Scenario: Future desktop integration
-- **WHEN** a future Freya or other external application integrates with the worker
+- **WHEN** a future host application or other external application integrates with the worker
 - **THEN** its integration follows the published protocol version in its own application without requiring consumer-specific worker behavior
 
 #### Scenario: Logging configuration is sufficient

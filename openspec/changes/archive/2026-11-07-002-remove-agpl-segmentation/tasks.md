@@ -1,6 +1,6 @@
 ## 1. Preserve baseline and establish the candidate experiment
 
-- [ ] 1.1 After explicit implementation authorization, record baseline source/lock/wheel/artifact/model/ONNX/receipt identities and preserve its environment, installations and completed Level A evidence. Use separate candidate paths; do not edit Freya Automations or delete original assets.
+- [ ] 1.1 After explicit implementation authorization, record baseline source/lock/wheel/artifact/model/ONNX/receipt identities and preserve its environment, installations and completed Level A evidence. Use separate candidate paths; do not edit host application or delete original assets.
 - [ ] 1.2 Reconfirm approved Argos source/import/selection behavior and candidate patch scope against the exact source hash. Add a small reviewable patch with distinctive version, optional/lazy MiniSBD integration and explicit splitter injection; verify no MiniSBD source is copied and candidate imports succeed without MiniSBD/Stanza/Torch.
 - [ ] 1.3 Add the per-instance explicit inference-limit and generation-cap signal seam while retaining Argos beam/prefix/score/token-concatenation/paragraph semantics. Verify native cap behavior against CTranslate2 4.8.5 with deterministic tests; do not accept silent default source truncation.
 - [ ] 1.4 Capture the existing model's binary/config/tokenizer constraints in reproducible read-only evidence: 2,048 shared positional rows, automatic source EOS, source/generated token defaults and candidate special-token headroom. Keep model archive hash unchanged.

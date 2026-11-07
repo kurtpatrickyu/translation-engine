@@ -211,6 +211,35 @@ test('recipient source instructions are pinned, including immutable release deli
   assert.throws(() => s.verifyStage(f.root, f.inventoryPath, f.output), /SHA-256 mismatch/);
 });
 
+test('current documentation can change while archived candidate instructions remain hash pinned', t => {
+  const f = fixture(t);
+  const original = 'Original candidate build instructions.\r\n';
+  const source = f.write('docs/development.md', original);
+  f.write('packaging/sources/candidate-documentation/docs/development.md', original);
+  f.inventory.components[0].materials.push({source,
+    destination: 'sources/worker/docs/development.md', kind: 'build-instructions', required: true});
+  f.save();
+  f.write('docs/development.md', 'Current developer guide.\n');
+  s.stage(f.root, f.inventoryPath, f.output);
+  assert.equal(fs.readFileSync(path.join(f.output, 'sources/worker/docs/development.md'), 'utf8'), original);
+  s.verifyStage(f.root, f.inventoryPath, f.output);
+  f.write('packaging/sources/candidate-documentation/docs/development.md', 'tampered');
+  const m = s.stage(f.root, f.inventoryPath, path.join(f.root, 'candidate-staging/tampered'));
+  assert(m.blockers.some(b => b.id === 'material:sources/worker/docs/development.md'));
+});
+
+test('documentation archive cannot substitute runtime inputs or supplier licenses', t => {
+  const f = fixture(t);
+  f.write('packaging/sources/candidate-documentation/supplier/LICENSE', 'Unmodified supplier license\r\n');
+  f.write('supplier/LICENSE', 'tampered');
+  const m = s.stage(f.root, f.inventoryPath, f.output);
+  assert(m.blockers.some(b => b.id === 'material:licenses/minisbd/LICENSE'));
+  f.write('supplier/LICENSE', 'Unmodified supplier license\r\n');
+  f.write('packaging/sources/candidate-documentation/src/entry.py', 'print(42)\n');
+  f.write('src/entry.py', 'tampered');
+  assert.throws(() => s.verifyCandidate(f.root, f.inventory), /SHA-256 mismatch/);
+});
+
 function sourceTar(name) {
   const h = Buffer.alloc(512), payload = Buffer.from('source');
   h.write(name); h.write('0000644\0', 100); h.write('0000006\0', 124); h[156] = 48;

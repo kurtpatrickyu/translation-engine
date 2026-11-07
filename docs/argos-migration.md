@@ -141,11 +141,8 @@ x64; Intel64 Family 6 Model 158 CPU; approximately 15.9 GiB visible RAM. These
 are fresh worker processes with potentially warm filesystem/DLL caches, three
 fixed inputs repeated five times, CPU execution, Argos thread settings 1/2 and
 compute `auto`. Storage hardware/power settings and clean-machine conditions
-were not captured. These are local diagnostics, not complete A4 OS baselines.
+were not captured. These are local diagnostics, not complete target OS baselines.
 
-Task 4.1's executable production and 4.2's approved graph migration/inspection
-are complete. Task 4.5's Unicode/clean-OS validation remains incomplete; native
-redistribution audit, both clean Windows rows, complete performance baselines,
-licensing and release work remain pending. Progress is 29/47. The focused
-migration stops here; investigate SentencePiece Unicode paths separately before
-claiming standalone acceptance. No second executable build or release occurred.
+This migration snapshot predates the Unicode tokenizer repair linked above.
+Current acceptance scope and remaining publication requirements are recorded in
+[releasing](releasing.md). No release occurred during this migration.

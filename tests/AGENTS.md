@@ -31,7 +31,7 @@ the real-candidate check skips when local candidate directories are absent.
 
 ## Opt-in and acceptance evidence
 
-Explicitly acquire the pinned files using [provisioning instructions](../docs/model-provisioning.md),
+Explicitly acquire the pinned files using [provisioning instructions](../README.md),
 then opt in from CMD:
 
 ```bat
@@ -48,8 +48,7 @@ unit tests download resources or start heavyweight inference implicitly.
 Python audit hooks block exercised connection/DNS/send/process attempts; they
 are not OS firewall or clean-machine proof. The frozen relocation/native harness
 is `scripts/validate_windows.py`, separate from pytest. Follow
-[Windows acceptance](../docs/windows-acceptance.md),
-[Unicode evidence](../docs/unicode-path-validation.md) and
-[candidate instructions](../docs/windows-release-candidate.md) for target-host
+[release acceptance procedures](../docs/releasing.md) and
+[Unicode evidence](../docs/unicode-path-validation.md) for target-host
 checks, with fresh reports and explicit candidate identity. No development-host
 test alone establishes clean Windows support, legal clearance or release readiness.

@@ -48,7 +48,7 @@ source under its applicable MPL/MIT terms; no local tqdm changes were found.
 `sources/worker/packaging/argos-upstream.json` pins its archive and wheel hashes.
 Other frozen Python preferred-source files are under their component directories.
 `manifest.json` binds component versions, source identities and staged bytes;
-`SHA256SUMS` covers all files except itself. See [rebuilding instructions](docs/rebuilding-worker.md).
+`SHA256SUMS` covers all files except itself. See [rebuilding instructions](docs/development.md).
 
 Preparation currently targets `diagnostic-20261107-211131`, EXE SHA-256
 `ec06bf07399b9d96d140e2c828772666aa12124b8991a2d622ebca52ced79d7d`.

@@ -41,7 +41,7 @@ receipts. It stages beneath the destination, validates and warms before rename,
 cleans temporary staging on failure, and never replaces existing installations.
 Idempotent calls revalidate existing files. Use a new models directory and restart
 for replacements. Missing/corrupt/ambiguous ONNX must fail before any downloader
-fallback. See [provisioning](../../docs/model-provisioning.md).
+fallback. See [provisioning](../../README.md).
 
 ## Failures and checks
 

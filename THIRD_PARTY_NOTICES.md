@@ -1,6 +1,6 @@
 # Third-party notices for the Windows worker
 
-The project source carries its MIT license. The bundled worker includes MiniSBD under AGPLv3 and other separately licensed code. Preserve these original licenses and notices when redistributing. See [source availability](SOURCE_AVAILABILITY.md) and [rebuilding](docs/rebuilding-worker.md).
+The project source carries its MIT license. The bundled worker includes MiniSBD under AGPLv3 and other separately licensed code. Preserve these original licenses and notices when redistributing. See [source availability](SOURCE_AVAILABILITY.md) and [rebuilding](docs/development.md).
 
 This index targets `diagnostic-20261107-211131` (176 files, 49 native binaries, 17 third-party Python roots). It is preparation for a future release. Native supplier permissions and source mappings remain unresolved; see the generated `BLOCKERS.txt`. A listed license is not clearance for unidentified embedded code. Original supplier bytes are retained under `LICENSES/` in this repository and `licenses/` in generated packages. The inventory records their provenance and SHA-256.
 
@@ -41,4 +41,4 @@ MiniSBD 0.9.5 is attributed to LibreTranslate Authors and Piero Toffanin. It inc
 
 The official Microsoft VC++ v14 x64 prerequisite is installed separately; its four ordinary DLLs and installer are excluded. NumPy’s renamed MSVCP DLL remains bundled and unresolved. Intel OpenMP terms, OpenBLAS/compiler runtime revisions/exceptions, native/static attribution and other supplier mappings remain flagged. CPython supplier/history/incorporated notices are preserved in its original supplier license; this does not resolve its Windows binary permissions. PyInstaller COPYING/bootloader exception, actual runtime module/hook source headers and the full Apache text are retained. SentencePiece sdist dependency texts cover Abseil, darts_clone, esaxx and protobuf-lite; exact binary applicability remains unresolved. ONNX Runtime’s original complete ThirdPartyNotices.txt is retained without filtering its supplier list or asserting CPU applicability of every entry.
 
-No translation model, ONNX model, model cache or Microsoft installer is included. External asset URLs, pinned identities and expected hashes remain in models/provenance.json. Freya Automations is separate.
+No translation model, ONNX model, model cache or Microsoft installer is included. External asset URLs, pinned identities and expected hashes remain in models/provenance.json.

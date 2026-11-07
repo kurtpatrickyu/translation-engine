@@ -131,7 +131,7 @@ function prepare(root, configPath) {
       /^docs\/(development|protocol-v1|model-provisioning)\.md$/.test(f));
   assert(sourcePaths.includes('packaging/worker.spec') && sourcePaths.some(p => p.startsWith('src/')));
   const repository = s.zipMembers(git(root, ['archive', '--format=zip', cfg.source_commit, '--', ...sourcePaths]));
-  const usage = fs.readFileSync(s.safe(root, 'docs/windows-release-candidate.md'));
+  const usage = fs.readFileSync(s.safe(root, 'README.md'));
   const verifier = fs.readFileSync(s.safe(root, 'scripts/verify_release_checksums.ps1'));
   const schema = fs.readFileSync(s.safe(root, 'packaging/release-manifest.schema.json'));
   const workerEntries = new Map();
@@ -144,12 +144,16 @@ function prepare(root, configPath) {
     workerEntries.set('translation-engine-worker/release-info/' + file.path, s.pinned(s.safe(complianceDir, file.path), file.sha256));
   }
   workerEntries.set('translation-engine-worker/release-info/WINDOWS-CANDIDATE.md', usage);
+  for (const file of ['README.md', 'docs/development.md', 'docs/protocol-v1.md',
+    'docs/releasing.md', 'docs/troubleshooting.md'])
+    workerEntries.set('translation-engine-worker/release-info/' + file, fs.readFileSync(s.safe(root, file)));
   const allCompliance = new Map(s.walk(complianceDir).map(f => [f, fs.readFileSync(s.safe(complianceDir, f))]));
   const sources = new Map([...allCompliance].filter(([f]) => f.startsWith('sources/') || f.startsWith('licenses/') ||
     ['SOURCE_AVAILABILITY.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md', 'evidence/build.json'].includes(f)));
   for (const [file, content] of repository) if (!file.endsWith('/')) sources.set('repository/' + file, content());
   for (const file of ['scripts/assemble_release.cjs', 'scripts/stage_compliance.cjs', 'scripts/verify_release_checksums.ps1',
-    'packaging/release-candidate.json', 'packaging/release-manifest.schema.json', 'docs/windows-release-candidate.md'])
+    'packaging/release-candidate.json', 'packaging/release-manifest.schema.json', 'README.md',
+    'docs/development.md', 'docs/protocol-v1.md', 'docs/releasing.md', 'docs/troubleshooting.md'])
     sources.set('assembly/' + file, fs.readFileSync(s.safe(root, file)));
   sources.set('SOURCE_COMMIT.json', Buffer.from(s.json({repository: REPO, commit: cfg.source_commit,
     materials_commit: cfg.materials_commit, source_url: REPO + '/tree/' + cfg.source_commit,
@@ -174,7 +178,7 @@ function prepare(root, configPath) {
       staged_manifest_sha256: cfg.compliance_manifest_sha256, blockers: compliance.blockers},
     blockers: ['Intel/native redistribution and NumPy renamed Microsoft DLL terms remain unresolved.',
       'Remaining corresponding-source/license supplier mappings and final immutable public delivery remain pending.',
-      'Clean Windows 10 22H2 x64 and Windows 11 x64 acceptance remain pending.',
+      'Full Windows 10 22H2 x64 acceptance remains pending; Windows 11 is expected compatible, UNTESTED, and optional for v0.1.0.',
       'OS-denied networking and complete clean-target measurements remain pending.', 'Final explicit publication approval has not been given.'],
     assembly: {node: process.versions.node, zlib: process.versions.zlib,
       config_sha256: s.hash(fs.readFileSync(configPath)), tool_sha256: s.hash(fs.readFileSync(__filename))}});
@@ -202,6 +206,42 @@ function verifyFiles(output, payload) {
 }
 function assemble(root, configPath, output, check = false) {
   output = outputPath(root, output);
+  // rc.1 is immutable. Verify its complete pinned payload rather than regenerating
+  // its historical instructions with today's documentation and assembly tool.
+  if (check) {
+    const manifestBytes = fs.readFileSync(s.safe(output, 'manifest.json'));
+    if (s.hash(manifestBytes) === 'c3451790abf20551e470048a417d0653a6802a055ee3d382151c26029d02cb5f') {
+      const m = validateManifest(JSON.parse(manifestBytes));
+      s.pinned(configPath, m.assembly.config_sha256);
+      const cfg = JSON.parse(fs.readFileSync(configPath));
+      assert.equal(cfg.source_commit, m.source.commit);
+      assert.equal(cfg.materials_commit, m.source.materials_commit);
+      assert.equal(cfg.compliance_manifest_sha256, m.compliance.staged_manifest_sha256);
+      const invPath = s.safe(root, 'packaging/compliance-inventory.json');
+      const inv = JSON.parse(fs.readFileSync(invPath));
+      const candidate = s.verifyCandidate(root, inv);
+      const inputs = Object.keys(candidate.build.source_sha256).filter(f => f !== 'packaging/compliance-inventory.json');
+      for (const commit of [cfg.source_commit, cfg.materials_commit])
+        assert.equal(git(root, ['rev-parse', commit]).toString().trim(), commit);
+      git(root, ['diff', '--exit-code', cfg.source_commit, '--', ...inputs]);
+      git(root, ['diff', '--exit-code', cfg.source_commit, cfg.materials_commit, '--', ...inputs]);
+      for (const e of cfg.regression_evidence) s.pinned(s.safe(root, e.path), e.sha256);
+      s.pinned(s.safe(root, 'models/provenance.json'), cfg.provenance_sha256);
+      s.verifyStage(root, invPath, s.safe(root, cfg.compliance_directory));
+      s.pinned(s.safe(root, cfg.compliance_directory + '/manifest.json'), cfg.compliance_manifest_sha256);
+      const payload = new Map(m.artifacts.map(a => {
+        const bytes = s.pinned(s.safe(output, a.name), a.sha256);
+        assert.equal(bytes.length, a.bytes);
+        return [a.name, bytes];
+      }));
+      payload.set('manifest.json', manifestBytes);
+      payload.set('SHA256SUMS', Buffer.from([...payload].sort(([a], [b]) => a < b ? -1 : 1)
+        .map(([f, b]) => s.hash(b) + '  ' + f + '\n').join('')));
+      verifyFiles(output, payload);
+      validateWorker(payload.get(WORKER), m, candidate.audit);
+      return m;
+    }
+  }
   const p = prepare(root, configPath);
   validateWorker(p.payload.get(WORKER), p.manifest, p.audit);
   if (!check) {

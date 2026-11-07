@@ -36,9 +36,9 @@ Argos does not pass source/decoding length options. CTranslate2 4.8.5 exposes de
 
 ### Licensing and current artifact boundary
 
-Argos' inspected grant is MIT (the project generally describes MIT/CC0); MiniSBD's own declaration/text is AGPLv3. Neither controls the independent application license of Freya Automations. No MiniSBD algorithm/source will be reused in the owned splitter.
+Argos' inspected grant is MIT (the project generally describes MIT/CC0); MiniSBD's own declaration/text is AGPLv3. Neither controls the independent application license of host application. No MiniSBD algorithm/source will be reused in the owned splitter.
 
-`docs/redistribution-review.md`, `packaging/compliance-inventory.json` and the retained diagnostic audit identify 17 third-party PYZ roots and 180 distributed files / 53 PE files. The current diagnostic EXE hash is `627c5e40ded9dd29655c2e9b68cbab7a8a12c90843daf3d6d7cd5d23fbc0b941`; ZIP hash is `965cf2b166443a27ddfecf4d09b756420febaafb8d065f5ca97af8a3244a264b`. Its static audit reports passed with no errors. This proposal inspected the retained audit/TOC and compliance evidence; it did not execute/re-extract the frozen PYZ or certify a new artifact.
+`docs/releasing.md`, `packaging/compliance-inventory.json` and the retained diagnostic audit identify 17 third-party PYZ roots and 180 distributed files / 53 PE files. The current diagnostic EXE hash is `627c5e40ded9dd29655c2e9b68cbab7a8a12c90843daf3d6d7cd5d23fbc0b941`; ZIP hash is `965cf2b166443a27ddfecf4d09b756420febaafb8d065f5ca97af8a3244a264b`. Its static audit reports passed with no errors. This proposal inspected the retained audit/TOC and compliance evidence; it did not execute/re-extract the frozen PYZ or certify a new artifact.
 
 MiniSBD is the identified AGPL runtime package. There are also **GPL-bearing components**: PyInstaller's embedded bootloader/loader (GPL with bootloader exception) and GCC runtime material in NumPy's OpenBLAS DLL (GPL with GCC runtime exception). These are not unqualified AGPL dependencies and cannot be described as absent. Unknown CTranslate2/SentencePiece/ONNX Runtime static BOM details mean no exhaustive absence claim is justified yet. Removing ONNX Runtime removes its own component review only if the final artifact proves absence. NumPy is also needed by CTranslate2 and potentially other retained packages; its removal is not assumed. A literal requirement to remove every GPL-covered byte, including these exceptions, would require a broader packaging/native-toolchain project and is outside this smallest-change recommendation. Preserve and review exceptions separately; any newly discovered non-excepted GPL/AGPL runtime component blocks migration acceptance.
 
@@ -46,7 +46,7 @@ MiniSBD is the identified AGPL runtime package. There are also **GPL-bearing com
 
 **Goals:** preserve direct Argos inference, the exact model and tokenizer behavior, deterministic ordered coverage of source spans, bounded CPU memory/inference, no download attempts, Unicode paths, NDJSON v1 and graceful lifecycle. Prove no AGPL code in the distributed candidate before making that claim.
 
-**Non-Goals:** language expansion, neural-model quality improvements, model conversion, a new generic translation backend, Freya changes, new OS support claims, deleting old assets/evidence, licensing clearance or publication. Preserve protocol limits (including 65,536 UTF-8 text bytes). No new native libraries, neural SBD assets, Stanza/PyTorch or LLMs.
+**Non-Goals:** language expansion, neural-model quality improvements, model conversion, a new generic translation backend, host application changes, new OS support claims, deleting old assets/evidence, licensing clearance or publication. Preserve protocol limits (including 65,536 UTF-8 text bytes). No new native libraries, neural SBD assets, Stanza/PyTorch or LLMs.
 
 ## Decisions
 

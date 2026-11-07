@@ -21,14 +21,13 @@
 - `audit_windows_package.py` checks native inventory/imports and module origins;
   `validate_windows.py` exercises source/frozen provisioning, relocation, requests
   and measurements. Use explicit candidate paths and fresh report names; defaults
-  can refer to older output. Read [native dependencies](../docs/native-dependencies.md)
-  and [Windows acceptance](../docs/windows-acceptance.md) before interpreting results.
+  can refer to older output. Read [release evidence and acceptance](../docs/releasing.md)
+  before interpreting results.
 - `verify_frozen_sources.py` compares embedded code to sources without executing
   package code; `stage_compliance.cjs` prepares pinned notices/sources/evidence;
   `assemble_release.cjs` assembles a local candidate from existing verified bytes.
   `verify_release_checksums.ps1` is the transferred checksum verifier. See
-  [compliance staging](../docs/compliance-staging.md) and
-  [candidate workflow](../docs/windows-release-candidate.md).
+  [release procedures](../docs/releasing.md).
 
 ## Evidence and integration constraints
 
@@ -49,6 +48,12 @@ Release assembly/check returns **0** for a valid local candidate, always retaini
 models. Do not treat an exit-zero assembly or source comparison as compliance
 clearance. Avoid copying generation commands into checks that would overwrite
 evidence. Full command sequences and prerequisites belong in the linked guides.
+
+Documentation materials pinned to the existing candidate resolve from
+`packaging/sources/candidate-documentation/` with their original hashes. New
+assemblies carry current README and guides; `--check` verifies immutable rc.1
+against its exact recorded manifest and complete artifact hashes. It must not
+rewrite that candidate to reflect newer instructions.
 
 ## Verification
 

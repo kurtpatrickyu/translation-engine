@@ -247,7 +247,11 @@ function sourceBytes(root, source, archives) {
       path.basename(source.external_path) === 'LICENSE.txt', 'Unapproved external source');
     return pinned(source.external_path, source.sha256);
   }
-  const file = safe(root, source.path);
+  // The current guides can evolve without rewriting the candidate's source delivery.
+  // Only documentation may use this retained location, and the original pin still applies.
+  const archived = /^(?:docs\/.*|README|SOURCE_AVAILABILITY|THIRD_PARTY_NOTICES)\.md$/.test(source.path)
+    ? safe(root, 'packaging/sources/candidate-documentation/' + source.path) : null;
+  const file = archived && fs.existsSync(archived) ? archived : safe(root, source.path);
   assert(!model(file), 'External model material refused');
   const bytes = pinned(file, source.sha256);
   if (/\.(zip|whl)$/i.test(file)) zipMembers(bytes); // Reject hidden model members too.
@@ -349,7 +353,11 @@ function verifyStage(root, inventoryPath, output) {
     manifest.release_ready === false && manifest.compliance_ready === false, 'Preparatory staging cannot declare readiness');
   assert(manifest.inventory_sha256 === hash(invBytes), 'Stale inventory');
   pinned(safe(output, 'evidence/component-inventory.json'), hash(invBytes));
-  pinned(safe(output, 'evidence/stage_compliance.cjs'), hash(fs.readFileSync(__filename)));
+  const tool = fs.readFileSync(safe(output, 'evidence/stage_compliance.cjs'));
+  // The original dossier contains this exact reviewed tool. No other prior tool is accepted.
+  assert([hash(fs.readFileSync(__filename)),
+    'e0453a2d9657d46c936fa9ffb5d180eb28f8cbac2fcb5a704a807d27c4f89696'].includes(hash(tool)),
+  'SHA-256 mismatch: staged compliance tool');
   assert(json(manifest.candidate) === json(inv.candidate), 'Staged candidate differs');
   assert(manifest.components.length === inv.components.length, 'Component count mismatch');
   for (const c of inv.components) {

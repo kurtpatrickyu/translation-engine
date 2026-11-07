@@ -59,6 +59,15 @@ test('real candidate manifest, archive, source commit and artifact hashes agree'
   assert.equal(m.source.commit, cfg.source_commit);
   assert.equal(m.source.materials_commit, cfg.materials_commit);
   assert.equal(m.publication.release_ready, false);
+  // Current docs/tool bytes must not force rewriting the immutable candidate.
+  assert.deepEqual(r.assemble(root, path.join(root, 'packaging/release-candidate.json'), directory, true), m);
+  const fresh = r.prepare(root, path.join(root, 'packaging/release-candidate.json'));
+  r.validateWorker(fresh.payload.get('translation-engine-worker-win-x64.zip'), fresh.manifest, fresh.audit);
+  assert(fresh.payload.get('WINDOWS-CANDIDATE.md').equals(fs.readFileSync(path.join(root, 'README.md'))));
+  for (const file of ['README.md', 'docs/development.md', 'docs/protocol-v1.md', 'docs/releasing.md', 'docs/troubleshooting.md']) {
+    assert(fresh.workerEntries.has('translation-engine-worker/release-info/' + file));
+    assert(fresh.sources.has('assembly/' + file));
+  }
   assert.equal(m.baseline.executable_sha256, 'ec06bf07399b9d96d140e2c828772666aa12124b8991a2d622ebca52ced79d7d');
   for (const a of m.artifacts) {
     const b = s.pinned(path.join(directory, a.name), a.sha256); assert.equal(b.length, a.bytes);

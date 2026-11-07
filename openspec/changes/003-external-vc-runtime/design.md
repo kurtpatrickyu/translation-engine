@@ -1,6 +1,6 @@
 ## Context
 
-See `proposal.md` for scope. The baseline is active `001-build-offline-translation-engine`, with Level A complete at 37/37. Preserve its tasks, diagnostic artifact and regression/manual evidence. Current artifact: `dist/diagnostic-20261107-133601/translation-engine-worker/`; existing static/runtime reports are in `build/diagnostic-20261107-133601/` and described in `docs/native-dependencies.md`.
+See `proposal.md` for scope. The baseline is active `001-build-offline-translation-engine`, with Level A complete at 37/37. Preserve its tasks, diagnostic artifact and regression/manual evidence. Current artifact: `dist/diagnostic-20261107-133601/translation-engine-worker/`; existing static/runtime reports are in `build/diagnostic-20261107-133601/` and described in `docs/releasing.md`.
 
 The earlier read-only verification matched the four ordinary DLLs at version 14.50.35719.0 against the retained static audit. NumPy's separate `numpy.libs/msvcp140-a4c2229bdc2a2a630acdc095b4d86008.dll` is version 14.40.33810.0. NumPy's core and FFT extensions import that hashed filename directly, so the ordinary system DLL cannot replace it without wheel changes. Retain its exact name and bytes. Use the existing audit for full identities rather than duplicating an inventory here.
 
@@ -8,7 +8,7 @@ The earlier read-only verification matched the four ordinary DLLs at version 14.
 
 **Goals:** exclude only the four ordinary DLLs, explain the official prerequisite, and verify one candidate using existing tooling.
 
-**Non-Goals:** dependency or translation changes, a prerequisite manager, a new native/licensing framework, exhaustive prerequisite matrices, Freya integration or publication. AGPL source/notices and all actual bundled-native rights remain separate existing PUBLIC release obligations.
+**Non-Goals:** dependency or translation changes, a prerequisite manager, a new native/licensing framework, exhaustive prerequisite matrices, host application integration or publication. AGPL source/notices and all actual bundled-native rights remain separate existing PUBLIC release obligations.
 
 ## Decisions
 
@@ -50,7 +50,7 @@ Windows 11 clean acceptance for initial v0.1.0 only. Windows 11 is expected
 compatible but UNTESTED; its validation is optional future work. All Windows 10
 and other release criteria below remain required; the existing runtime exclusion,
 dependency graph and candidate are unchanged. See
-[decision](../../../docs/v0.1.0-acceptance-scope.md).
+[decision](../../../docs/releasing.md).
 
 For initial v0.1.0, keep required Windows 10 clean acceptance pending until it executes the same candidate ZIP/model/ONNX hashes with a compatible official x64 runtime, no system Python/global Argos and OS networking disabled. Reuse existing `001` PUBLIC checks and measurement requirements; do not duplicate or weaken them. Python audit scripts stay on the maintainer side; target checks use the frozen EXE and existing CMD/PowerShell procedures/module inspection, without installing Python.
 
@@ -66,4 +66,4 @@ Record actual OS/runtime versions, native origins and results. Do not claim unte
 
 ## Migration Plan
 
-Review A, B and C independently. A/B produce a locally verified candidate; C remains a PUBLIC release gate. Preserve the old successful artifact and all existing regression evidence, using new paths for candidate reports. Leave `001` Level A records unchanged. On failure retain evidence and resolve the concrete cause without changing pins/assets or broadening the architecture. Reverting the packaging change is a local diagnostic rollback, not permission to publish the old bundle. No part of this plan authorizes publication or Freya changes.
+Review A, B and C independently. A/B produce a locally verified candidate; C remains a PUBLIC release gate. Preserve the old successful artifact and all existing regression evidence, using new paths for candidate reports. Leave `001` Level A records unchanged. On failure retain evidence and resolve the concrete cause without changing pins/assets or broadening the architecture. Reverting the packaging change is a local diagnostic rollback, not permission to publish the old bundle. No part of this plan authorizes publication or host application changes.

@@ -74,10 +74,9 @@ and paragraph/Unicode/long-input quality checks, offline resource validation,
 and licensing/provenance review. The subsequent MiniSBD results below supersede
 this historical compatibility blocker; licensing and clean OS gates remain.
 
-The existing versioned protocol and architecture are unchanged. Tasks 2.1–2.3
-were incomplete at that point. The user's subsequent targeted amendment
-authorized evaluating a separate MiniSBD asset and moved clean OS checks to
-final acceptance/publication, permitting local continuation after compatibility.
+The subsequent targeted amendment authorized evaluating a separate MiniSBD asset
+without changing the versioned protocol or architecture. Clean OS checks remained
+separate from local compatibility validation.
 
 ## Successful MiniSBD experiment and selected strategy
 
@@ -146,6 +145,6 @@ MiniSBD code is AGPLv3, and upstream describes Stanza-derived ONNX assets. Revie
 covered combined-distribution source/notices obligations and model-specific
 terms before publishing. The original translation README identifies the OPUS
 model as CC-BY 4.0 and provides attribution. See
-[provenance and redistribution notes](model-provisioning.md). No license
+[provenance and redistribution notes](../README.md). No license
 clearance, production release, perfect translation quality, or clean-machine
 compatibility is implied by the local experiment.

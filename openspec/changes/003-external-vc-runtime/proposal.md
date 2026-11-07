@@ -25,8 +25,8 @@ These deltas extend the active `001-build-offline-translation-engine` baseline. 
 
 ## Impact
 
-Expected implementation edits are limited to `packaging/worker.spec`, a focused packaging policy test, small verification adjustments to `scripts/build_windows.py`, `scripts/audit_windows_package.py` or `scripts/validate_windows.py` only where needed, and prerequisite/candidate notes in `docs/native-dependencies.md`, `docs/manual-usage.md` and directly linked build/usage documentation. Update the relevant Microsoft deployment statements in `docs/redistribution-review.md` and `docs/compliance-staging.md` without reopening the broader review.
+Expected implementation edits are limited to `packaging/worker.spec`, a focused packaging policy test, small verification adjustments to `scripts/build_windows.py`, `scripts/audit_windows_package.py` or `scripts/validate_windows.py` only where needed, and prerequisite/candidate notes in `docs/releasing.md`, `README.md` and directly linked build/usage documentation. Update the relevant Microsoft deployment statements in `docs/releasing.md` and `docs/releasing.md` without reopening the broader review.
 
 Candidate-specific compliance inventory rebinding, AGPL source delivery, license notices, Intel OpenMP rights and other actual redistribution obligations remain separate existing PUBLIC release work. Do not weaken them or add a compliance framework to 003. Old candidate bindings remain accurate until that release work binds a new candidate.
 
-No dependency/lock, Argos, MiniSBD, translation, model/ONNX hash, provisioning/rollback, offline inference, NDJSON v1 or Freya changes are included. This revision changes planning artifacts only; no build, implementation or publication is performed.
+No dependency/lock, Argos, MiniSBD, translation, model/ONNX hash, provisioning/rollback, offline inference, NDJSON v1 or host application changes are included. This revision changes planning artifacts only; no build, implementation or publication is performed.
