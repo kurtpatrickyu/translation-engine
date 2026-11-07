@@ -48,7 +48,8 @@ function pinned(file, expected) {
 
 // Read-only bounded ZIP reader: only stored/deflated, nonencrypted, non-ZIP64.
 // Members are never extracted by archive-controlled filesystem paths.
-function zipMembers(bytes, allowUnselectedModels = false) {
+function zipMembers(bytes, allowUnselectedModels = false, maxExpandedBytes = 128 * 1024**2) {
+  assert(Number.isSafeInteger(maxExpandedBytes) && maxExpandedBytes > 0 && maxExpandedBytes <= 256 * 1024**2, 'Invalid ZIP expanded bound');
   let end = -1;
   for (let p = bytes.length - 22; p >= Math.max(0, bytes.length - 65557); p--) {
     if (bytes.readUInt32LE(p) === 0x06054b50 && p + 22 + bytes.readUInt16LE(p + 20) === bytes.length) { end = p; break; }
@@ -72,7 +73,7 @@ function zipMembers(bytes, allowUnselectedModels = false) {
     assert(allowUnselectedModels || !model(name), 'External model in archive: ' + name);
     assert(!members.has(name), 'Duplicate ZIP member: ' + name);
     total += length;
-    assert(total <= 128 * 1024**2, 'ZIP exceeds expanded size bound');
+    assert(total <= maxExpandedBytes, 'ZIP exceeds expanded size bound');
     assert(local + 30 <= bytes.length && bytes.readUInt32LE(local) === 0x04034b50, 'Invalid ZIP local header');
     const start = local + 30 + bytes.readUInt16LE(local + 26) + bytes.readUInt16LE(local + 28);
     assert(start + packed <= bytes.readUInt32LE(end + 16), 'ZIP member out of bounds');

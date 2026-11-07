@@ -68,6 +68,15 @@ reconcile active usage/public docs in 4.9/5.7 without rewriting raw history.
 - [ ] 4.3b [PUBLIC] Review Visual C++/OpenMP and other native redistribution rights, approved acquisition provenance and servicing. Bind exact redistributable bytes/notices to the release candidate; host-System32 collection hashes alone do not establish rights or reproducible acquisition. Implement only reviewed requirements before public distribution.
 - [x] 4.4a [LOCAL] Produce and hash-check the complete diagnostic worker-only ZIP, excluding external translation/ONNX assets. Existing evidence: `frozen-unicode-all.worker.zip` in build `diagnostic-20261107-133601`, 58,072,023 ZIP bytes / 159,927,584 extracted bytes; full file comparison passed in the native audit. This local diagnostic is not a compliant public release asset.
 - [ ] 4.4b [PUBLIC] Assemble the final versioned `translation-engine-worker-win-x64.zip` with runtime, reviewed notices/compliance materials, no model/ONNX binaries or development files; record final source/tool/lock/native and artifact hashes. Revalidate any changed candidate; do not substitute diagnostic hashes after repackaging.
+
+  Local candidate assembly implemented 2026-11-07 without a PyInstaller rebuild:
+  `scripts/assemble_release.cjs`, pinned `packaging/release-candidate.json`,
+  current post-003 176-file runtime plus 62 notice/instruction files. Two final
+  assemblies are byte-identical; all 238 extracted files match the manifest and
+  extracted `--version` returns 0.1.0. New worker ZIP has its own hash; original
+  executable/native bytes are unchanged. See `docs/release-candidate-results.md`.
+  Keep unchecked: reviewed native/source compliance and final public acceptance
+  remain unresolved; this candidate is ready for clean-machine testing only.
 - [x] 4.5a [LOCAL] Complete host-local ASCII/spaces, separate Unicode model/executable/state and combined Unicode relocation smoke tests, with environment paths removed, actual provisioning/readiness, repeated translation, integrity/failure preservation, stdout purity and shutdown. Evidence: five passing frozen reports and 75 matching translation outputs in `docs/unicode-path-validation.md`; the later minimal-environment functional smoke also passed in `docs/native-dependencies.md`. This is not clean OS isolation.
 - [ ] 4.5b [PUBLIC] Execute the packaged protocol/provisioning/relocation/error/flush/stdout/shutdown checks on both clean OS matrix rows against the same candidate and external model hashes, retaining full results and loader errors. Add native stdout redirection only if leakage is demonstrated.
 - [ ] 4.6 [PUBLIC] Execute clean Windows 10 22H2 x64 and Windows 11 x64 acceptance using the same exact ZIP/model/ONNX hashes on clean VMs or Windows Sandbox where available, without system Python/Argos and with network access disabled. Record exact edition/build/update state, CPU, commit, commands, network controls, stderr/stdout, and results. Document any technical incompatibility before proposing a support reduction. Coordinate distinct 3.8b offline and 4.5b protocol/relocation assertions; no duplicate claim of completed evidence.
@@ -87,7 +96,25 @@ combined 4.5 is now completed 4.5a and pending public 4.5b; no OS result is infe
 ## 5. A5 — Worker-only public release, compliance, and consumer documentation
 
 - [ ] 5.1 [PUBLIC] Implement a small strict worker integrity manifest/schema/example and verification helpers: project worker URL/version/hash, runtime/source-wheel/build identities and compatibility; external original model/ONNX upstream URLs, versions/hashes/provenance/known-unknown terms and package layout. Do not treat external files as attached release assets.
-- [ ] 5.2 [PUBLIC] Generate manifest and `SHA256SUMS` from final worker/compliance files; reject hash/schema/identity/version/URL conflicts, duplicate entries, missing files and placeholders. Cover all distributed files except the checksum file itself; external model digests belong in manifest metadata, not attached-file checksum entries.
+
+  Local-candidate contract/helper/example implemented in
+  `packaging/release-manifest.schema.json`, `packaging/release-manifest.example.json`,
+  `scripts/assemble_release.cjs` and the Windows checksum verifier. It binds the
+  original source commit, later materials commit, exact runtime/native/build
+  identities, archive contents, prerequisites and external model metadata.
+  Publication is explicitly local-only with null tag/release URL, not a fabricated
+  download address. Keep unchecked until the existing public tag-specific worker
+  URL requirement is bound; no tag/release has been created.
+
+- [x] 5.2 [PUBLIC] Generate manifest and `SHA256SUMS` from final worker/compliance files; reject hash/schema/identity/version/URL conflicts, duplicate entries, missing files and placeholders. Cover all distributed files except the checksum file itself; external model digests belong in manifest metadata, not attached-file checksum entries.
+
+  Completed mechanically for local 0.1.0-rc.1, 2026-11-07: all seven distributed
+  files other than `SHA256SUMS` are covered, including manifest, three ZIPs,
+  schema, Windows instructions and checksum verifier. The manifest has no
+  self-hash. Full candidate verification and negative integrity/source-identity
+  tests pass; independent assembly is byte-identical. Public URL/tag binding
+  (5.1), compliance (5.3), clean acceptance and publication remain separate.
+  Overall progress is now 38/54; LOCAL stays 37/37 and PUBLIC is 1/17.
 - [ ] 5.3 [PUBLIC] Deliver reviewed third-party notices/license texts and required corresponding source/build/install material for MiniSBD AGPLv3, Visual C++/OpenMP/native and other bundled code, following 3.2/4.3b. Verify the source-delivery mechanism covers the exact binary; not shipping models does not waive bundled-code obligations.
 
   Extended implementation 2026-11-07: the existing inventory/stager now binds
@@ -119,6 +146,12 @@ combined 4.5 is now completed 4.5a and pending public 4.5b; no OS result is infe
 - [ ] 5.7 [PUBLIC] Finalize public README/development/build/provisioning/protocol/support/performance/troubleshooting references and accurate bundled/external attribution. Reuse the Level A manual guide without making local instructions wait for OS acceptance. Verify examples against the consumer contract.
 - [ ] 5.8 [PUBLIC] Finalize neutral consumer subprocess guidance for paths, framing/IDs, stderr, readiness, timeouts, shutdown, recovery and upstream asset provisioning. Future consumer integration follows protocol v1 in its own repository; no Freya-specific worker behavior.
 - [ ] 5.9 [PUBLIC] Rehearse and verify the complete worker-only release candidate without publishing: ZIP, manifest, checksums, notices/source delivery, support/offline/measurement evidence and documentation agree on exact bytes. Confirm there are no hosted model/ONNX assets, including public CI uploads.
+
+  Local artifact portion rehearsed: deterministic worker/compliance/source ZIPs,
+  manifest and checksums, source commit binding, candidate-specific CMD guide,
+  exclusions, original payload equality and extracted startup are verified.
+  Keep unchecked: reviewed final source delivery plus both clean-OS/offline/
+  target-measurement rows remain pending. No public upload or CI change occurred.
 - [ ] 5.10 [PUBLIC] Verify Level B readiness independently of completed Level A: both clean Windows rows and OS-denied networking, final measurements, bundled-component compliance, authoritative consumer docs, and candidate verification pass for the same artifact/external model hashes. Report publication approval/status separately; no automatic release.
 
 Deferred, not required for Level A/B completion: advanced CI orchestration,
