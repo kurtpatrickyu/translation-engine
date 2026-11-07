@@ -83,8 +83,9 @@ Supplying reviewed native-inventory/build inputs with public source/build
 instructions remains part of the separate PUBLIC release preparation.
 
 For the existing executable, use the [local manual guide](manual-usage.md).
-It requires no environment setup or new build. The Level A documentation task
-does not itself record the manual walkthrough or sign off local usability.
+It requires no environment setup or new build. Level A local usability is
+complete; the [manual validation results](manual-test-results.md) retain the
+user's walkthrough evidence. Public support and release gates remain separate.
 
 The host-local real-model spike passed using package-local MiniSBD; local worker
 development and Windows builds can proceed. Explicit acquisition/provisioning
