@@ -1,0 +1,1696 @@
+{
+  "schema_version": 2,
+  "candidate_id": "0.1.0",
+  "worker_version": "0.1.0",
+  "protocol_version": 1,
+  "platform": "windows",
+  "architecture": "x64",
+  "source": {
+    "repository": "https://github.com/kurtpatrickyu/translation-engine",
+    "commit": "b064e29517fb793b2fcf0bf309b6fc78f623367d",
+    "materials_commit": "6faf8a8d40713e7f5bafb787a2e900b104995ddb",
+    "url": "https://github.com/kurtpatrickyu/translation-engine/tree/b064e29517fb793b2fcf0bf309b6fc78f623367d"
+  },
+  "publication": {
+    "status": "prepared-release",
+    "tag": "v0.1.0",
+    "release_url": "https://github.com/kurtpatrickyu/translation-engine/releases/tag/v0.1.0",
+    "release_ready": false
+  },
+  "baseline": {
+    "worker": "dist/diagnostic-20261107-211131/translation-engine-worker",
+    "executable_sha256": "ec06bf07399b9d96d140e2c828772666aa12124b8991a2d622ebca52ced79d7d",
+    "diagnostic_zip_sha256": "8bf0010042f2259d477a29b19c7fa5e15aa53d9ae8a7ba238900926fd2ed5fd0",
+    "audit_sha256": "f7a5e7462b671cd9703c373a4c920e8da73589f8ede057b0ee64775a8879f7e8",
+    "build_sha256": "4f686c44b7ee52a46dfa3100730111d322b33aa69286e4363a371850004e0587",
+    "native_files": 49,
+    "platform_support": {
+      "windows10_x64": {
+        "status": "clean-VM core smoke passed with limitations; additional coverage unperformed",
+        "transcript": "docs/evidence/windows10-rc1-cmd-2026-11-08.txt",
+        "sha256": "7bf2949e1b9f30e6f3a0d0d082713f4bdfe1312304728c348e3a376c82ebb1ac"
+      },
+      "windows11_x64": {
+        "status": "expected compatible, UNTESTED",
+        "separate_acceptance": "deferred for v0.1.0"
+      }
+    }
+  },
+  "backend": "argos",
+  "dependencies": [
+    {
+      "id": "argostranslate",
+      "version": "1.11.1",
+      "source_identity": {
+        "wheel": "downloads/wheels/argostranslate-1.11.1-py3-none-any.whl",
+        "wheel_sha256": "825b1bf872390547bad6c1fcf1f12e5967e2fe6b44ca1e8a82e17a8dd79a2aa0",
+        "revision": "17ed1a9b055c5ba1b51d76b683bbb0c64e2a4a88",
+        "sha256": "0cedceb52ca288b12bb4a33de97f7a8df13bc45dd46f6338754194a27b746343",
+        "identity_status": "reviewed unmodified source-to-wheel mapping",
+        "url": "https://codeload.github.com/argosopentech/argos-translate/zip/17ed1a9b055c5ba1b51d76b683bbb0c64e2a4a88"
+      }
+    },
+    {
+      "id": "charset_normalizer",
+      "version": "3.5.2",
+      "source_identity": {
+        "wheel": "downloads/wheels/charset_normalizer-3.5.2-cp312-cp312-win_amd64.whl",
+        "wheel_sha256": "780fbe7cab297b81dad9fb8dc5eb003c0468ffb0d9e5f65068c53a34661a96bc",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      }
+    },
+    {
+      "id": "cloudpickle",
+      "version": "3.1.2",
+      "source_identity": {
+        "wheel": "downloads/wheels/cloudpickle-3.1.2-py3-none-any.whl",
+        "wheel_sha256": "9acb47f6afd73f60dc1df93bb801b472f05ff42fa6c84167d25cb206be1fbf4a",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      }
+    },
+    {
+      "id": "colorama",
+      "version": "0.4.6",
+      "source_identity": {
+        "wheel": "downloads/wheels/colorama-0.4.6-py2.py3-none-any.whl",
+        "wheel_sha256": "4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      }
+    },
+    {
+      "id": "ctranslate2",
+      "version": "4.8.5",
+      "source_identity": {
+        "wheel": "downloads/wheels/ctranslate2-4.8.5-cp312-cp312-win_amd64.whl",
+        "wheel_sha256": "16b1478f9dccd3c6eedb7a1b2e23cb2a41f03976266b71afa1bd9019df7c7014",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      }
+    },
+    {
+      "id": "filelock",
+      "version": "4.2.9",
+      "source_identity": {
+        "wheel": "downloads/wheels/filelock-4.2.9-py3-none-any.whl",
+        "wheel_sha256": "a379c50a729e5b68c8519a4d26489f755d9769960a236ecd838190e2a78db2e9",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      }
+    },
+    {
+      "id": "joblib",
+      "version": "1.6.0",
+      "source_identity": {
+        "wheel": "downloads/wheels/joblib-1.6.0-py3-none-any.whl",
+        "wheel_sha256": "3dbbf9f6e4b592a2357b854608e980fe6390d131d7a82f011a377ef2ebef7aba",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      }
+    },
+    {
+      "id": "minisbd",
+      "version": "0.9.5",
+      "source_identity": {
+        "wheel": "downloads/wheels/minisbd-0.9.5-py3-none-any.whl",
+        "wheel_sha256": "a573a3bb62349a5a7f22f6e12c8305814dbe6765d83bcb034c6f780d1e69d1df",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "publisher exact-version sdist to locked wheel byte equality; embedded frozen code equality",
+        "sdist_url": "https://files.pythonhosted.org/packages/8a/09/648d539139188925d3c58272ccae9d8b0d51513a384e422ec1d4e4501ed1/minisbd-0.9.5.tar.gz",
+        "sdist_sha256": "b40d0a32ad0b3aeb8477e06a9e4723b7fa34a30121731f6a5063d39b7b3a464e",
+        "wheel_source_members": [
+          "minisbd/__init__.py",
+          "minisbd/inference.py",
+          "minisbd/minisbd.py",
+          "minisbd/models.py",
+          "minisbd/modules/__init__.py",
+          "minisbd/modules/data.py",
+          "minisbd/modules/dictionary.py",
+          "minisbd/modules/inference.py",
+          "minisbd/modules/vocab.py"
+        ],
+        "modifications": "none; source members byte-identical to publisher sdist and frozen code comparison passes"
+      }
+    },
+    {
+      "id": "numpy",
+      "version": "2.5.4",
+      "source_identity": {
+        "wheel": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+        "wheel_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      }
+    },
+    {
+      "id": "onnxruntime",
+      "version": "1.31.1",
+      "source_identity": {
+        "wheel": "downloads/wheels/onnxruntime-1.31.1-cp312-cp312-win_amd64.whl",
+        "wheel_sha256": "ae8a9a351efda685cc59a66226cdefaa37a126c1d66872ca23a2de9425326130",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      }
+    },
+    {
+      "id": "packaging",
+      "version": "26.3",
+      "source_identity": {
+        "wheel": "downloads/wheels/packaging-26.3-py3-none-any.whl",
+        "wheel_sha256": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      }
+    },
+    {
+      "id": "regex",
+      "version": "2026.9.29",
+      "source_identity": {
+        "wheel": "downloads/wheels/regex-2026.9.29-cp312-cp312-win_amd64.whl",
+        "wheel_sha256": "fdd88ed5e20b1bcdd234421e454962c971aa44b653bdb7f1ea9ef683e90fb649",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      }
+    },
+    {
+      "id": "sacremoses",
+      "version": "0.1.1",
+      "source_identity": {
+        "wheel": "downloads/wheels/sacremoses-0.1.1-py3-none-any.whl",
+        "wheel_sha256": "31e04c98b169bfd902144824d191825cd69220cdb4ae4bcf1ec58a7db5587b1a",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      }
+    },
+    {
+      "id": "sentencepiece",
+      "version": "0.2.1",
+      "source_identity": {
+        "wheel": "downloads/wheels/sentencepiece-0.2.1-cp312-cp312-win_amd64.whl",
+        "wheel_sha256": "4cdc7c36234fda305e85c32949c5211faaf8dd886096c7cea289ddc12a2d02de",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      }
+    },
+    {
+      "id": "tqdm",
+      "version": "4.70.1",
+      "source_identity": {
+        "wheel": "downloads/wheels/tqdm-4.70.1-py3-none-any.whl",
+        "wheel_sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "publisher exact-version sdist to locked wheel byte equality; embedded frozen code equality",
+        "sdist_url": "https://files.pythonhosted.org/packages/0d/ea/b2a5bd54b28a324dae8211928b2d730b6547500342c7e6c6dea08bd0a485/tqdm-4.70.1.tar.gz",
+        "sdist_sha256": "cefd0eca11b2a37a3aee776544d4f4ae913f02688135b5556b8788dfa474afc4",
+        "wheel_source_members": [
+          "tqdm/__init__.py",
+          "tqdm/__main__.py",
+          "tqdm/_main.py",
+          "tqdm/_monitor.py",
+          "tqdm/_tqdm.py",
+          "tqdm/_tqdm_gui.py",
+          "tqdm/_tqdm_notebook.py",
+          "tqdm/_tqdm_pandas.py",
+          "tqdm/_utils.py",
+          "tqdm/asyncio.py",
+          "tqdm/auto.py",
+          "tqdm/autonotebook.py",
+          "tqdm/cli.py",
+          "tqdm/dask.py",
+          "tqdm/gui.py",
+          "tqdm/keras.py",
+          "tqdm/notebook.py",
+          "tqdm/rich.py",
+          "tqdm/std.py",
+          "tqdm/tk.py",
+          "tqdm/utils.py",
+          "tqdm/version.py",
+          "tqdm/contrib/__init__.py",
+          "tqdm/contrib/bells.py",
+          "tqdm/contrib/concurrent.py",
+          "tqdm/contrib/discord.py",
+          "tqdm/contrib/itertools.py",
+          "tqdm/contrib/logging.py",
+          "tqdm/contrib/slack.py",
+          "tqdm/contrib/telegram.py",
+          "tqdm/contrib/utils_worker.py"
+        ],
+        "modifications": "none; source members byte-identical to publisher sdist and frozen code comparison passes"
+      }
+    },
+    {
+      "id": "typing_extensions",
+      "version": "4.16.0",
+      "source_identity": {
+        "wheel": "downloads/wheels/typing_extensions-4.16.0-py3-none-any.whl",
+        "wheel_sha256": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      }
+    },
+    {
+      "id": "yaml",
+      "version": "6.0.3",
+      "source_identity": {
+        "wheel": "downloads/wheels/pyyaml-6.0.3-cp312-cp312-win_amd64.whl",
+        "wheel_sha256": "5fcd34e47f6e0b794d17de1b4ff496c00986e1c83f7ab2fb8fcfe9616ff7477b",
+        "revision": null,
+        "sha256": null,
+        "identity_status": "locked-wheel; source revision not established"
+      }
+    },
+    {
+      "id": "python",
+      "version": "3.12.10",
+      "source_identity": {
+        "revision": null,
+        "sha256": null,
+        "identity_status": "not-established"
+      }
+    },
+    {
+      "id": "pyinstaller",
+      "version": "6.22.3",
+      "source_identity": {
+        "revision": null,
+        "sha256": null,
+        "identity_status": "collected runtime Python sources match publisher sdist and executable; bootloader exception retained, no bootloader source duty asserted",
+        "sdist_sha256": "05eb2f5615503e72939a7224d68b4aff572c6b0438ee4a17d0a4b481f399362d",
+        "sdist_metadata_url": "https://pypi.org/pypi/pyinstaller/6.22.3/json"
+      }
+    }
+  ],
+  "external_prerequisites": [
+    {
+      "name": "Microsoft Visual C++ v14 x64 Redistributable",
+      "url": "https://aka.ms/vc14/vc_redist.x64.exe",
+      "bundled": false,
+      "tested_version": "14.50.35719.0",
+      "minimum_version": "not established; latest supported recommended"
+    }
+  ],
+  "external_models": [
+    {
+      "role": "translation",
+      "filename": "translate-zh_en-1_9.argosmodel",
+      "source": "https://argos-net.com/v1/translate-zh_en-1_9.argosmodel",
+      "package_version": "1.9",
+      "declared_argos_version": "1.9.0",
+      "source_language": "zh",
+      "target_language": "en",
+      "bytes": 74481402,
+      "sha256": "62e7af5a3a48b530e47b7b3e5c78c2de79073ecd815750d2bf3ab35b4a67da2d",
+      "upstream_index_revision": "ff90de60728f7c1338ff6b75974e4c89b2442d22",
+      "license_evidence": "Archive README identifies the original OPUS model as CC-BY 4.0; preserve OPUS-MT attribution and review the packaged model's distribution obligations.",
+      "bundled": false
+    },
+    {
+      "role": "sentence_boundary",
+      "filename": "zh-hans.onnx",
+      "source": "https://github.com/LibreTranslate/MiniSBD/releases/download/v0.0.1/zh-hans.onnx",
+      "asset_release": "v0.0.1",
+      "release_id": 273975424,
+      "asset_id": 336220945,
+      "release_tag_commit": "27772c68437a368c23a26dbf4fbc2fe1c7df82a2",
+      "source_inspection_revision": "bc63bb09ee61050433323f255c07a3497b93b9c8",
+      "library_version": "0.9.5",
+      "language": "zh-hans",
+      "bytes": 616442,
+      "sha256": "b2a6e45ebb43df44ac3c8e4100ea1cb30ec8319c5698b678ed3f203e5edc5d0e",
+      "license_evidence": "MiniSBD source/package is AGPLv3; upstream README describes converted and quantized Stanza tokenizers. Verify ONNX-specific terms and source/attribution chain before redistribution.",
+      "installation": "translate-zh_en-1_9/minisbd/zh-hans.onnx",
+      "bundled": false
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "translation-engine-worker-win-x64.zip",
+      "bytes": 58899472,
+      "sha256": "ed9b62cf936344ffb3c0ca87cd42952071aae19629d84c18e208e6aa2bc1c628",
+      "role": "worker"
+    },
+    {
+      "name": "translation-engine-compliance.zip",
+      "bytes": 5054447,
+      "sha256": "a2dd4808c102d36bf72a43f5f4b1e1dde50af90b021813732739ad0e6501fff3",
+      "role": "compliance"
+    },
+    {
+      "name": "translation-engine-corresponding-source.zip",
+      "bytes": 5055035,
+      "sha256": "0486aa19134edc16ab0d9c8c7c4d56cf6afeea15391cdc83fa21f0b2b96d3d87",
+      "role": "corresponding-source-preparation"
+    },
+    {
+      "name": "WINDOWS-CANDIDATE.md",
+      "bytes": 5360,
+      "sha256": "ef5243ea0e6bd859a0d96ba9e27665b6afcdeaafc3d9970df8dbaa2423fbdbca",
+      "role": "usage"
+    },
+    {
+      "name": "verify-checksums.ps1",
+      "bytes": 1822,
+      "sha256": "0b8411c9299ed7dc60d178a70880ca5901d16ec0848c56a28915b1c75b9d4496",
+      "role": "checksum-verifier"
+    },
+    {
+      "name": "manifest.schema.json",
+      "bytes": 4593,
+      "sha256": "b3cf8f03fe7012cc5d34cf111209d561fe66b03b6ba1101b31a96080f0b9a08b",
+      "role": "manifest-schema"
+    }
+  ],
+  "worker_files": [
+    {
+      "name": "translation-engine-worker/_internal/_asyncio.pyd",
+      "bytes": 74096,
+      "sha256": "c77de90cad749087a0c5dc5e19d78d24f6ef44e7e5ac19b8420cfc0cea62395d"
+    },
+    {
+      "name": "translation-engine-worker/_internal/_bz2.pyd",
+      "bytes": 86896,
+      "sha256": "65f610646d10d5babea080e060d244b546ec52c54012e5e937dc72dcc2e2e7bc"
+    },
+    {
+      "name": "translation-engine-worker/_internal/_ctypes.pyd",
+      "bytes": 127480,
+      "sha256": "0e56107a891100535f2da79d85a5ae65ff1227b4765bd108f8593ac1a1110d81"
+    },
+    {
+      "name": "translation-engine-worker/_internal/_decimal.pyd",
+      "bytes": 262000,
+      "sha256": "aeacfead2befcc0768063a037bb64bd32109ae09cb144e5f571b04dd7965db9d"
+    },
+    {
+      "name": "translation-engine-worker/_internal/_hashlib.pyd",
+      "bytes": 68976,
+      "sha256": "03d233dbace599168eaffec823de6ed7beec8c2a4ebfe9b8a3d8e042a59af3ba"
+    },
+    {
+      "name": "translation-engine-worker/_internal/_lzma.pyd",
+      "bytes": 161136,
+      "sha256": "e3deecc1f59a3b811c608861decd84de1e8df8bafd5e2b39188861318c5a38cf"
+    },
+    {
+      "name": "translation-engine-worker/_internal/_multiprocessing.pyd",
+      "bytes": 37368,
+      "sha256": "2c636df7059cb0dd7e978dd735c7c5c8ddb09cf94754cf9e232296b96c5c545a"
+    },
+    {
+      "name": "translation-engine-worker/_internal/_overlapped.pyd",
+      "bytes": 57336,
+      "sha256": "662126ff80c3a1b4cedf74074029c12ae4743e6d3b37376e39ac70aacb7d4d3c"
+    },
+    {
+      "name": "translation-engine-worker/_internal/_queue.pyd",
+      "bytes": 33784,
+      "sha256": "48e76e0ad63f6932b4a77b5819f41c1e7595636ca8d9e824f0943a14b8bb5035"
+    },
+    {
+      "name": "translation-engine-worker/_internal/_socket.pyd",
+      "bytes": 85496,
+      "sha256": "3efa4636cf9e350856f6927d67a4c2564bf9bd2758a00bbf17d3aece5b60016d"
+    },
+    {
+      "name": "translation-engine-worker/_internal/_sqlite3.pyd",
+      "bytes": 126184,
+      "sha256": "64b51df2805c58b023a875e8ae3be7ac7f61ef664f32ca6c90f6315da47ef0bc"
+    },
+    {
+      "name": "translation-engine-worker/_internal/_ssl.pyd",
+      "bytes": 179432,
+      "sha256": "0bc527d2dbc50009f43b2ed5d5982c4f63f4b647647ffa9eda612dcda80f6040"
+    },
+    {
+      "name": "translation-engine-worker/_internal/_uuid.pyd",
+      "bytes": 27128,
+      "sha256": "acce4f281d7ffb2dec0997527faf25b1df62ad7bd3032c568ddcf65c90edc867"
+    },
+    {
+      "name": "translation-engine-worker/_internal/_wmi.pyd",
+      "bytes": 40304,
+      "sha256": "a980f1e7a29842bd946863fc2693fbeb555a9dc0f9e1630dfed9a2fcdef3ece2"
+    },
+    {
+      "name": "translation-engine-worker/_internal/argostranslate-1.11.1.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508"
+    },
+    {
+      "name": "translation-engine-worker/_internal/argostranslate-1.11.1.dist-info/METADATA",
+      "bytes": 10766,
+      "sha256": "4c9eec32b63c11843682d6c42e14715a077fc1f03741746ed3ae7ee6628a1918"
+    },
+    {
+      "name": "translation-engine-worker/_internal/argostranslate-1.11.1.dist-info/RECORD",
+      "bytes": 3492,
+      "sha256": "d44d6325e49a38807ab5cac580af0f00c2094b0952eba774662777a5b58691d2"
+    },
+    {
+      "name": "translation-engine-worker/_internal/argostranslate-1.11.1.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "translation-engine-worker/_internal/argostranslate-1.11.1.dist-info/WHEEL",
+      "bytes": 91,
+      "sha256": "ff309ddcdd65ebd02bc724dbf2bcc4a0ff53a5b61792a44548d383e4ebb19d3b"
+    },
+    {
+      "name": "translation-engine-worker/_internal/argostranslate-1.11.1.dist-info/entry_points.txt",
+      "bytes": 98,
+      "sha256": "2af27ec20c6cefae965ccb194bc46571c8130ad5d3239d432b335ed905978e96"
+    },
+    {
+      "name": "translation-engine-worker/_internal/argostranslate-1.11.1.dist-info/licenses/LICENSE",
+      "bytes": 1085,
+      "sha256": "f90866ab74c1b756cc6f7420aed109f598320c9b660aeadbcec6458d0c1a4e1f"
+    },
+    {
+      "name": "translation-engine-worker/_internal/argostranslate-1.11.1.dist-info/top_level.txt",
+      "bytes": 21,
+      "sha256": "933b278189decc552e6787b9b9fd35dba57de8c10d74d95990d4bfd033b4f584"
+    },
+    {
+      "name": "translation-engine-worker/_internal/base_library.zip",
+      "bytes": 1333717,
+      "sha256": "fb60ce18a45d9d0782bd958371a662d69678c6754e7ed2372e6231d58645213b"
+    },
+    {
+      "name": "translation-engine-worker/_internal/charset_normalizer/cd.cp312-win_amd64.pyd",
+      "bytes": 115712,
+      "sha256": "2bdbc0805f85565d76f8d6166e451bfafa6d5490b06b36c9f423cd0102b4f149"
+    },
+    {
+      "name": "translation-engine-worker/_internal/charset_normalizer/md.cp312-win_amd64.pyd",
+      "bytes": 208384,
+      "sha256": "b08be5d29125f39a92e22d0abe4b9160753f7a790fffd07258319a8e16394afa"
+    },
+    {
+      "name": "translation-engine-worker/_internal/ctranslate2-4.8.5.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508"
+    },
+    {
+      "name": "translation-engine-worker/_internal/ctranslate2-4.8.5.dist-info/METADATA",
+      "bytes": 11526,
+      "sha256": "06b58bc28306044b21706b36661eee4887bfbc6e27af94043f8b54de9470fd9b"
+    },
+    {
+      "name": "translation-engine-worker/_internal/ctranslate2-4.8.5.dist-info/RECORD",
+      "bytes": 5783,
+      "sha256": "9d12b00e5f3eca7542b02f9b3fbdd948fbfb35ef6cde051c637fbb621fec59a8"
+    },
+    {
+      "name": "translation-engine-worker/_internal/ctranslate2-4.8.5.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "translation-engine-worker/_internal/ctranslate2-4.8.5.dist-info/WHEEL",
+      "bytes": 101,
+      "sha256": "b2601f60075ce318a1cf4b08f2b52cc397e708f776ca360504cd2ea7a3a21031"
+    },
+    {
+      "name": "translation-engine-worker/_internal/ctranslate2-4.8.5.dist-info/entry_points.txt",
+      "bytes": 466,
+      "sha256": "6479288eeb7f4e65511e5d1b2481a6d9bf70aabf7c18026ac4df6b949b50b21b"
+    },
+    {
+      "name": "translation-engine-worker/_internal/ctranslate2-4.8.5.dist-info/top_level.txt",
+      "bytes": 12,
+      "sha256": "d6151a5b370522e4a8d81008507140dceb20b2ee92d608aad32e91a2cbfc1ce4"
+    },
+    {
+      "name": "translation-engine-worker/_internal/ctranslate2/_ext.cp312-win_amd64.pyd",
+      "bytes": 813056,
+      "sha256": "2dd58236bccffb204ab3d322e829efbf8f8be3218cf688b650c502c46fa5a28b"
+    },
+    {
+      "name": "translation-engine-worker/_internal/ctranslate2/ctranslate2.dll",
+      "bytes": 61320704,
+      "sha256": "6e86e62019fd7e2825a76122aeb95b9d2f58f3a985f52811d3237998413e271a"
+    },
+    {
+      "name": "translation-engine-worker/_internal/ctranslate2/libiomp5md.dll",
+      "bytes": 1614192,
+      "sha256": "982233366b0afcda1e0f55a0b134097e35b779613f54ddb69e685e6cd06b755f"
+    },
+    {
+      "name": "translation-engine-worker/_internal/libcrypto-3.dll",
+      "bytes": 5231472,
+      "sha256": "ccfffddcd3defb8d899026298af9af43bc186130f8483d77e97c93233d5f27d7"
+    },
+    {
+      "name": "translation-engine-worker/_internal/libffi-8.dll",
+      "bytes": 39696,
+      "sha256": "eff52743773eb550fcc6ce3efc37c85724502233b6b002a35496d828bd7b280a"
+    },
+    {
+      "name": "translation-engine-worker/_internal/libssl-3.dll",
+      "bytes": 794992,
+      "sha256": "007142039f04d04e0ed607bda53de095e5bc6a8a10d26ecedde94ea7d2d7eefe"
+    },
+    {
+      "name": "translation-engine-worker/_internal/minisbd-0.9.5.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508"
+    },
+    {
+      "name": "translation-engine-worker/_internal/minisbd-0.9.5.dist-info/METADATA",
+      "bytes": 47200,
+      "sha256": "1d4e20b47d308da4e5026d3e112b9eab8a23710a813f1f37a57d33701030f059"
+    },
+    {
+      "name": "translation-engine-worker/_internal/minisbd-0.9.5.dist-info/RECORD",
+      "bytes": 1844,
+      "sha256": "585d7dd8e3bbfb6c8da39bf2f7d8a15aab6fb7f4feb73006ab2428a20e90fd49"
+    },
+    {
+      "name": "translation-engine-worker/_internal/minisbd-0.9.5.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "translation-engine-worker/_internal/minisbd-0.9.5.dist-info/WHEEL",
+      "bytes": 87,
+      "sha256": "41c708c5adba6e097513ab8ccb9f1d7865a2fb469e22491a9e01dcc64da459fc"
+    },
+    {
+      "name": "translation-engine-worker/_internal/minisbd-0.9.5.dist-info/licenses/LICENSE",
+      "bytes": 34522,
+      "sha256": "20b067f86de375aae6db0f283ab2e65de24d537733b89bd58432c101259d84cf"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/DELVEWHEEL",
+      "bytes": 462,
+      "sha256": "071835e9599badbf48ff13018c74eec31bf7e6e566cf17cc6a131eeff34b09ea"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/METADATA",
+      "bytes": 6635,
+      "sha256": "e2b909d6a37d76c2bc130f528d7fed0c517322bce16dc7846b6a6df30e200403"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/RECORD",
+      "bytes": 113361,
+      "sha256": "1a266423283cf427fb8f02ffcef39b09d8f737bcd10106648b2aca1cc765461b"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/WHEEL",
+      "bytes": 85,
+      "sha256": "e743de01ba6503a3e4234858398a1e69c07d512d51e8482ec9f3a7b1c707d165"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/entry_points.txt",
+      "bytes": 220,
+      "sha256": "ec26fade0c8bdac211a6c1dd003a65eb16885b925395423e93fcaa115af4052c"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/licenses/LICENSE.txt",
+      "bytes": 45831,
+      "sha256": "a804dff0ead9fadc5293456410bcbfc32bf024be9c4513459663fb7b442d2341"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/licenses/numpy/_core/include/numpy/libdivide/LICENSE.txt",
+      "bytes": 1039,
+      "sha256": "d544761558b510866c21f7e8a2d5716fca76e0b98117e3b6b86314db7244d150"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat/COPYING",
+      "bytes": 704,
+      "sha256": "aea41976c720f91bd19725c16916a1ace40eb1ea42620d340e587a5de4bbcea0"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/licenses/numpy/_core/src/highway/LICENSE",
+      "bytes": 21155,
+      "sha256": "d208152e2777ffd0126eacc1bd21c0320d69e4e6b622d21a2a12a47e8ef73763"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/licenses/numpy/_core/src/multiarray/dragon4_LICENSE.txt",
+      "bytes": 1441,
+      "sha256": "b0fd592d4ead563148e3977e7b589169d46a5ef2ff133c755a81af880a3fc919"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort/LICENSE.md",
+      "bytes": 1542,
+      "sha256": "a732977853530066790c42817087f4829b518dd98d340c916acbfd227e39d3cb"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/licenses/numpy/_core/src/umath/svml/LICENSE",
+      "bytes": 1573,
+      "sha256": "585483905b13d4b42f800c55ba99e89d6e2e33ccd5f503e201c07531d148ff41"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/licenses/numpy/fft/pocketfft/LICENSE.md",
+      "bytes": 1523,
+      "sha256": "8db000e158c162e7249787852d8c69764706502ccee725c06641b31c1e95c8af"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/licenses/numpy/linalg/lapack_lite/LICENSE.txt",
+      "bytes": 2314,
+      "sha256": "19060ef465e1797d682ee0fc3081bd25ab1395e995e43d25c9d13c95d9a3cd6b"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/licenses/numpy/ma/LICENSE",
+      "bytes": 1616,
+      "sha256": "d78dbb208b80d92b4d333e41a4baae50d12444f46e53199fa7726a91de6e2da7"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/licenses/numpy/random/LICENSE.md",
+      "bytes": 3582,
+      "sha256": "b4bc2f4fa1c95778f1ed3dd8f14706bece399475b978f9f34b5d3cd72521b48a"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/licenses/numpy/random/src/distributions/LICENSE.md",
+      "bytes": 2805,
+      "sha256": "cf5619f25b112d5ce7c896efffc8e610bcb345dfadcc19f2c1460aa48fff2c9e"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/licenses/numpy/random/src/mt19937/LICENSE.md",
+      "bytes": 2986,
+      "sha256": "92c10699884321f1c2947fe2a70ab23b0fbf1507f756d89dd08f38c61fc3d4fa"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/licenses/numpy/random/src/pcg64/LICENSE.md",
+      "bytes": 1176,
+      "sha256": "41190663b77bee5302386495a07b7eabfbfa571aa0ae2f11da6764162062fc4f"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/licenses/numpy/random/src/philox/LICENSE.md",
+      "bytes": 1540,
+      "sha256": "322ac46d870c8aeead6c53adcccc839296fb3c8e456eae155081297daf7f8013"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/licenses/numpy/random/src/sfc64/LICENSE.md",
+      "bytes": 1253,
+      "sha256": "28cad82ce1379dc529df30da78ec012d7d0d1d576b03ddcb93388aee53659f59"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy-2.5.4.dist-info/licenses/numpy/random/src/splitmix64/LICENSE.md",
+      "bytes": 340,
+      "sha256": "454ec7350e478e037061850b67395753b425b1cb0a34bbc26290b020bf89d763"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy.libs/libscipy_openblas64_-ed4f167a5330424524f45258e7ca2c8d.dll",
+      "bytes": 20589056,
+      "sha256": "ed4f167a5330424524f45258e7ca2c8d7f03c0cba1f30ee4985553ac1f88ecf8"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy.libs/msvcp140-a4c2229bdc2a2a630acdc095b4d86008.dll",
+      "bytes": 575056,
+      "sha256": "a4c2229bdc2a2a630acdc095b4d86008e5c3e3bc7773174354f3da4f5beb9cde"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy/_core/_multiarray_tests.cp312-win_amd64.pyd",
+      "bytes": 65536,
+      "sha256": "f09f60242eaed510e1af6384284f53ff56ae42770a62e630bd415bc2b6854d66"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy/_core/_multiarray_umath.cp312-win_amd64.pyd",
+      "bytes": 3855872,
+      "sha256": "9c10617e66e992b5ac6d9f78fe7cedd0011618e1c2f89d09a185bb63073e2c90"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy/fft/_pocketfft_umath.cp312-win_amd64.pyd",
+      "bytes": 276480,
+      "sha256": "4f008612d6b9e2ab3820ee17a1c758c499e45e80a36764c9dfb7bf304b066f03"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy/linalg/_umath_linalg.cp312-win_amd64.pyd",
+      "bytes": 112640,
+      "sha256": "03bc9de2d6d8e2d9ea3ec781f3c16bcbc9960095cc02ca588f4229cd1560c661"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy/random/_bounded_integers.cp312-win_amd64.pyd",
+      "bytes": 208896,
+      "sha256": "927c1673ba698a85e6253b4d8d2223eb019b021792c54604489767c694d2ab93"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy/random/_common.cp312-win_amd64.pyd",
+      "bytes": 174080,
+      "sha256": "712a7bb4b2d3e56548cdf255eb4e6c1ca0737d7d81d76f09bdccebb0703ae572"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy/random/_generator.cp312-win_amd64.pyd",
+      "bytes": 624640,
+      "sha256": "0fa509dcf5ae21910cb2b3c74271977d0fac7fab15ffd5f32017e08b97e71de6"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy/random/_mt19937.cp312-win_amd64.pyd",
+      "bytes": 92672,
+      "sha256": "e6938df4dd3a193b7d9171d3e192702be3a70de2ebe866cf6fcd92f9e368349d"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy/random/_pcg64.cp312-win_amd64.pyd",
+      "bytes": 105984,
+      "sha256": "8eb5569b221d40884093def83d897376bddd99c9279f182b9db3145b9b897d34"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy/random/_philox.cp312-win_amd64.pyd",
+      "bytes": 89088,
+      "sha256": "cc0c03e2c1443e8981300ddb9cc5ceb504e7f8494323d4ec0a1ad95ae16fbf75"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy/random/_sfc64.cp312-win_amd64.pyd",
+      "bytes": 64000,
+      "sha256": "20c551734cd2b2be2425c8773b795f1e92de8826ebbe6c1103cd0fa6b5c94408"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy/random/bit_generator.cp312-win_amd64.pyd",
+      "bytes": 173056,
+      "sha256": "c7f637df1fa0db9fe4bba6c05dac680d89aed245401423f1ffd16d93366a35a7"
+    },
+    {
+      "name": "translation-engine-worker/_internal/numpy/random/mtrand.cp312-win_amd64.pyd",
+      "bytes": 522752,
+      "sha256": "e8bdaf22830ceaabc596854a816d39d96d1d60e96c2e12a9a17950b624d480a1"
+    },
+    {
+      "name": "translation-engine-worker/_internal/onnxruntime/capi/onnxruntime.dll",
+      "bytes": 19288376,
+      "sha256": "e45f61e50d8650885452be538a00bb14a715e46a1bc3691000ce947e89ed0306"
+    },
+    {
+      "name": "translation-engine-worker/_internal/onnxruntime/capi/onnxruntime_providers_shared.dll",
+      "bytes": 21816,
+      "sha256": "02b3edadc03a2bddd90bcbd090733a2c458f4aff8be2cebb6070428e81c6d41e"
+    },
+    {
+      "name": "translation-engine-worker/_internal/onnxruntime/capi/onnxruntime_pybind11_state.pyd",
+      "bytes": 19997496,
+      "sha256": "64ee794ec6b432c5b81c0bd1a2a1112f96d70c5aa1fdbb71e71a3f95b2a0ce87"
+    },
+    {
+      "name": "translation-engine-worker/_internal/pyexpat.pyd",
+      "bytes": 205304,
+      "sha256": "d615e193d1affcdbfe504e90d3621cbdcff94bf72b79d899126534507fd6d27a"
+    },
+    {
+      "name": "translation-engine-worker/_internal/python312.dll",
+      "bytes": 6945272,
+      "sha256": "9a0e3435aaa680d868150f87ab3e388ad2eebc22f87e036155c7b4eda8cd2120"
+    },
+    {
+      "name": "translation-engine-worker/_internal/regex/_regex.cp312-win_amd64.pyd",
+      "bytes": 736768,
+      "sha256": "4beee916c5d638552d1a71c6fd25e45d83ae8369ac9cb38009060e8bedcdc5dc"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.as",
+      "bytes": 495,
+      "sha256": "031e8c1e475846eea5d50dd09a0c068f96b2520d63ede25828bd7ba2ae1d8156"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.bn",
+      "bytes": 495,
+      "sha256": "031e8c1e475846eea5d50dd09a0c068f96b2520d63ede25828bd7ba2ae1d8156"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.ca",
+      "bytes": 249,
+      "sha256": "dd4a4db930ac77d7e886c01a038a52586e53109437f18ec13326d050c9562fc4"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.cs",
+      "bytes": 1892,
+      "sha256": "ea4a99eac36237a22ea1d312f2881abd7ca831eec9d3b1513c3ac0a78ac1e073"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.de",
+      "bytes": 1768,
+      "sha256": "caec29277f3cb15748430cdcd41dc341d3d01aab7ef849cda131818b3e52df83"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.el",
+      "bytes": 17034,
+      "sha256": "d08c8ffc224910d37c9c3a0e919cea9bc6da721cb12249d6ceea4d89bdc8bbd8"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.en",
+      "bytes": 1339,
+      "sha256": "7bc4b62cb97fef5f85f283365f2e045b12ef2cc4f946d39d100b9955d8f42ab1"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.es",
+      "bytes": 835,
+      "sha256": "c93467ede290beb7d3fbda03598f3f7c8423f70a95d13bb459e7fe1accc5381e"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.et",
+      "bytes": 1281,
+      "sha256": "b4d09661817c5e85d841b588f47eb48339817441dcd444572e8473f02e99d659"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.fi",
+      "bytes": 1281,
+      "sha256": "b4d09661817c5e85d841b588f47eb48339817441dcd444572e8473f02e99d659"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.fr",
+      "bytes": 1009,
+      "sha256": "c4442c07e22e30ecc89b075f6d5fd0867f7a8177f907992d3f53a75fe5c22547"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.ga",
+      "bytes": 171,
+      "sha256": "aaff8e3d1490c2524eb3eda582f144e600c32470eb79979b31d264494ba31ec6"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.gu",
+      "bytes": 669,
+      "sha256": "84568151b8dd514355f5d0902f2f44e73d8ab2933f17d67028e3468641b803d3"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.hi",
+      "bytes": 752,
+      "sha256": "f1a514229d87c55df9a9c577406a8f37e5c82b7394bbb5c02c959f5e70da5bd3"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.hu",
+      "bytes": 1505,
+      "sha256": "fffbfbf65e683699aae9a1c9c8c028ab47b9c2e085dc4ffcbe8bb7bce5b0b3de"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.is",
+      "bytes": 1059,
+      "sha256": "9f22564c27bd2bb87bd5e0464c578b8ed2183d8f9b9fb71dadff1d765c45d36e"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.it",
+      "bytes": 1563,
+      "sha256": "4e8ecd84556d155949cd503e6e2bf0909291e2503c7bcafcad625038cdcfd794"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.kn",
+      "bytes": 558,
+      "sha256": "07e86609177067e12105183746b24bbcb15ab9bb707dc000454d2c5da3c976da"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.lt",
+      "bytes": 6384,
+      "sha256": "1601959793a2d25cad043b265b4ea2b5102c1544cf73a83a55ee741766b5b8c4"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.lv",
+      "bytes": 1223,
+      "sha256": "b52631e328cda3c25f973a8ad8248c8e89b91b413c2f42c31a3849b84b0a56e1"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.ml",
+      "bytes": 528,
+      "sha256": "42cb2c662a272579e9bd111ebf4eda922f7f534b9011fb4163d17401cd5380a5"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.mni",
+      "bytes": 498,
+      "sha256": "a5fa99222d4ac59a902a3cf43d4d2e3c299352cbf345d25a0d2dcfb2a20a8910"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.mr",
+      "bytes": 740,
+      "sha256": "76ea1393c3a7f4ab427945bfa1e70e13a400d84af4852eb8fb0e722b0fc1cf8b"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.nl",
+      "bytes": 1582,
+      "sha256": "de3605637841a69626f1605e2dad21880f2016ce8adbb10396d1a8e11539c518"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.or",
+      "bytes": 458,
+      "sha256": "92644d8a416d8812caa97af44fe3623019b17f0715d887108727828841d4b28f"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.pa",
+      "bytes": 665,
+      "sha256": "dd934deb0a0edab158b6957d7790e65fac00931f97895a4986a19c68a04344d0"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.pl",
+      "bytes": 1311,
+      "sha256": "c56bfa8260f2d2cd780cb84476a8d5afdd2d5df0df531b313c0135a411134a31"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.pt",
+      "bytes": 1792,
+      "sha256": "4477f9ad690e262c04bc057f4757e12b16777892f80016539130f3b7eebd58b4"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.ro",
+      "bytes": 104,
+      "sha256": "43beedf98c092da62d4d29389130d5601996ed18b1a112b80861fc9f7730b047"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.ru",
+      "bytes": 1649,
+      "sha256": "15079357ab2f2499d2ef589e52585655cffa9d59bdfee6ec36fce118285c4e6f"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.sk",
+      "bytes": 2460,
+      "sha256": "029aa208e8dbc9934a3f60c594ada0ec5d0077b99246d9f1f7275f32d085c21d"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.sl",
+      "bytes": 278,
+      "sha256": "957ef3455f4aa5d708c3d23935a4542c384eb2701ad8327560ea83da6a938754"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.sv",
+      "bytes": 712,
+      "sha256": "3aff8bd2ea50bc4cb88b8a1b64071929a20a49a72dccf5200e7aa54a9e3ee992"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.ta",
+      "bytes": 575,
+      "sha256": "783e13f3e1f20d02031608572ccdd9967ce8df985b4510df519c0f402916d752"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.tdt",
+      "bytes": 1741,
+      "sha256": "38c7f8cdf09dc7a3c46107191a71ce004989dd8788c90bef8fe2039ffed6e75d"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.te",
+      "bytes": 552,
+      "sha256": "3e4c0eaf0ff110d4ee34faba3fd4dc4a935f76bb375e257bb4f71cfe85a47cde"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.yue",
+      "bytes": 610,
+      "sha256": "8928af2c87c632ccc49c74c19744ed5908dd108f1ef1d1207e6327e70a6ce834"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/nonbreaking_prefixes/nonbreaking_prefix.zh",
+      "bytes": 609,
+      "sha256": "7d93c9ea9c396f30264d7127fdd98a1378db812162d4651e0bfffe674a2c2c41"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/CJK.txt",
+      "bytes": 92533,
+      "sha256": "e889430c9333b866ab3bc9b0999fbf6dfcbc34e83315d8200925f4a6289ee8e3"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/CJKSymbols.txt",
+      "bytes": 205,
+      "sha256": "35774f048697859b6571262210511c0b324cdeaa739342429443adf0a1d15ba0"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/Close_Punctuation.txt",
+      "bytes": 214,
+      "sha256": "36eeabfdec22f929c20ba0320b90500271faed2a74b29cce38b92f89d3dfdf69"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/Currency_Symbol.txt",
+      "bytes": 149,
+      "sha256": "f4553edf27f3016bc7796aca90cdcf98d2b1660732958eeca97fe91cb209457a"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/Han.txt",
+      "bytes": 299457,
+      "sha256": "1da36e2243ba025ee2a58c5ee6f74178966f06b148c49ec0049f7b8d495c26cb"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/Hangul.txt",
+      "bytes": 35325,
+      "sha256": "69fc69377ce3b089348448aa9946fed50b40d2b4aea01b0a5805cd445dcbe3e9"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/Hangul_Syllables.txt",
+      "bytes": 33564,
+      "sha256": "2a668294832c2a0ff1f7c1886963d708df96bf24c370b6e537d82836b2943d90"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/Hiragana.txt",
+      "bytes": 437,
+      "sha256": "87d31577a1e54b5c00ba24cb1ebd5a69d4c4adc802a9271f0bf0388225ba99aa"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/IsAlnum-unichars-au.txt",
+      "bytes": 425929,
+      "sha256": "b9744688c6dbb631ea446f5257c29fafbd82a0b4c18e75be2a24d108744e2c5b"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/IsAlnum.txt",
+      "bytes": 31881,
+      "sha256": "e0e4d5536faec4a2dfb87e81ca959469e328477cbd17980e296484bcd0690a6b"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/IsAlpha-unichars-au.txt",
+      "bytes": 424029,
+      "sha256": "ea7636aa4a10ee13bde0d745e496665a1b358a3134016ce23b9d1a6b09d40a08"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/IsAlpha.txt",
+      "bytes": 30821,
+      "sha256": "c8b2677a3a307e1bbcc93e90a3aeb4970270f28707fcf4733d53370c07f289ca"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/IsLower.txt",
+      "bytes": 6829,
+      "sha256": "59f87508684232f8fecc1868960f3ab550e3be28700e3b5a76208705d3ba99e9"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/IsN.txt",
+      "bytes": 2081,
+      "sha256": "b39d19ae130b8526ebdfd010b88dad695a61983bb831a270e05062f6ba6b0d14"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/IsPf.txt",
+      "bytes": 29,
+      "sha256": "f8619f2ddfd7c63b10290c7ab4d868fd3b98da3d1e6da411691167b6fdabec57"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/IsPi.txt",
+      "bytes": 35,
+      "sha256": "16e58a42cd6462e830d6edc15de02ec925999b897eed1504eb9bc66738b4af46"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/IsSc.txt",
+      "bytes": 149,
+      "sha256": "f4553edf27f3016bc7796aca90cdcf98d2b1660732958eeca97fe91cb209457a"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/IsSo.txt",
+      "bytes": 6947,
+      "sha256": "720612794517f22be981ffe8ea4b7865a2a54180d42053d412b1ff151ce8c3fd"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/IsUpper.txt",
+      "bytes": 5687,
+      "sha256": "028cc842b41ae6070460593cfde23a7464888307168832207741ceb94796e55c"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/Katakana.txt",
+      "bytes": 1063,
+      "sha256": "97a2eded8653759f773aa27e9bd91ab25cc97d674eafde199ea0102c112ddacf"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/Line_Separator.txt",
+      "bytes": 5,
+      "sha256": "e1eefe9c266415e925638de4dd389e5224e64e93ffadf000ac343479a50ba7e4"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/Lowercase_Letter.txt",
+      "bytes": 3539,
+      "sha256": "18e7914759b0157ebe30f83abe401da3acaed860f49976a4f219b0e47335c76f"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/Number.txt",
+      "bytes": 45664,
+      "sha256": "bdd4091ffb857b47bb10e10c82f750e30419aa7a3ce6da39dae92f77efa28476"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/Open_Punctuation.txt",
+      "bytes": 220,
+      "sha256": "1c3c61b9d9c51afc8f016663cdf0c6ceedcdf2d1c603c3c1a6abf4e724da2aa4"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/Punctuation.txt",
+      "bytes": 1682,
+      "sha256": "e2f503ffac0d4c69620ff0ce22a6b4a28b328363602a74270efbbe92ed0efcac"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/Separator.txt",
+      "bytes": 77,
+      "sha256": "3d13f1e1ca15c997a8f0325092384acbc7f3d6885eac370658aaac13ab1cd51e"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/Symbol.txt",
+      "bytes": 9804,
+      "sha256": "d57b6f965049bb8a0b2f43e17bb32a71bd4ca82bc86766c059ca80273660c99e"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/Titlecase_Letter.txt",
+      "bytes": 89,
+      "sha256": "fabb3e205241fd09f27e5bf259c0b4275382f6eb55ce4d6a6d7de8fefe68e8e1"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sacremoses/data/perluniprops/Uppercase_Letter.txt",
+      "bytes": 2701,
+      "sha256": "df6fa9b7160e2297817d63f1f975fe68d1d427ce3bfdc3695c607a1114e8b810"
+    },
+    {
+      "name": "translation-engine-worker/_internal/select.pyd",
+      "bytes": 33136,
+      "sha256": "d4d7181b11db0bd22a6cd5cda6f8583d1f5c77615fd0a6ca33350619d6e0438a"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sentencepiece-0.2.1.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sentencepiece-0.2.1.dist-info/METADATA",
+      "bytes": 10254,
+      "sha256": "3de0de19c0bf383a6946bc0494b5c428e7216cb7d94a4607db4cb430f5e23abb"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sentencepiece-0.2.1.dist-info/RECORD",
+      "bytes": 1799,
+      "sha256": "da8f332b1c6c3ae602e3161734b45eee66a127bf4728224a798db81027c93c3a"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sentencepiece-0.2.1.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sentencepiece-0.2.1.dist-info/WHEEL",
+      "bytes": 101,
+      "sha256": "f143fdc7da6e588d0fd55fddecada831306a7de2cd9b6d424f367f3edaf43575"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sentencepiece-0.2.1.dist-info/top_level.txt",
+      "bytes": 130,
+      "sha256": "3485d52a6b2afb1759e4a44e3071d5d2090b0377ef6cd4dbd60d4ab6089814e9"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sentencepiece/_sentencepiece.cp312-win_amd64.pyd",
+      "bytes": 1010688,
+      "sha256": "f1069eaa45cfa5d6d81f7b46876b80860fe9147d28d84c7057ed952e84b064e5"
+    },
+    {
+      "name": "translation-engine-worker/_internal/sqlite3.dll",
+      "bytes": 1583608,
+      "sha256": "8daa45684bf6688fca28d956b2e8942f2fa98f656675ce68e6d61dd869848a7a"
+    },
+    {
+      "name": "translation-engine-worker/_internal/tqdm-4.70.1.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508"
+    },
+    {
+      "name": "translation-engine-worker/_internal/tqdm-4.70.1.dist-info/METADATA",
+      "bytes": 57366,
+      "sha256": "a5da70b966afea3a759716041bad7187f2ece02c22348cf9e7c0a512bbf15f57"
+    },
+    {
+      "name": "translation-engine-worker/_internal/tqdm-4.70.1.dist-info/RECORD",
+      "bytes": 4637,
+      "sha256": "fa1e33b0e5dfc6b9edd7db9c7b9b529e1740eb08e2dbb5b0243842c4d9077046"
+    },
+    {
+      "name": "translation-engine-worker/_internal/tqdm-4.70.1.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "translation-engine-worker/_internal/tqdm-4.70.1.dist-info/WHEEL",
+      "bytes": 91,
+      "sha256": "61532836a2b3111b7ec23519c09df7c41180c27165fb872a6d8913b566b88ad1"
+    },
+    {
+      "name": "translation-engine-worker/_internal/tqdm-4.70.1.dist-info/entry_points.txt",
+      "bytes": 39,
+      "sha256": "45e2421fb522dd9ca1e8cd7a1383a1b19d6853b5ad31709f6eda3206118edbd6"
+    },
+    {
+      "name": "translation-engine-worker/_internal/tqdm-4.70.1.dist-info/licenses/LICENCE",
+      "bytes": 1985,
+      "sha256": "fcff87c3a47ce8028a8512aa182d4fcf0ad1c90544ee75cf9b343684cac194de"
+    },
+    {
+      "name": "translation-engine-worker/_internal/tqdm-4.70.1.dist-info/top_level.txt",
+      "bytes": 5,
+      "sha256": "34b89424d7e673d02dd79b3b254462c2fa8c123522f46e4f30646b98c6333523"
+    },
+    {
+      "name": "translation-engine-worker/_internal/unicodedata.pyd",
+      "bytes": 1140592,
+      "sha256": "208ee1cd3cbad0828433ca7246b05be2b1ff5569983d27d296c0b38888585488"
+    },
+    {
+      "name": "translation-engine-worker/_internal/yaml/_yaml.cp312-win_amd64.pyd",
+      "bytes": 253952,
+      "sha256": "4fd0e84f50261ed0886cffcdd8008b055af3352546e649c3d741b50eae1f9b5f"
+    },
+    {
+      "name": "translation-engine-worker/release-info/LICENSE",
+      "bytes": 1091,
+      "sha256": "37af1807adb76f23c16b90c9c1b9dd0817e8b6714a3e3896b8ef15b103ad93f7"
+    },
+    {
+      "name": "translation-engine-worker/release-info/README.md",
+      "bytes": 5360,
+      "sha256": "ef5243ea0e6bd859a0d96ba9e27665b6afcdeaafc3d9970df8dbaa2423fbdbca"
+    },
+    {
+      "name": "translation-engine-worker/release-info/SOURCE_AVAILABILITY.md",
+      "bytes": 1778,
+      "sha256": "68561a7c2d7b89986d9b2468b728e0365e6c5dd54297b45f0dbf9ab90bc02bad"
+    },
+    {
+      "name": "translation-engine-worker/release-info/THIRD_PARTY_NOTICES.md",
+      "bytes": 8458,
+      "sha256": "55e7a09c8d8566844f7ca02bc051a4c42b862a5f12c7feff14401020a6118bee"
+    },
+    {
+      "name": "translation-engine-worker/release-info/THIRD_PARTY_NOTICES.txt",
+      "bytes": 5323,
+      "sha256": "667147ec2ff28fe8190b392d0b9619252d4cf4bda2cee89a7c2d169abb0240cf"
+    },
+    {
+      "name": "translation-engine-worker/release-info/WINDOWS-CANDIDATE.md",
+      "bytes": 5360,
+      "sha256": "ef5243ea0e6bd859a0d96ba9e27665b6afcdeaafc3d9970df8dbaa2423fbdbca"
+    },
+    {
+      "name": "translation-engine-worker/release-info/docs/argos-migration.md",
+      "bytes": 8638,
+      "sha256": "fe9ee55cb106f1453c7a5560cacc55cdc86962d4d0e87a8bcebfddb2d679d888"
+    },
+    {
+      "name": "translation-engine-worker/release-info/docs/compatibility-spike.md",
+      "bytes": 9020,
+      "sha256": "445742ba3174356bbc0c2c79b6d5f472571e0fba33283c355ed7266e63f12aec"
+    },
+    {
+      "name": "translation-engine-worker/release-info/docs/development.md",
+      "bytes": 8952,
+      "sha256": "209d14e6a569144e2e303c5f6168ed61f2e0ce8d382eeb48e08da60e271ca79b"
+    },
+    {
+      "name": "translation-engine-worker/release-info/docs/evidence/windows10-rc1-cmd-2026-11-08.txt",
+      "bytes": 7260,
+      "sha256": "7bf2949e1b9f30e6f3a0d0d082713f4bdfe1312304728c348e3a376c82ebb1ac"
+    },
+    {
+      "name": "translation-engine-worker/release-info/docs/protocol-v1.md",
+      "bytes": 4298,
+      "sha256": "d0e465cd455807a1b81e118bbda4eab15182229ddb68e16b6f89a1dcf2adeda3"
+    },
+    {
+      "name": "translation-engine-worker/release-info/docs/releasing.md",
+      "bytes": 11118,
+      "sha256": "5dd6f787d6b0d3ae327b60bcb7cc6cc6dec00494a6cfcc82308396451cd8e002"
+    },
+    {
+      "name": "translation-engine-worker/release-info/docs/troubleshooting.md",
+      "bytes": 3162,
+      "sha256": "92112b2dbcc0693d804498b4de145b7a667e60b90136ab86054170800aa4cf88"
+    },
+    {
+      "name": "translation-engine-worker/release-info/docs/unicode-path-validation.md",
+      "bytes": 7949,
+      "sha256": "24a6ee924064b20e126ed9ad37b0be20055f819a7ce6c93d81df00d4a0a1dd78"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/argostranslate/argostranslate-1.11.1.dist-info/licenses/LICENSE",
+      "bytes": 1085,
+      "sha256": "f90866ab74c1b756cc6f7420aed109f598320c9b660aeadbcec6458d0c1a4e1f"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/charset_normalizer/charset_normalizer-3.5.2.dist-info/licenses/LICENSE",
+      "bytes": 1092,
+      "sha256": "18577485d3704f1a479ded8e573c0976cfed315fd2fd17983fa988da4c2f70d1"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/cloudpickle/cloudpickle-3.1.2.dist-info/licenses/LICENSE",
+      "bytes": 1754,
+      "sha256": "3029ea34173e9fdc233ad315dc6b100bd1ea71f529b1c1af97664a272fdc55f5"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/colorama/colorama-0.4.6.dist-info/licenses/LICENSE.txt",
+      "bytes": 1491,
+      "sha256": "cac35c02686e5d04a5a7140bfb3b36e73aed496656e891102e428886d7930318"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/ctranslate2/ctranslate2-4.8.5-LICENSE",
+      "bytes": 1115,
+      "sha256": "54aa79d9fe3c09e67a16dcd95b9e88676405a6ec174efda31036983cf7672ecb"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/filelock/filelock-4.2.9.dist-info/licenses/LICENSE",
+      "bytes": 1088,
+      "sha256": "608c89d5060ae9921adccf3236695bc654a9946e12323ef6c021dfa04e294d48"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/intel-openmp/LICENSE.txt",
+      "bytes": 25224,
+      "sha256": "febfb69a5b058f55892dc7f341108a9ca29d50e9fe85723a57eebbb826436958"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/intel-openmp/third-party-programs.txt",
+      "bytes": 31578,
+      "sha256": "f8ce918fe7311ce279e68380a2e233f8a42b1cd3dda8f4c48d6de97a0255c1d7"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/joblib/joblib-1.6.0.dist-info/licenses/LICENSE.txt",
+      "bytes": 1527,
+      "sha256": "42612911c1872c5e4b43f6ae0e8ee59467cd350332241cf72ce90640264fae6a"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/minisbd/Apache-2.0.txt",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/minisbd/LICENSE",
+      "bytes": 34522,
+      "sha256": "20b067f86de375aae6db0f283ab2e65de24d537733b89bd58432c101259d84cf"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/minisbd/minisbd-0.9.5.dist-info/licenses/LICENSE",
+      "bytes": 34522,
+      "sha256": "20b067f86de375aae6db0f283ab2e65de24d537733b89bd58432c101259d84cf"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/minisbd/minisbd/modules/CREDITS.txt",
+      "bytes": 108,
+      "sha256": "0527767a77339a3283b4c3232dcc60f82d5267d36ad07cbf2c35e618561e87b2"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/minisbd/minisbd/modules/LICENSE.txt",
+      "bytes": 602,
+      "sha256": "2da66d20a8cff881d048b3157b604609f8f19db97177bb4fc0fc083dcfd7371c"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/msvc-numpy/Visual-C-Runtime-2015-2022-License-1.docx",
+      "bytes": 39644,
+      "sha256": "f1e3d56ceb2ad68aae0711b910375009e651ac5530fa0760f0dea6e81e54fae1"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy-2.5.4.dist-info/licenses/LICENSE.txt",
+      "bytes": 45831,
+      "sha256": "a804dff0ead9fadc5293456410bcbfc32bf024be9c4513459663fb7b442d2341"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/_core/include/numpy/libdivide/LICENSE.txt",
+      "bytes": 1039,
+      "sha256": "d544761558b510866c21f7e8a2d5716fca76e0b98117e3b6b86314db7244d150"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat/COPYING",
+      "bytes": 704,
+      "sha256": "aea41976c720f91bd19725c16916a1ace40eb1ea42620d340e587a5de4bbcea0"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/_core/src/highway/LICENSE",
+      "bytes": 21155,
+      "sha256": "d208152e2777ffd0126eacc1bd21c0320d69e4e6b622d21a2a12a47e8ef73763"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/_core/src/multiarray/dragon4_LICENSE.txt",
+      "bytes": 1441,
+      "sha256": "b0fd592d4ead563148e3977e7b589169d46a5ef2ff133c755a81af880a3fc919"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort/LICENSE.md",
+      "bytes": 1542,
+      "sha256": "a732977853530066790c42817087f4829b518dd98d340c916acbfd227e39d3cb"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/_core/src/umath/svml/LICENSE",
+      "bytes": 1573,
+      "sha256": "585483905b13d4b42f800c55ba99e89d6e2e33ccd5f503e201c07531d148ff41"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/fft/pocketfft/LICENSE.md",
+      "bytes": 1523,
+      "sha256": "8db000e158c162e7249787852d8c69764706502ccee725c06641b31c1e95c8af"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/linalg/lapack_lite/LICENSE.txt",
+      "bytes": 2314,
+      "sha256": "19060ef465e1797d682ee0fc3081bd25ab1395e995e43d25c9d13c95d9a3cd6b"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/ma/LICENSE",
+      "bytes": 1616,
+      "sha256": "d78dbb208b80d92b4d333e41a4baae50d12444f46e53199fa7726a91de6e2da7"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/random/LICENSE.md",
+      "bytes": 3582,
+      "sha256": "b4bc2f4fa1c95778f1ed3dd8f14706bece399475b978f9f34b5d3cd72521b48a"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/random/src/distributions/LICENSE.md",
+      "bytes": 2805,
+      "sha256": "cf5619f25b112d5ce7c896efffc8e610bcb345dfadcc19f2c1460aa48fff2c9e"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/random/src/mt19937/LICENSE.md",
+      "bytes": 2986,
+      "sha256": "92c10699884321f1c2947fe2a70ab23b0fbf1507f756d89dd08f38c61fc3d4fa"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/random/src/pcg64/LICENSE.md",
+      "bytes": 1176,
+      "sha256": "41190663b77bee5302386495a07b7eabfbfa571aa0ae2f11da6764162062fc4f"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/random/src/philox/LICENSE.md",
+      "bytes": 1540,
+      "sha256": "322ac46d870c8aeead6c53adcccc839296fb3c8e456eae155081297daf7f8013"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/random/src/sfc64/LICENSE.md",
+      "bytes": 1253,
+      "sha256": "28cad82ce1379dc529df30da78ec012d7d0d1d576b03ddcb93388aee53659f59"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy-2.5.4.dist-info/licenses/numpy/random/src/splitmix64/LICENSE.md",
+      "bytes": 340,
+      "sha256": "454ec7350e478e037061850b67395753b425b1cb0a34bbc26290b020bf89d763"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy/_core/include/numpy/random/LICENSE.txt",
+      "bytes": 1039,
+      "sha256": "d544761558b510866c21f7e8a2d5716fca76e0b98117e3b6b86314db7244d150"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy/ma/LICENSE",
+      "bytes": 1616,
+      "sha256": "d78dbb208b80d92b4d333e41a4baae50d12444f46e53199fa7726a91de6e2da7"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/numpy/numpy/random/LICENSE.md",
+      "bytes": 3582,
+      "sha256": "b4bc2f4fa1c95778f1ed3dd8f14706bece399475b978f9f34b5d3cd72521b48a"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/onnxruntime/onnxruntime/LICENSE",
+      "bytes": 1094,
+      "sha256": "c250d6278f0b47a6439fb7592b08b58a55eb9f535aa49a1db63211c3f982b674"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/onnxruntime/onnxruntime/ThirdPartyNotices.txt",
+      "bytes": 344457,
+      "sha256": "c53a76501ef60db6f865f20599f220761201ac4057683acefdab37d861b86622"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/openblas/LICENSE.txt",
+      "bytes": 46462,
+      "sha256": "7317b3a9eb806cc83a0cc6b1c7c2fbe6018eed556daa9996e6e3a727a2a5bfbe"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/packaging/packaging-26.3.dist-info/licenses/LICENSE",
+      "bytes": 197,
+      "sha256": "cad1ef5bd340d73e074ba614d26f7deaca5c7940c3d8c34852e65c4909686c48"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/packaging/packaging-26.3.dist-info/licenses/LICENSE.APACHE",
+      "bytes": 10174,
+      "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/packaging/packaging-26.3.dist-info/licenses/LICENSE.BSD",
+      "bytes": 1344,
+      "sha256": "b70e7e9b742f1cc6f948b34c16aa39ffece94196364bc88ff0d2180f0028fac5"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/pyinstaller/Apache-2.0.txt",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/pyinstaller/COPYING.txt",
+      "bytes": 32604,
+      "sha256": "0598064c7d2718e38d7914a7d08343b2fa008e3bea9ebba2aa7a6ffa5900dd64"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/python/LICENSE.txt",
+      "bytes": 36874,
+      "sha256": "e502c6b880ff58d614901495a9009c136539cd0b1e2a2abb8fc00b934c203419"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/regex/regex-2026.9.29.dist-info/licenses/LICENSE.txt",
+      "bytes": 11792,
+      "sha256": "3d220c06594b826bbabf110312f60f385f99e57e529fa4b9e536f79091f8b4c7"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/sacremoses/sacremoses-0.1.1.dist-info/LICENSE",
+      "bytes": 1066,
+      "sha256": "efe03a5e303b216ad2008b100da2ac2fbe6aa3ca442f2cfb931227f996fd2ebe"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/sentencepiece/sentencepiece/LICENSE",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/sentencepiece/sentencepiece/third_party/absl/LICENSE",
+      "bytes": 11365,
+      "sha256": "d3e2f59e1d71176dfdb555ece6a41f7a5aa0f52ff21211010ace314f57695f6b"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/sentencepiece/sentencepiece/third_party/darts_clone/LICENSE",
+      "bytes": 1481,
+      "sha256": "155f59997298ee336602c49f9c1110f268ac394ca2197eb02647a3555935ad52"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/sentencepiece/sentencepiece/third_party/esaxx/LICENSE",
+      "bytes": 1112,
+      "sha256": "7c28553d1d3312d65fe309f76a22ebaf33a3d76c8c1e3b98a88ee4654ecb53db"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/sentencepiece/sentencepiece/third_party/protobuf-lite/LICENSE",
+      "bytes": 1732,
+      "sha256": "6e5e117324afd944dcf67f36cf329843bc1a92229a8cd9bb573d7a83130fea7d"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/tqdm/MPL-2.0.txt",
+      "bytes": 16726,
+      "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/tqdm/tqdm-4.70.1.dist-info/licenses/LICENCE",
+      "bytes": 1985,
+      "sha256": "fcff87c3a47ce8028a8512aa182d4fcf0ad1c90544ee75cf9b343684cac194de"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/translation-engine/LICENSE",
+      "bytes": 1091,
+      "sha256": "37af1807adb76f23c16b90c9c1b9dd0817e8b6714a3e3896b8ef15b103ad93f7"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/typing_extensions/typing_extensions-4.16.0.dist-info/licenses/LICENSE",
+      "bytes": 13936,
+      "sha256": "3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/yaml/pyyaml-6.0.3.dist-info/licenses/LICENSE",
+      "bytes": 1101,
+      "sha256": "8d3928f9dc4490fd635707cb88eb26bd764102a7282954307d3e5167a577e8a4"
+    },
+    {
+      "name": "translation-engine-worker/release-info/models/provenance.json",
+      "bytes": 2483,
+      "sha256": "158fb4456db6edcb70776216da1f44a4935bf04ba5dc487af852a57ee207f2f9"
+    },
+    {
+      "name": "translation-engine-worker/release-info/src/translation_engine/AGENTS.md",
+      "bytes": 3760,
+      "sha256": "467ee0787357f2c7b819afaa04ef1437e55342ab93697c4c98023ada207b6013"
+    },
+    {
+      "name": "translation-engine-worker/translation-engine-worker.exe",
+      "bytes": 5655172,
+      "sha256": "ec06bf07399b9d96d140e2c828772666aa12124b8991a2d622ebca52ced79d7d"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "build/diagnostic-20261107-211131/frozen-unicode-all.json",
+      "sha256": "37b1156100ae244e2adbc43dd33d1177a691b3a257ebe6125b7692299d66d8de",
+      "kind": "unicode-regression",
+      "passed": true,
+      "functional_smoke_passed": true,
+      "clean_machine": false,
+      "os_firewall_isolation": false,
+      "findings": []
+    },
+    {
+      "path": "build/diagnostic-20261107-211131/frozen-unicode-model.json",
+      "sha256": "43369da462f07ae094c1e6b6cdf8a7d4efc030805544fdd00c7324d9db992b3c",
+      "kind": "unicode-regression",
+      "passed": true,
+      "functional_smoke_passed": true,
+      "clean_machine": false,
+      "os_firewall_isolation": false,
+      "findings": []
+    },
+    {
+      "path": "build/diagnostic-20261107-211131/frozen-unicode-executable.json",
+      "sha256": "07cbc3f18dfb0aca491ea8df5395b069d7ad4b603ad5d9d1c62df22a97c66b64",
+      "kind": "unicode-regression",
+      "passed": true,
+      "functional_smoke_passed": true,
+      "clean_machine": false,
+      "os_firewall_isolation": false,
+      "findings": []
+    },
+    {
+      "path": "build/diagnostic-20261107-211131/frozen-unicode-state.json",
+      "sha256": "e0646a3e08f2434b2f13e74f5a10ec9f7eb8bf9e23c802f4148e4f20d8f88bef",
+      "kind": "unicode-regression",
+      "passed": true,
+      "functional_smoke_passed": true,
+      "clean_machine": false,
+      "os_firewall_isolation": false,
+      "findings": []
+    },
+    {
+      "path": "build/diagnostic-20261107-211131/native-runtime-audit.json",
+      "sha256": "401b51bbc93266a8e724e8ddf2c371839b7248ac1f42f994b86bb46b545c9083",
+      "kind": "native-runtime",
+      "passed": false,
+      "functional_smoke_passed": true,
+      "clean_machine": false,
+      "os_firewall_isolation": false,
+      "findings": [
+        "External host module: C:\\Windows\\SysWOW64\\T_Prevent64.dll",
+        "External host module: C:\\Windows\\SysWOW64\\TDCommonLib64.dll",
+        "External host module: C:\\Windows\\SysWOW64\\T_Prevent64.dll",
+        "External host module: C:\\Windows\\SysWOW64\\TDCommonLib64.dll"
+      ]
+    }
+  ],
+  "compliance": {
+    "ready": true,
+    "archive": "translation-engine-compliance.zip",
+    "source_archive": "translation-engine-corresponding-source.zip",
+    "inventory_sha256": "8732d816a78900027ebc8c49d2f3bf622b31ed79db28c686927560183f1425c3",
+    "staged_manifest_sha256": "183713c5846c51686218ffc28464f9a8289f0570c0aaf130fbe0dcf6e8d3cf95",
+    "blockers": []
+  },
+  "blockers": [
+    "Explicit maintainer publication approval is required."
+  ],
+  "assembly": {
+    "node": "22.11.0",
+    "zlib": "1.3.0.1-motley-71660e1",
+    "config_sha256": "32cd22bd3a927d958fb5d174ee4f4bdedbb95ecf3fb5b36de384c2587267b38e",
+    "tool_sha256": "562063cef2dcb02462d0a612a4763557959ad027e2bab354c8bfc9943f836731"
+  }
+}

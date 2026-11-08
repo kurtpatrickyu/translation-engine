@@ -1,0 +1,349 @@
+Microsoft Windows [Version 10.0.26300.9818]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\[REDACTED]>set "REPO=D:\Documents\GitHub\translation-engine"
+
+C:\Users\[REDACTED]>cd /d "%REPO%"
+
+D:\Documents\GitHub\translation-engine>dir "dist\diagnostic-20261107-133601\translation-engine-worker"
+ Volume in drive D is DATA
+ Volume Serial Number is 6A93-2EA3
+
+ Directory of D:\Documents\GitHub\translation-engine\dist\diagnostic-20261107-133601\translation-engine-worker
+
+11/07/2026  01:36 PM    <DIR>          .
+11/07/2026  01:36 PM    <DIR>          ..
+11/07/2026  01:36 PM         5,655,172 translation-engine-worker.exe
+11/07/2026  01:36 PM    <DIR>          _internal
+               1 File(s)      5,655,172 bytes
+               3 Dir(s)  75,979,309,056 bytes free
+
+D:\Documents\GitHub\translation-engine>set "ZIP=%REPO%\build\diagnostic-20261107-133601\frozen-unicode-all.worker.zip"
+
+D:\Documents\GitHub\translation-engine>dir "%ZIP%"
+ Volume in drive D is DATA
+ Volume Serial Number is 6A93-2EA3
+
+ Directory of D:\Documents\GitHub\translation-engine\build\diagnostic-20261107-133601
+
+11/07/2026  01:36 PM        58,072,023 frozen-unicode-all.worker.zip
+               1 File(s)     58,072,023 bytes
+               0 Dir(s)  75,979,309,056 bytes free
+
+D:\Documents\GitHub\translation-engine>set "WORK=%REPO%\runtime\CMD Café 中文 %RANDOM%-%RANDOM%"
+
+D:\Documents\GitHub\translation-engine>if exist "%WORK%" (echo STOP: Workspace already exists. & exit /b 1)
+
+D:\Documents\GitHub\translation-engine>mkdir "%WORK%"
+
+D:\Documents\GitHub\translation-engine>if errorlevel 1 (echo STOP: Cannot create workspace. & exit /b 1)
+
+D:\Documents\GitHub\translation-engine>set "APP=%WORK%\app Café 中文"
+
+D:\Documents\GitHub\translation-engine>set "ASSETS=%WORK%\upstream assets"
+
+D:\Documents\GitHub\translation-engine>set "MODELS=%WORK%\models Café 中文"
+
+D:\Documents\GitHub\translation-engine>set "STATE=%WORK%\state Café 中文"
+
+D:\Documents\GitHub\translation-engine>mkdir "%APP%" "%ASSETS%"
+
+D:\Documents\GitHub\translation-engine>if errorlevel 1 (echo STOP: Cannot create subdirectories. & exit /b 1)
+
+D:\Documents\GitHub\translation-engine>echo Workspace: "%WORK%"
+Workspace: "D:\Documents\GitHub\translation-engine\runtime\CMD Café 中文 30680-2775"
+
+D:\Documents\GitHub\translation-engine>certutil -hashfile "%ZIP%" SHA256 > "%WORK%\zip.sha256.txt"
+
+D:\Documents\GitHub\translation-engine>if errorlevel 1 (echo STOP: ZIP hashing failed. & exit /b 1)
+
+D:\Documents\GitHub\translation-engine>type "%WORK%\zip.sha256.txt"
+SHA256 hash of D:\Documents\GitHub\translation-engine\build\diagnostic-20261107-133601\frozen-unicode-all.worker.zip:
+965cf2b166443a27ddfecf4d09b756420febaafb8d065f5ca97af8a3244a264b
+CertUtil: -hashfile command completed successfully.
+
+D:\Documents\GitHub\translation-engine>findstr /i /x /c:"965cf2b166443a27ddfecf4d09b756420febaafb8d065f5ca97af8a3244a264b" < "%WORK%\zip.sha256.txt" >nul
+
+D:\Documents\GitHub\translation-engine>if errorlevel 1 (echo STOP: ZIP hash does not match. & exit /b 1)
+
+D:\Documents\GitHub\translation-engine>copy /b "%ZIP%" "%APP%\worker-input.zip" >nul
+
+D:\Documents\GitHub\translation-engine>if errorlevel 1 (echo STOP: Cannot stage ZIP. & exit /b 1)
+
+D:\Documents\GitHub\translation-engine>pushd "%APP%"
+
+D:\Documents\GitHub\translation-engine\runtime\CMD Café 中文 30680-2775\app Café 中文>if errorlevel 1 (echo STOP: Cannot enter extraction directory. & exit /b 1)
+
+D:\Documents\GitHub\translation-engine\runtime\CMD Café 中文 30680-2775\app Café 中文>tar.exe -xf worker-input.zip
+
+D:\Documents\GitHub\translation-engine\runtime\CMD Café 中文 30680-2775\app Café 中文>set "EXTRACT_RC=%ERRORLEVEL%"
+
+D:\Documents\GitHub\translation-engine\runtime\CMD Café 中文 30680-2775\app Café 中文>popd
+
+D:\Documents\GitHub\translation-engine>if not "%EXTRACT_RC%"=="0" (echo STOP: ZIP extraction failed. & exit /b 1)
+
+D:\Documents\GitHub\translation-engine>set "EXE=%APP%\translation-engine-worker\translation-engine-worker.exe"
+
+D:\Documents\GitHub\translation-engine>certutil -hashfile "%EXE%" SHA256 > "%WORK%\exe.sha256.txt"
+
+D:\Documents\GitHub\translation-engine>if errorlevel 1 (echo STOP: EXE hashing failed. & exit /b 1)
+
+D:\Documents\GitHub\translation-engine>findstr /i /x /c:"627c5e40ded9dd29655c2e9b68cbab7a8a12c90843daf3d6d7cd5d23fbc0b941" < "%WORK%\exe.sha256.txt" >nul
+
+D:\Documents\GitHub\translation-engine>if errorlevel 1 (echo STOP: EXE hash does not match. & exit /b 1)
+
+D:\Documents\GitHub\translation-engine>dir "%APP%\translation-engine-worker\_internal"
+ Volume in drive D is DATA
+ Volume Serial Number is 6A93-2EA3
+
+ Directory of D:\Documents\GitHub\translation-engine\runtime\CMD Café 中文 30680-2775\app Café 中文\translation-engine-worker\_internal
+
+11/07/2026  05:12 PM    <DIR>          .
+11/07/2026  05:12 PM    <DIR>          ..
+11/07/2026  05:12 PM    <DIR>          argostranslate-1.11.1.dist-info
+11/07/2026  01:36 PM         1,333,717 base_library.zip
+11/07/2026  05:12 PM    <DIR>          charset_normalizer
+11/07/2026  05:12 PM    <DIR>          ctranslate2
+11/07/2026  05:12 PM    <DIR>          ctranslate2-4.8.5.dist-info
+11/07/2026  01:36 PM         5,231,472 libcrypto-3.dll
+11/07/2026  01:36 PM            39,696 libffi-8.dll
+11/07/2026  01:36 PM           794,992 libssl-3.dll
+11/07/2026  05:12 PM    <DIR>          minisbd-0.9.5.dist-info
+11/07/2026  01:36 PM           553,552 msvcp140.dll
+11/07/2026  01:36 PM            35,488 MSVCP140_1.dll
+11/07/2026  05:12 PM    <DIR>          numpy
+11/07/2026  05:12 PM    <DIR>          numpy-2.5.4.dist-info
+11/07/2026  05:12 PM    <DIR>          numpy.libs
+11/07/2026  05:12 PM    <DIR>          onnxruntime
+11/07/2026  01:36 PM           205,304 pyexpat.pyd
+11/07/2026  01:36 PM         6,945,272 python312.dll
+11/07/2026  05:12 PM    <DIR>          regex
+11/07/2026  05:12 PM    <DIR>          sacremoses
+11/07/2026  01:36 PM            33,136 select.pyd
+11/07/2026  05:12 PM    <DIR>          sentencepiece
+11/07/2026  05:12 PM    <DIR>          sentencepiece-0.2.1.dist-info
+11/07/2026  01:36 PM         1,583,608 sqlite3.dll
+11/07/2026  05:12 PM    <DIR>          tqdm-4.70.1.dist-info
+11/07/2026  01:36 PM         1,140,592 unicodedata.pyd
+11/07/2026  01:36 PM           123,472 vcruntime140.dll
+11/07/2026  01:36 PM            47,264 vcruntime140_1.dll
+11/07/2026  05:12 PM    <DIR>          yaml
+11/07/2026  01:36 PM            74,096 _asyncio.pyd
+11/07/2026  01:36 PM            86,896 _bz2.pyd
+11/07/2026  01:36 PM           127,480 _ctypes.pyd
+11/07/2026  01:36 PM           262,000 _decimal.pyd
+11/07/2026  01:36 PM            68,976 _hashlib.pyd
+11/07/2026  01:36 PM           161,136 _lzma.pyd
+11/07/2026  01:36 PM            37,368 _multiprocessing.pyd
+11/07/2026  01:36 PM            57,336 _overlapped.pyd
+11/07/2026  01:36 PM            33,784 _queue.pyd
+11/07/2026  01:36 PM            85,496 _socket.pyd
+11/07/2026  01:36 PM           126,184 _sqlite3.pyd
+11/07/2026  01:36 PM           179,432 _ssl.pyd
+11/07/2026  01:36 PM            27,128 _uuid.pyd
+11/07/2026  01:36 PM            40,304 _wmi.pyd
+              27 File(s)     19,435,181 bytes
+              17 Dir(s)  75,761,012,736 bytes free
+
+D:\Documents\GitHub\translation-engine>"%EXE%" --version
+0.1.0
+
+D:\Documents\GitHub\translation-engine>if errorlevel 1 (echo STOP: Worker cannot start. & exit /b 1)
+
+D:\Documents\GitHub\translation-engine>copy /b "%REPO%\downloads\translate-zh_en-1_9.argosmodel" "%ASSETS%\translate-zh_en-1_9.argosmodel"
+        1 file(s) copied.
+
+D:\Documents\GitHub\translation-engine>if errorlevel 1 (echo STOP: Original translation asset missing or unreadable. & exit /b 1)
+
+D:\Documents\GitHub\translation-engine>copy /b "%REPO%\downloads\zh-hans.onnx" "%ASSETS%\zh-hans.onnx"
+        1 file(s) copied.
+
+D:\Documents\GitHub\translation-engine>if errorlevel 1 (echo STOP: Original ONNX asset missing or unreadable. & exit /b 1)
+
+D:\Documents\GitHub\translation-engine>set "MODELFILE=%ASSETS%\translate-zh_en-1_9.argosmodel"
+
+D:\Documents\GitHub\translation-engine>set "SBDFILE=%ASSETS%\zh-hans.onnx"
+
+D:\Documents\GitHub\translation-engine>certutil -hashfile "%MODELFILE%" SHA256 > "%WORK%\model.sha256.txt"
+
+D:\Documents\GitHub\translation-engine>if errorlevel 1 (echo STOP: Translation hashing failed. & exit /b 1)
+
+D:\Documents\GitHub\translation-engine>findstr /i /x /c:"62e7af5a3a48b530e47b7b3e5c78c2de79073ecd815750d2bf3ab35b4a67da2d" < "%WORK%\model.sha256.txt" >nul
+
+D:\Documents\GitHub\translation-engine>if errorlevel 1 (echo STOP: Translation hash mismatch. & exit /b 1)
+
+D:\Documents\GitHub\translation-engine>certutil -hashfile "%SBDFILE%" SHA256 > "%WORK%\sbd.sha256.txt"
+
+D:\Documents\GitHub\translation-engine>if errorlevel 1 (echo STOP: ONNX hashing failed. & exit /b 1)
+
+D:\Documents\GitHub\translation-engine>findstr /i /x /c:"b2a6e45ebb43df44ac3c8e4100ea1cb30ec8319c5698b678ed3f203e5edc5d0e" < "%WORK%\sbd.sha256.txt" >nul
+
+D:\Documents\GitHub\translation-engine>if errorlevel 1 (echo STOP: ONNX hash mismatch. & exit /b 1)
+
+D:\Documents\GitHub\translation-engine>"%EXE%" provision-model --file "%MODELFILE%" --sbd-file "%SBDFILE%" --models-dir "%MODELS%" --state-dir "%STATE%" > "%WORK%\provision.stdout.txt" 2> "%WORK%\provision.stderr.txt"
+
+D:\Documents\GitHub\translation-engine>set "PROVISION_RC=%ERRORLEVEL%"
+
+D:\Documents\GitHub\translation-engine>echo Provisioning exit code: %PROVISION_RC%
+Provisioning exit code: 0
+
+D:\Documents\GitHub\translation-engine>type "%WORK%\provision.stderr.txt"
+Provisioned D:\Documents\GitHub\translation-engine\runtime\CMD CafΘ \u4e2d\u6587 30680-2775\models CafΘ \u4e2d\u6587\translate-zh_en-1_9. Restart any running worker.
+
+D:\Documents\GitHub\translation-engine>if not "%PROVISION_RC%"=="0" (echo STOP: Provisioning failed. & exit /b 1)
+
+D:\Documents\GitHub\translation-engine>> "%WORK%\smoke.ndjson" echo {"protocol_version":1,"id":"i0","command":"info"}
+
+D:\Documents\GitHub\translation-engine>>> "%WORK%\smoke.ndjson" echo {"protocol_version":1,"id":"h","command":"health"}
+
+D:\Documents\GitHub\translation-engine>>> "%WORK%\smoke.ndjson" echo {"protocol_version":1,"id":"t1","command":"translate","source":"zh","target":"en","text":"\u4f60\u597d\uff0c\u4e16\u754c\uff01"}
+
+D:\Documents\GitHub\translation-engine>>> "%WORK%\smoke.ndjson" echo {"protocol_version":1,"id":"t2","command":"translate","source":"zh","target":"en","text":"\u4f60\u597d\uff0c\u4e16\u754c\uff01"}
+
+D:\Documents\GitHub\translation-engine>>> "%WORK%\smoke.ndjson" echo {"protocol_version":1,"id":"i1","command":"info"}
+
+D:\Documents\GitHub\translation-engine>>> "%WORK%\smoke.ndjson" echo {"protocol_version":1,"id":"s","command":"shutdown"}
+
+D:\Documents\GitHub\translation-engine>"%EXE%" --models-dir "%MODELS%" --state-dir "%STATE%" < "%WORK%\smoke.ndjson" > "%WORK%\smoke.stdout.ndjson" 2> "%WORK%\smoke.stderr.txt"
+
+D:\Documents\GitHub\translation-engine>set "SMOKE_RC=%ERRORLEVEL%"
+
+D:\Documents\GitHub\translation-engine>echo Worker exit code: %SMOKE_RC%
+Worker exit code: 0
+
+D:\Documents\GitHub\translation-engine>type "%WORK%\smoke.stdout.ndjson"
+{"protocol_version":1,"id":"i0","ok":true,"result":{"engine_version":"0.1.0","protocol_version":1,"backend":"argos","argos_version":"1.11.1","commands":["translate","health","info","shutdown"],"configured_pairs":[{"source":"zh","target":"en","model_version":"1.9","sbd_version":"v0.0.1"}],"ready_pairs":[],"limits":{"request_bytes":1048576,"text_bytes":65536,"response_bytes":1048576,"id_characters":128}}}
+{"protocol_version":1,"id":"h","ok":true,"result":{"alive":true,"ready":true,"ready_pairs":[{"source":"zh","target":"en"}],"error":null}}
+{"protocol_version":1,"id":"t1","ok":true,"result":{"source":"zh","target":"en","text":"Hello, world!"}}
+{"protocol_version":1,"id":"t2","ok":true,"result":{"source":"zh","target":"en","text":"Hello, world!"}}
+{"protocol_version":1,"id":"i1","ok":true,"result":{"engine_version":"0.1.0","protocol_version":1,"backend":"argos","argos_version":"1.11.1","commands":["translate","health","info","shutdown"],"configured_pairs":[{"source":"zh","target":"en","model_version":"1.9","sbd_version":"v0.0.1"}],"ready_pairs":[{"source":"zh","target":"en"}],"limits":{"request_bytes":1048576,"text_bytes":65536,"response_bytes":1048576,"id_characters":128}}}
+{"protocol_version":1,"id":"s","ok":true,"result":{"shutdown":true}}
+
+D:\Documents\GitHub\translation-engine>type "%WORK%\smoke.stderr.txt"
+
+D:\Documents\GitHub\translation-engine>find /v /c "" < "%WORK%\smoke.stdout.ndjson"
+6
+
+D:\Documents\GitHub\translation-engine>"%EXE%" --models-dir "%MODELS%" --state-dir "%STATE%" 2> "%WORK%\interactive.stderr.txt"
+{"protocol_version":1,"id":"health","command":"health"}
+{"protocol_version":1,"id":"health","ok":true,"result":{"alive":true,"ready":true,"ready_pairs":[{"source":"zh","target":"en"}],"error":null}}
+{"protocol_version":1,"id":"info","command":"info"}
+{"protocol_version":1,"id":"info","ok":true,"result":{"engine_version":"0.1.0","protocol_version":1,"backend":"argos","argos_version":"1.11.1","commands":["translate","health","info","shutdown"],"configured_pairs":[{"source":"zh","target":"en","model_version":"1.9","sbd_version":"v0.0.1"}],"ready_pairs":[{"source":"zh","target":"en"}],"limits":{"request_bytes":1048576,"text_bytes":65536,"response_bytes":1048576,"id_characters":128}}}
+{"protocol_version":1,"id":"translate","command":"translate","source":"zh","target":"en","text":"\u4f60\u597d\uff0c\u4e16\u754c\uff01"}
+{"protocol_version":1,"id":"translate","ok":true,"result":{"source":"zh","target":"en","text":"Hello, world!"}}
+{"protocol_version":1,"id":"translate","command":"translate","source":"zh","target":"en","text":"天哪，它居然起作用了，我该怎么办？"}
+{"protocol_version":1,"id":"translate","ok":true,"result":{"source":"zh","target":"en","text":"God, it's working. What do I do?"}}
+{"protocol_version":1,"id":"shutdown","command":"shutdown"}
+{"protocol_version":1,"id":"shutdown","ok":true,"result":{"shutdown":true}}
+
+D:\Documents\GitHub\translation-engine>set "INTERACTIVE_RC=%ERRORLEVEL%"
+
+D:\Documents\GitHub\translation-engine>echo Interactive exit code: %INTERACTIVE_RC%
+Interactive exit code: 0
+
+D:\Documents\GitHub\translation-engine>type "%WORK%\interactive.stderr.txt"
+
+D:\Documents\GitHub\translation-engine>> "%WORK%\deeper.ndjson" echo {"protocol_version":1,"id":"p","command":"translate","source":"zh","target":"en","text":"\u8fd9\u662f\u7b2c\u4e00\u6bb5\u3002\n\u8fd9\u662f\u7b2c\u4e8c\u6bb5\u3002"}
+
+D:\Documents\GitHub\translation-engine>>> "%WORK%\deeper.ndjson" echo {"protocol_version":1,"id":"empty","command":"translate","source":"zh","target":"en","text":""}
+
+D:\Documents\GitHub\translation-engine>>> "%WORK%\deeper.ndjson" echo {"protocol_version":1,"id":"unsupported","command":"translate","source":"fr","target":"en","text":"Bonjour"}
+
+D:\Documents\GitHub\translation-engine>>> "%WORK%\deeper.ndjson" echo {"protocol_version":1,"id":"bad","command":"not-a-command"}
+
+D:\Documents\GitHub\translation-engine>>> "%WORK%\deeper.ndjson" echo {"protocol_version":1,"id":"recovered","command":"health"}
+
+D:\Documents\GitHub\translation-engine>>> "%WORK%\deeper.ndjson" echo {"protocol_version":1,"id":"done","command":"shutdown"}
+
+D:\Documents\GitHub\translation-engine>"%EXE%" --models-dir "%MODELS%" --state-dir "%STATE%" < "%WORK%\deeper.ndjson" > "%WORK%\deeper.stdout.ndjson" 2> "%WORK%\deeper.stderr.txt"
+
+D:\Documents\GitHub\translation-engine>set "DEEPER_RC=%ERRORLEVEL%"
+
+D:\Documents\GitHub\translation-engine>echo Deeper exit code: %DEEPER_RC%
+Deeper exit code: 0
+
+D:\Documents\GitHub\translation-engine>type "%WORK%\deeper.stdout.ndjson"
+{"protocol_version":1,"id":"p","ok":true,"result":{"source":"zh","target":"en","text":"This is the first paragraph.\nThis is the second paragraph."}}
+{"protocol_version":1,"id":"empty","ok":true,"result":{"source":"zh","target":"en","text":""}}
+{"protocol_version":1,"id":"unsupported","ok":false,"error":{"code":"UNSUPPORTED_LANGUAGE","message":"Only configured zh to en translation is supported.","retryable":false}}
+{"protocol_version":1,"id":"bad","ok":false,"error":{"code":"UNKNOWN_COMMAND","message":"Use an advertised command.","retryable":false}}
+{"protocol_version":1,"id":"recovered","ok":true,"result":{"alive":true,"ready":true,"ready_pairs":[{"source":"zh","target":"en"}],"error":null}}
+{"protocol_version":1,"id":"done","ok":true,"result":{"shutdown":true}}
+
+D:\Documents\GitHub\translation-engine>type "%WORK%\deeper.stderr.txt"
+
+D:\Documents\GitHub\translation-engine>> "%WORK%\missing.ndjson" echo {"protocol_version":1,"id":"missing","command":"health"}
+
+D:\Documents\GitHub\translation-engine>>> "%WORK%\missing.ndjson" echo {"protocol_version":1,"id":"done","command":"shutdown"}
+
+D:\Documents\GitHub\translation-engine>"%EXE%" --models-dir "%WORK%\never provisioned" --state-dir "%WORK%\missing state" < "%WORK%\missing.ndjson" > "%WORK%\missing.stdout.ndjson" 2> "%WORK%\missing.stderr.txt"
+
+D:\Documents\GitHub\translation-engine>set "MISSING_RC=%ERRORLEVEL%"
+
+D:\Documents\GitHub\translation-engine>echo Missing-model process exit code: %MISSING_RC%
+Missing-model process exit code: 0
+
+D:\Documents\GitHub\translation-engine>type "%WORK%\missing.stdout.ndjson"
+{"protocol_version":1,"id":"missing","ok":true,"result":{"alive":true,"ready":false,"ready_pairs":[],"error":{"code":"MODEL_MISSING","message":"Provision the pinned model and zh-hans MiniSBD resource, then restart.","retryable":false}}}
+{"protocol_version":1,"id":"done","ok":true,"result":{"shutdown":true}}
+
+D:\Documents\GitHub\translation-engine>type "%WORK%\missing.stderr.txt"
+
+D:\Documents\GitHub\translation-engine>"%EXE%" --models-dir "%MODELS%" > "%WORK%\cli-error.stdout.txt" 2> "%WORK%\cli-error.stderr.txt"
+
+D:\Documents\GitHub\translation-engine>set "CLI_ERROR_RC=%ERRORLEVEL%"
+
+D:\Documents\GitHub\translation-engine>echo Expected CLI error exit code 2, actual: %CLI_ERROR_RC%
+Expected CLI error exit code 2, actual: 2
+
+D:\Documents\GitHub\translation-engine>type "%WORK%\cli-error.stderr.txt"
+usage: translation-engine-worker.exe [-h] [--version]
+                                     [--models-dir MODELS_DIR] --state-dir
+                                     STATE_DIR [--file FILE]
+                                     [--sbd-file SBD_FILE]
+                                     [{provision-model}]
+translation-engine-worker.exe: error: the following arguments are required: --state-dir
+
+D:\Documents\GitHub\translation-engine>cd /d "%REPO%"
+
+D:\Documents\GitHub\translation-engine>echo Workspace to remove: "%WORK%"
+Workspace to remove: "D:\Documents\GitHub\translation-engine\runtime\CMD Café 中文 30680-2775"
+
+D:\Documents\GitHub\translation-engine>dir /a "%WORK%"
+ Volume in drive D is DATA
+ Volume Serial Number is 6A93-2EA3
+
+ Directory of D:\Documents\GitHub\translation-engine\runtime\CMD Café 中文 30680-2775
+
+11/07/2026  05:15 PM    <DIR>          .
+11/07/2026  05:12 PM    <DIR>          ..
+11/07/2026  05:12 PM    <DIR>          app Café 中文
+11/07/2026  05:15 PM               400 cli-error.stderr.txt
+11/07/2026  05:15 PM                 0 cli-error.stdout.txt
+11/07/2026  05:14 PM               552 deeper.ndjson
+11/07/2026  05:14 PM                 0 deeper.stderr.txt
+11/07/2026  05:14 PM               774 deeper.stdout.ndjson
+11/07/2026  05:12 PM               274 exe.sha256.txt
+11/07/2026  05:13 PM                 0 interactive.stderr.txt
+11/07/2026  05:15 PM    <DIR>          missing state
+11/07/2026  05:15 PM               115 missing.ndjson
+11/07/2026  05:15 PM                 0 missing.stderr.txt
+11/07/2026  05:15 PM               309 missing.stdout.ndjson
+11/07/2026  05:12 PM               253 model.sha256.txt
+11/07/2026  05:13 PM    <DIR>          models Café 中文
+11/07/2026  05:13 PM               167 provision.stderr.txt
+11/07/2026  05:13 PM                 0 provision.stdout.txt
+11/07/2026  05:12 PM               235 sbd.sha256.txt
+11/07/2026  05:13 PM               468 smoke.ndjson
+11/07/2026  05:13 PM                 0 smoke.stderr.txt
+11/07/2026  05:13 PM             1,260 smoke.stdout.ndjson
+11/07/2026  05:13 PM    <DIR>          state Café 中文
+11/07/2026  05:12 PM    <DIR>          upstream assets
+11/07/2026  05:12 PM               238 zip.sha256.txt
+              18 File(s)          5,045 bytes
+               7 Dir(s)  75,599,126,528 bytes free
+
+D:\Documents\GitHub\translation-engine>rmdir /s "%WORK%"
+D:\Documents\GitHub\translation-engine\runtime\CMD Café 中文 30680-2775, Are you sure (Y/N)? Y
+
+D:\Documents\GitHub\translation-engine>

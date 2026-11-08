@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kurtpatrickyu/translation-engine/release-manifest.schema.json",
+  "title": "Windows worker prepared release, schema 2 (legacy schema 1 accepted)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "candidate_id", "worker_version", "protocol_version", "platform", "architecture", "source", "publication", "baseline", "backend", "dependencies", "external_prerequisites", "external_models", "artifacts", "worker_files", "evidence", "compliance", "blockers", "assembly"],
+  "properties": {
+    "schema_version": {"enum": [1, 2]},
+    "candidate_id": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-rc\\.1)?$"},
+    "worker_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "protocol_version": {"const": 1},
+    "platform": {"const": "windows"},
+    "architecture": {"const": "x64"},
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["repository", "commit", "materials_commit", "url"],
+      "properties": {
+        "repository": {"const": "https://github.com/kurtpatrickyu/translation-engine"},
+        "commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "materials_commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "url": {"type": "string", "pattern": "^https://github.com/kurtpatrickyu/translation-engine/tree/[a-f0-9]{40}$"}
+      }
+    },
+    "publication": {"oneOf": [{"const": {"status": "local-candidate", "tag": null, "release_url": null, "release_ready": false}}, {"const": {"status": "prepared-release", "tag": "v0.1.0", "release_url": "https://github.com/kurtpatrickyu/translation-engine/releases/tag/v0.1.0", "release_ready": false}}]},
+    "baseline": {"type": "object"},
+    "backend": {"const": "argos"},
+    "dependencies": {"type": "array", "minItems": 17, "items": {"type": "object", "required": ["id", "version", "source_identity"]}},
+    "external_prerequisites": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["name", "url", "bundled"], "properties": {"bundled": {"const": false}, "url": {"type": "string", "pattern": "^https://"}}}},
+    "external_models": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "object", "required": ["role", "filename", "source", "sha256", "bytes", "bundled"], "properties": {"bundled": {"const": false}, "source": {"type": "string", "pattern": "^https://"}, "sha256": {"$ref": "#/$defs/sha256"}, "bytes": {"type": "integer", "minimum": 1}}}},
+    "artifacts": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"type": "object", "additionalProperties": false, "required": ["name", "bytes", "sha256", "role"], "properties": {"name": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"}, "bytes": {"type": "integer", "minimum": 1}, "sha256": {"$ref": "#/$defs/sha256"}, "role": {"type": "string"}}}},
+    "worker_files": {"type": "array", "minItems": 176, "items": {"type": "object", "additionalProperties": false, "required": ["name", "bytes", "sha256"], "properties": {"name": {"type": "string"}, "bytes": {"type": "integer", "minimum": 0}, "sha256": {"$ref": "#/$defs/sha256"}}}},
+    "evidence": {"type": "array", "minItems": 5, "items": {"type": "object", "required": ["path", "sha256", "kind", "passed", "functional_smoke_passed", "clean_machine", "os_firewall_isolation", "findings"], "properties": {"sha256": {"$ref": "#/$defs/sha256"}, "functional_smoke_passed": {"const": true}}}},
+    "compliance": {"type": "object", "required": ["ready", "archive", "source_archive", "staged_manifest_sha256", "blockers"], "properties": {"ready": {"type": "boolean"}, "staged_manifest_sha256": {"$ref": "#/$defs/sha256"}, "inventory_sha256": {"$ref": "#/$defs/sha256"}, "blockers": {"type": "array"}}},
+    "blockers": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "assembly": {"type": "object", "additionalProperties": false, "required": ["node", "zlib", "config_sha256", "tool_sha256"], "properties": {"node": {"type": "string"}, "zlib": {"type": "string"}, "config_sha256": {"$ref": "#/$defs/sha256"}, "tool_sha256": {"$ref": "#/$defs/sha256"}}}
+  },
+  "allOf": [
+    {"if": {"properties": {"schema_version": {"const": 1}}}, "then": {"properties": {"compliance": {"properties": {"ready": {"const": false}}}}}},
+    {"if": {"properties": {"schema_version": {"const": 2}}}, "then": {"properties": {"compliance": {"required": ["inventory_sha256"]}}}}
+  ],
+  "$defs": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

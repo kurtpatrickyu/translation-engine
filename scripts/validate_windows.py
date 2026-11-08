@@ -1,0 +1,346 @@
+"""Relocated local executable smoke/measurement harness; not clean-VM acceptance."""
+
+import argparse
+import base64
+import ctypes
+from contextlib import contextmanager
+from ctypes import wintypes
+import hashlib
+import json
+import os
+from pathlib import Path
+import platform
+import queue
+import shutil
+import subprocess
+import sys
+import tempfile
+import threading
+import time
+import zipfile
+from windows_resources import process_tree, process_memory
+
+
+def main():
+    root = Path(__file__).resolve().parents[1]
+    if Path(sys.prefix).resolve() != (root / ".venv").resolve() or sys.platform != "win32":
+        raise SystemExit("Run with the project's Windows .venv interpreter.")
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--exe", type=Path, default=root / "dist/translation-engine-worker/translation-engine-worker.exe")
+    parser.add_argument("--report", type=Path, default=root / "build/packaged-validation.json")
+    parser.add_argument('--source', action='store_true', help='Measure actual source worker with the same corpus; no ZIP')
+    parser.add_argument('--ascii-paths', action='store_true', help='Isolate non-Unicode operation; not Unicode acceptance')
+    parser.add_argument('--unicode-component', choices=['model', 'executable', 'state', 'all'],
+                        help='Independently locate this directory under Unicode; default all')
+    parser.add_argument('--native-audit', action='store_true', help='Snapshot loaded native paths in a minimal child environment')
+    parser.add_argument('--external-vc-runtime', action='store_true', help='Verify the four VC DLLs load from the installed x64 runtime')
+    args = parser.parse_args()
+    if args.report.exists():
+        raise SystemExit('Refusing to overwrite existing validation evidence')
+    if args.ascii_paths and args.unicode_component:
+        parser.error('--ascii-paths and --unicode-component are mutually exclusive')
+    if args.source and args.unicode_component == 'executable':
+        parser.error('Executable relocation requires the frozen artifact')
+    if args.source and args.native_audit:
+        parser.error('Native audit requires the frozen artifact')
+    if args.external_vc_runtime and not args.native_audit:
+        parser.error('--external-vc-runtime requires --native-audit')
+    component = 'none' if args.ascii_paths else (args.unicode_component or 'all')
+    report = {"passed": False, "clean_machine": False, "os_firewall_isolation": False,
+              "os": platform.platform(), "cpu": platform.processor(), "machine": platform.machine(),
+              "cache_conditions": "Fresh worker process; filesystem/DLL caches may be warm from provisioning/copying",
+              "memory_sampling_seconds": 0.05, "performance_thresholds": None}
+    report.update(corpus_version="local-smoke-v1", repetitions=5,
+                  thread_settings={"argos_inter_threads": 1, "argos_intra_threads": 2, "compute_type": "auto"},
+                  environment_limitations=["Development host, not a clean VM", "Storage hardware and power mode not captured",
+                                            "Worker process tree sampled; short-lived processes between samples may be missed"])
+    report['memory_scope'] = 'Sum of worker and descendant counters; per-process OS peak sums are not simultaneous peaks'
+    runtime = root / "runtime"
+    runtime.mkdir(exist_ok=True)
+    process = None
+    handle = None
+    monitor_thread = None
+    stop = threading.Event()
+    stderr, stdout_frames = [], []
+    @contextmanager
+    def workspace():
+        temporary = tempfile.TemporaryDirectory(prefix="packaged Caf\u00e9 " if component == 'all' else "packaged-ascii ", dir=runtime)
+        if not Path(temporary.name).resolve().is_relative_to(runtime.resolve()):
+            raise ValueError("Temporary workspace escaped the intended root")
+        try:
+            yield temporary.name
+        finally:
+            stop.set()
+            if process is not None and process.poll() is None:
+                process.kill()
+                process.wait()
+            temporary.cleanup()
+    try:
+        with workspace() as temporary:
+            base = Path(temporary).resolve()
+            if not base.is_relative_to(runtime.resolve()):
+                raise ValueError("Temporary validation path escaped the workspace")
+            unicode_suffix = ' Caf\u00e9 \u4e2d\u6587 \U0001f60a'
+            def directory(name, kind):
+                return base / (name + (unicode_suffix if component in (kind, 'all') else ''))
+            relocated = directory('worker folder', 'executable')
+            if args.source:
+                executable = Path(sys.executable)
+                worker_command = [str(executable), '-m', 'translation_engine']
+            else:
+                shutil.copytree(args.exe.resolve().parent, relocated)
+                executable = relocated / args.exe.name
+                worker_command = [str(executable)]
+            report['worker_mode'] = 'source' if args.source else 'frozen'
+            report['path_mode'] = component
+            report['argos_provenance'] = json.loads((root / 'packaging/argos-upstream.json').read_text())
+            env = {key: value for key, value in os.environ.items()
+                   if not key.startswith(("PYTHON", "ARGOS_", "VIRTUAL_ENV", "CONDA_"))}
+            env["PATH"] = str(Path(os.environ["SystemRoot"]) / "System32")
+            if args.native_audit:
+                # A restrictive test environment, not a change to worker policy.
+                # No inherited HIP/CUDA/CT2/OMP/Python paths or user cache roots.
+                env = {key: os.environ[key] for key in ('SystemRoot', 'WINDIR') if key in os.environ}
+                env['PATH'] = str(Path(os.environ['SystemRoot']) / 'System32')
+                for key, folder in [('USERPROFILE', 'profile'), ('APPDATA', 'appdata'),
+                                    ('LOCALAPPDATA', 'localappdata'), ('TEMP', 'temp'), ('TMP', 'temp')]:
+                    location = base / folder
+                    location.mkdir(exist_ok=True)
+                    env[key] = str(location)
+                report['child_environment_keys'] = sorted(env)
+                report['native_modules'] = {}
+                report['native_isolation_findings'] = []
+                from audit_windows_package import EXTERNAL_VC_DLLS, vc_runtime_files
+                installed_vc = vc_runtime_files() if args.external_vc_runtime else {}
+                report['external_vc_runtime'] = installed_vc
+                def snapshot(stage):
+                    from audit_windows_package import loaded_modules
+                    modules = loaded_modules(process.pid, relocated)
+                    report['native_modules'][stage] = modules
+                    report['native_isolation_findings'] += [
+                        'External host module: ' + item['path'] for item in modules if item['scope'] == 'external_host']
+                    if args.external_vc_runtime:
+                        observed = {Path(item['path']).name.casefold(): item for item in modules
+                                    if Path(item['path']).name.casefold() in EXTERNAL_VC_DLLS}
+                        if set(observed) != EXTERNAL_VC_DLLS or any(
+                                Path(item['path']) != Path(installed_vc[name]['path'])
+                                or item['sha256'] != installed_vc[name]['sha256']
+                                for name, item in observed.items()):
+                            raise RuntimeError('Required VC runtime did not load from the installed system location')
+                        if not any(Path(item['path']).name.casefold() == 'msvcp140-a4c2229bdc2a2a630acdc095b4d86008.dll'
+                                   and item['scope'] == 'bundle' for item in modules):
+                            raise RuntimeError('NumPy renamed runtime is not loaded from the bundle')
+                    # System32 VC is permitted only with the explicit prerequisite.
+                    if any(item['scope'] != 'bundle' and Path(item['path']).name.lower().startswith(
+                            ('msvcp140', 'vcruntime140', 'python3', 'libiomp', 'libscipy', 'ctranslate2', 'onnxruntime'))
+                           and not (args.external_vc_runtime and Path(item['path']).name.casefold() in EXTERNAL_VC_DLLS)
+                           for item in modules):
+                        raise RuntimeError('Application runtime loaded from the host')
+            models, state = directory('external-models', 'model'), directory('worker-state', 'state')
+            report['paths'] = dict(executable=str(executable), models=str(models), state=str(state))
+            provision = subprocess.run(worker_command + [
+                "provision-model", "--file", str(root / "downloads/translate-zh_en-1_9.argosmodel"),
+                "--sbd-file", str(root / "downloads/zh-hans.onnx"), "--models-dir", str(models),
+                "--state-dir", str(directory('provision-state', 'state')),
+            ], capture_output=True, env=env, cwd=base, timeout=120)
+            report['provisioning_stdout'] = provision.stdout.decode('utf-8', errors='replace')
+            report['provisioning_returncode'] = provision.returncode
+            report['provisioning_stderr'] = provision.stderr.decode('utf-8', errors='replace')
+            report['provisioning_stderr_base64'] = base64.b64encode(provision.stderr).decode('ascii')
+            if provision.returncode or provision.stdout:
+                raise RuntimeError("Frozen provisioning failed: " + provision.stderr.decode(errors="replace"))
+            version = subprocess.run(worker_command + ['--version'], capture_output=True, env=env, cwd=base, timeout=30)
+            report['version_stdout'] = version.stdout.decode('utf-8', errors='replace')
+            report['version_stderr'] = version.stderr.decode('utf-8', errors='replace')
+            report['version_returncode'] = version.returncode
+            if version.returncode or version.stderr or not version.stdout.strip():
+                raise RuntimeError('Worker version check failed')
+            pending = queue.Queue()
+            launch = time.perf_counter()
+            process = subprocess.Popen(worker_command + ["--models-dir", str(models), "--state-dir", str(state)],
+                                       stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env, cwd=base)
+            def read_stdout():
+                for frame in iter(process.stdout.readline, b""):
+                    stdout_frames.append(frame)
+                    pending.put(frame)
+                pending.put(None)
+            def read_stderr():
+                stderr.append(process.stderr.read())
+            threading.Thread(target=read_stdout, daemon=True).start()
+            errors_thread = threading.Thread(target=read_stderr, daemon=True)
+            errors_thread.start()
+
+            class Counters(ctypes.Structure):
+                _fields_ = [("cb", wintypes.DWORD), ("faults", wintypes.DWORD)] + [
+                    (name, ctypes.c_size_t) for name in ("peak_working_set", "working_set", "peak_paged", "paged",
+                                                       "peak_nonpaged", "nonpaged", "pagefile", "peak_pagefile", "private")]
+            kernel, psapi = ctypes.WinDLL("kernel32", use_last_error=True), ctypes.WinDLL("psapi", use_last_error=True)
+            kernel.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
+            kernel.OpenProcess.restype = wintypes.HANDLE
+            kernel.CloseHandle.argtypes = [wintypes.HANDLE]
+            psapi.GetProcessMemoryInfo.argtypes = [wintypes.HANDLE, ctypes.POINTER(Counters), wintypes.DWORD]
+            handle = kernel.OpenProcess(0x410, False, process.pid)
+            memory = []
+            def sample():
+                counters = [data for pid in process_tree(process.pid) if (data := process_memory(pid))]
+                if counters:
+                    value = {key: sum(item[key] for item in counters) for key in
+                             ('working_set', 'private_bytes', 'peak_working_set')}
+                    value['process_count'] = len(counters)
+                    memory.append(value)
+                    return value
+                return None
+            def monitor():
+                while not stop.wait(0.05):
+                    sample()
+            monitor_thread = threading.Thread(target=monitor, daemon=True)
+            monitor_thread.start()
+            number = 0
+            def send(command, **fields):
+                nonlocal number
+                number += 1
+                request = {"protocol_version": 1, "id": str(number), "command": command, **fields}
+                before = time.perf_counter()
+                process.stdin.write(json.dumps(request, ensure_ascii=False).encode("utf-8") + b"\n")
+                process.stdin.flush()
+                response = pending.get(timeout=120)
+                if response is None:
+                    raise RuntimeError("Frozen worker exited before responding")
+                response = json.loads(response)
+                if response.get("id") != str(number) or not response.get("ok"):
+                    raise RuntimeError("Frozen protocol failure: " + repr(response))
+                return response["result"], time.perf_counter() - before
+            info, _ = send("info")
+            report["cold_process_start_seconds"] = time.perf_counter() - launch
+            report["idle_memory"] = sample()
+            health, elapsed = send("health")
+            report["model_initialization_seconds"] = elapsed
+            if not health["ready"]:
+                raise RuntimeError("Frozen readiness failed: " + repr(health))
+            report['health'] = health
+            report["ready_memory"] = sample()
+            if args.native_audit:
+                snapshot('ready')
+            corpus = ["你好，世界！", "不锈钢保温杯，容量500毫升。轻便耐用。", "这是第一段。\n这是第二段。"]
+            observations = []
+            for _ in range(5):
+                for text in corpus:
+                    translated, seconds = send("translate", source="zh", target="en", text=text)
+                    if not translated["text"].strip():
+                        raise RuntimeError("Empty frozen translation")
+                    observations.append({"input_utf8_bytes": len(text.encode()), "seconds": seconds,
+                                         "text": text, "output": translated["text"]})
+            if args.native_audit:
+                snapshot('after_translation')
+            process.stdin.write(b'{"protocol_version":1,"id":"bad","command":"unknown"}\n')
+            process.stdin.flush()
+            rejected_command = json.loads(pending.get(timeout=30))
+            if (rejected_command.get('id') != 'bad' or rejected_command.get('ok') is not False
+                    or rejected_command.get('error', {}).get('code') != 'UNKNOWN_COMMAND'):
+                raise RuntimeError('Persistent request error mapping failed')
+            recovered, _ = send('health')
+            if not recovered['ready']:
+                raise RuntimeError('Readiness lost after request error')
+            report['persistent_error_recovery'] = 'passed'
+            send("shutdown")
+            if process.wait(timeout=30):
+                raise RuntimeError("Frozen worker did not exit cleanly")
+            errors_thread.join(timeout=5)
+            if b"".join(stderr):
+                raise RuntimeError("Unexpected frozen stderr: " + b"".join(stderr).decode(errors="replace"))
+            if pending.get(timeout=5) is not None:
+                raise RuntimeError('Unexpected stdout after shutdown')
+            stop.set()
+            monitor_thread.join(timeout=5)
+            report["memory_peak_observed"] = {key: max(item[key] for item in memory) for key in memory[0]} if memory else None
+            ordered = sorted(item["seconds"] for item in observations)
+            report["translation_latency"] = {"samples": observations, "median_seconds": ordered[len(ordered)//2],
+                                              "p95_seconds": ordered[min(len(ordered)-1, int(len(ordered)*0.95))]}
+            report["info"] = info
+            # Reject altered tokenizer bytes before initialization, including at
+            # a Unicode location; a failed reprovision must leave them untouched.
+            from translation_engine.assets import PACKAGE_NAME
+            installed = models / PACKAGE_NAME
+            tokenizer_file = installed / 'sentencepiece.model'
+            receipt = (installed / 'installation.json').read_bytes()
+            original_tokenizer = tokenizer_file.read_bytes()
+            try:
+                tokenizer_file.write_bytes(b'deliberately changed tokenizer')
+                rejected = subprocess.run(worker_command + ['--models-dir', str(models), '--state-dir', str(state)],
+                    input=b'{"protocol_version":1,"id":"h","command":"health"}\n{"protocol_version":1,"id":"s","command":"shutdown"}\n',
+                    capture_output=True, env=env, cwd=base, timeout=30)
+                responses = [json.loads(frame) for frame in rejected.stdout.splitlines()]
+                if (rejected.returncode or rejected.stderr or len(responses) != 2
+                        or responses[0]['result']['ready']
+                        or responses[0]['result']['error']['code'] != 'MODEL_INCOMPATIBLE'):
+                    raise RuntimeError('Changed-tokenizer integrity rejection failed')
+                reprovision = subprocess.run(worker_command + ['provision-model', '--file',
+                    str(root / 'downloads/translate-zh_en-1_9.argosmodel'), '--sbd-file', str(root / 'downloads/zh-hans.onnx'),
+                    '--models-dir', str(models), '--state-dir', str(state)], capture_output=True, env=env, cwd=base, timeout=30)
+                if (not reprovision.returncode or reprovision.stdout
+                        or (installed / 'installation.json').read_bytes() != receipt
+                        or tokenizer_file.read_bytes() != b'deliberately changed tokenizer'
+                        or list(models.iterdir()) != [installed]):
+                    raise RuntimeError('Failed reprovision changed the existing installation')
+                report['tokenizer_integrity_and_failed_reprovision'] = 'passed'
+            finally:
+                tokenizer_file.write_bytes(original_tokenizer)
+            missing = subprocess.run(worker_command + ['--models-dir', str(base / 'missing-models'),
+                '--state-dir', str(base / 'missing-state')], input=b'{"protocol_version":1,"id":"h","command":"health"}\n{"protocol_version":1,"id":"s","command":"shutdown"}\n',
+                capture_output=True, env=env, cwd=base, timeout=30)
+            missing_responses = [json.loads(frame) for frame in missing.stdout.splitlines()]
+            if (missing.returncode or missing.stderr or len(missing_responses) != 2
+                    or missing_responses[0]['result']['error']['code'] != 'MODEL_MISSING'):
+                raise RuntimeError('Missing-model frozen/source smoke failed: ' + repr(missing.stderr))
+            report['missing_model_error'] = 'MODEL_MISSING'
+            for key, filename in [('model_sha256', 'translate-zh_en-1_9.argosmodel'), ('sbd_sha256', 'zh-hans.onnx')]:
+                with (root / 'downloads' / filename).open('rb') as stream:
+                    report[key] = hashlib.file_digest(stream, 'sha256').hexdigest()
+            if args.source:
+                report['passed'] = True
+                return finish(args.report, report)
+            report["worker_extracted_bytes"] = sum(file.stat().st_size for file in relocated.rglob("*") if file.is_file())
+            archive = args.report.with_suffix('.worker.zip')
+            with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as bundle:
+                for file in relocated.rglob("*"):
+                    if file.is_file():
+                        if file.suffix == ".argosmodel" or file.name == "zh-hans.onnx":
+                            raise RuntimeError("External model asset was bundled unexpectedly")
+                        bundle.write(file, Path("translation-engine-worker") / file.relative_to(relocated))
+            report["worker_zip_bytes"] = archive.stat().st_size
+            with archive.open("rb") as stream:
+                report["worker_zip_sha256"] = hashlib.file_digest(stream, "sha256").hexdigest()
+            report["worker_exe_sha256"] = hashlib.sha256(executable.read_bytes()).hexdigest()
+            report["asset_sizes"] = {name: (root / "downloads" / name).stat().st_size
+                                     for name in ("translate-zh_en-1_9.argosmodel", "zh-hans.onnx")}
+            report['functional_smoke_passed'] = True
+            report["passed"] = not report.get('native_isolation_findings')
+    except Exception as error:
+        report['passed'] = False
+        report["error"] = str(error)
+        if process is not None and process.poll() is None:
+            process.kill()
+            process.wait()
+        if process is not None:
+            report['worker_returncode'] = process.returncode
+        report['failure_stdout'] = b''.join(stdout_frames).decode('utf-8', errors='replace')
+        report['failure_stderr'] = b''.join(stderr).decode('utf-8', errors='replace')
+    finally:
+        stop.set()
+        if monitor_thread:
+            monitor_thread.join(timeout=5)
+        if handle:
+            kernel.CloseHandle(handle)
+    return finish(args.report, report)
+
+
+def finish(path, report):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps({key: report.get(key) for key in ("passed", "error", "worker_zip_bytes", "worker_extracted_bytes",
+                                                        "cold_process_start_seconds", "model_initialization_seconds")}, indent=2))
+    return 0 if report["passed"] else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

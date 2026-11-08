@@ -1,0 +1,145 @@
+Microsoft Windows [Version 10.0.19045.3803]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\vboxuser>
+C:\Users\vboxuser>cmd.exe /d /a /v:off
+Microsoft Windows [Version 10.0.19045.3803]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\vboxuser>chcp 65001
+Active code page: 65001
+
+C:\Users\vboxuser>
+C:\Users\vboxuser>cd /d C:\WorkerCandidate
+
+C:\WorkerCandidate>
+C:\WorkerCandidate>powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\verify-checksums.ps1
+All candidate checksums and top-level file coverage match. Publication remains blocked.
+
+C:\WorkerCandidate>
+C:\WorkerCandidate>certutil -hashfile translation-engine-worker-win-x64.zip SHA256
+SHA256 hash of translation-engine-worker-win-x64.zip:
+708add4798814b8e7d2298ad36ae9697368afa639a4ae6ea99e391f4457fb28d
+CertUtil: -hashfile command completed successfully.
+
+C:\WorkerCandidate>
+C:\WorkerCandidate>mkdir C:\WorkerAcceptance
+
+C:\WorkerCandidate>cd /d C:\WorkerAcceptance
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>tar.exe -xf C:\WorkerCandidate\translation-engine-worker-win-x64.zip
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>set "EXE=C:\WorkerAcceptance\translation-engine-worker\translation-engine-worker.exe"
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>certutil -hashfile "%EXE%" SHA256
+SHA256 hash of C:\WorkerAcceptance\translation-engine-worker\translation-engine-worker.exe:
+ec06bf07399b9d96d140e2c828772666aa12124b8991a2d622ebca52ced79d7d
+CertUtil: -hashfile command completed successfully.
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>"%EXE%" --version
+[PYI-1820:ERROR] Failed to load Python DLL 'C:\WorkerAcceptance\translation-engine-worker\_internal\python312.dll'.
+LoadLibrary: The specified module could not be found.
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>dir "C:\WorkerAcceptance\translation-engine-worker\_internal\python312.dll"
+ Volume in drive C has no label.
+ Volume Serial Number is 645B-39A5
+
+ Directory of C:\WorkerAcceptance\translation-engine-worker\_internal
+
+01/01/1980  12:00 AM         6,945,272 python312.dll
+               1 File(s)      6,945,272 bytes
+               0 Dir(s)  39,576,072,192 bytes free
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>reg query "HKLM\SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64" /reg:64
+ERROR: The system was unable to find the specified registry key or value.
+
+C:\WorkerAcceptance>"%EXE%" --version
+0.1.0
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>certutil -hashfile C:\WorkerAssets\translate-zh_en-1_9.argosmodel SHA256
+SHA256 hash of C:\WorkerAssets\translate-zh_en-1_9.argosmodel:
+62e7af5a3a48b530e47b7b3e5c78c2de79073ecd815750d2bf3ab35b4a67da2d
+CertUtil: -hashfile command completed successfully.
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>certutil -hashfile C:\WorkerAssets\zh-hans.onnx SHA256
+SHA256 hash of C:\WorkerAssets\zh-hans.onnx:
+b2a6e45ebb43df44ac3c8e4100ea1cb30ec8319c5698b678ed3f203e5edc5d0e
+CertUtil: -hashfile command completed successfully.
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>"%EXE%" provision-model --file "C:\WorkerAssets\translate-zh_en-1_9.argosmodel" --sbd-file "C:\WorkerAssets\zh-hans.onnx" --models-dir "C:\WorkerAcceptance\models" --state-dir "C:\WorkerAcceptance\state"
+Provisioned C:\WorkerAcceptance\models\translate-zh_en-1_9. Restart any running worker.
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>> "C:\WorkerAcceptance\smoke.ndjson" echo {"protocol_version":1,"id":"h","command":"health"}
+
+C:\WorkerAcceptance>>> "C:\WorkerAcceptance\smoke.ndjson" echo {"protocol_version":1,"id":"t","command":"translate","source":"zh","target":"en","text":"\u4f60\u597d\uff0c\u4e16\u754c\uff01"}
+
+C:\WorkerAcceptance>>> "C:\WorkerAcceptance\smoke.ndjson" echo {"protocol_version":1,"id":"s","command":"shutdown"}
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>"%EXE%" --models-dir "C:\WorkerAcceptance\models" --state-dir "C:\WorkerAcceptance\state" < "C:\WorkerAcceptance\smoke.ndjson" > "C:\WorkerAcceptance\smoke.stdout.ndjson" 2> "C:\WorkerAcceptance\smoke.stderr.txt"
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>set "WORKER_RC=%ERRORLEVEL%"
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>echo Worker exit code: %WORKER_RC%
+Worker exit code: 0
+
+C:\WorkerAcceptance>type "C:\WorkerAcceptance\smoke.stdout.ndjson"
+{"protocol_version":1,"id":"h","ok":true,"result":{"alive":true,"ready":true,"ready_pairs":[{"source":"zh","target":"en"}],"error":null}}
+{"protocol_version":1,"id":"t","ok":true,"result":{"source":"zh","target":"en","text":"Hello, world!"}}
+{"protocol_version":1,"id":"s","ok":true,"result":{"shutdown":true}}
+
+C:\WorkerAcceptance>type "C:\WorkerAcceptance\smoke.stderr.txt"
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>"%EXE%" --models-dir "C:\WorkerAcceptance\models" --state-dir "C:\WorkerAcceptance\state" < "C:\WorkerAcceptance\smoke.ndjson" > "C:\WorkerAcceptance\smoke.stdout.ndjson" 2> "C:\WorkerAcceptance\smoke.stderr.txt"
+
+C:\WorkerAcceptance>>> "C:\WorkerAcceptance\smoke.ndjson" echo {"protocol_version":1,"id":"t","command":"translate","source":"zh","target":"en","text":"\u4f60\u597d\uff0c\u4e16\u754c\uff01"}
+
+C:\WorkerAcceptance>"%EXE%" --version
+0.1.0
+
+C:\WorkerAcceptance>"C:\WorkerAcceptance\smoke.ndjson" echo {"protocol_version":1,"id":"t","command":"translate","source":"zh","target":"en","text":"\u4f60\u597d\uff0c\u4e16\u754c\uff01"}
+
+C:\WorkerAcceptance>{"protocol_version":1,"id":"t","command":"translate","source":"zh","target":"en","text":"\u4f60\u597d\uff0c\u4e16\u754c\uff01"}
+The filename, directory name, or volume label syntax is incorrect.
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>"%EXE%" provision-model --file "C:\WorkerAssets\translate-zh_en-1_9.argosmodel" --sbd-file "C:\WorkerAssets\zh-hans.onnx" --models-dir "C:\WorkerAcceptance\models" --state-dir "C:\WorkerAcceptance\state"
+Provisioned C:\WorkerAcceptance\models\translate-zh_en-1_9. Restart any running worker.
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>> "C:\WorkerAcceptance\smoke.ndjson" echo {"protocol_version":1,"id":"h","command":"health"}
+
+C:\WorkerAcceptance>>> "C:\WorkerAcceptance\smoke.ndjson" echo {"protocol_version":1,"id":"t","command":"translate","source":"zh","target":"en","text":"\u4f60\u597d\uff0c\u4e16\u754c\uff01"}
+
+C:\WorkerAcceptance>>> "C:\WorkerAcceptance\smoke.ndjson" echo {"protocol_version":1,"id":"s","command":"shutdown"}
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>"%EXE%" --models-dir "C:\WorkerAcceptance\models" --state-dir "C:\WorkerAcceptance\state" < "C:\WorkerAcceptance\smoke.ndjson" > "C:\WorkerAcceptance\smoke.stdout.ndjson" 2> "C:\WorkerAcceptance\smoke.stderr.txt"
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>set "WORKER_RC=%ERRORLEVEL%"
+
+C:\WorkerAcceptance>
+C:\WorkerAcceptance>echo Worker exit code: %WORKER_RC%
+Worker exit code: 0
+
+C:\WorkerAcceptance>type "C:\WorkerAcceptance\smoke.stdout.ndjson"
+{"protocol_version":1,"id":"h","ok":true,"result":{"alive":true,"ready":true,"ready_pairs":[{"source":"zh","target":"en"}],"error":null}}
+{"protocol_version":1,"id":"t","ok":true,"result":{"source":"zh","target":"en","text":"Hello, world!"}}
+{"protocol_version":1,"id":"s","ok":true,"result":{"shutdown":true}}
+
+C:\WorkerAcceptance>type "C:\WorkerAcceptance\smoke.stderr.txt"

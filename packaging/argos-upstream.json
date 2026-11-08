@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "distribution": "argostranslate",
+  "version": "1.11.1",
+  "commit": "17ed1a9b055c5ba1b51d76b683bbb0c64e2a4a88",
+  "source_url": "https://codeload.github.com/argosopentech/argos-translate/zip/17ed1a9b055c5ba1b51d76b683bbb0c64e2a4a88",
+  "source_sha256": "0cedceb52ca288b12bb4a33de97f7a8df13bc45dd46f6338754194a27b746343",
+  "source_date": "2026-08-08T12:09:52+00:00",
+  "wheel_filename": "argostranslate-1.11.1-py3-none-any.whl",
+  "wheel_sha256": "825b1bf872390547bad6c1fcf1f12e5967e2fe6b44ca1e8a82e17a8dd79a2aa0",
+  "build_tools": {
+    "pip": "25.3",
+    "setuptools": "80.9.0",
+    "wheel": "0.45.1",
+    "packaging": "26.3"
+  },
+  "source_modified": false,
+  "redistribution_clearance": "pending-review"
+}
