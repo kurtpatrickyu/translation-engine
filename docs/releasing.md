@@ -38,15 +38,23 @@ original findings. Finding counts never determine readiness.
 
 Current material decisions, recorded once here:
 
-- Intel OpenMP: establish the redistribution grant and required notices, and
-  compatibility with the bundled MiniSBD AGPL code.
-- NumPy's wheel-local renamed MSVC DLL: establish downstream redistribution
-  entitlement and applicable repair/renaming conditions.
-- OpenBLAS's GCC runtime: establish exception eligibility and any resulting
-  covered-source delivery duties.
+- Intel OpenMP: the exact DLL matches Intel's 2025.3.0 package and August 2024
+  Developer Tools EULA. Obtain a version-matched redistribution designation and
+  disposition of its end-user, reciprocal-license and applicable nested-notice
+  conditions for this MiniSBD AGPL worker.
+- NumPy's wheel-local renamed MSVC DLL: obtain an applicable downstream grant
+  covering the existing signed, hash-renamed 14.40.33810.0 file and its end-user
+  conditions. Runtime installation/use rights alone do not supply that grant.
 
-These are unresolved interpretations, not demonstrated prohibitions. No specific
-missing mandatory material is identified by the current pinned-material check.
+The OpenBLAS disposition is permitted for the byte-identical supplier combination
+under the BSD terms and GCC Runtime Library Exception 3.1, supported by the
+version-matched supplier recipe. Complete supplier notices are retained; a
+separate standalone GCC runtime is not distributed. Exact binary identities,
+evidence and the single clarification question for each remaining issue are in
+the existing inventory's three review records.
+
+The two remaining issues are unresolved permissions, not blanket findings of
+incompatibility. Supplier hosting and valid signatures do not establish a grant.
 An adequate disposition needs the reviewer, rationale and hash-pinned supporting
 evidence in the relevant release_review entry: disposition has outcome permitted
 or prohibited, reviewer, rationale and evidence entries with path and sha256.
@@ -84,12 +92,12 @@ Staging exit 0 means verified materials with no mandatory blocker; exit 2 means
 valid materials with a mandatory requirement still unmet. Neither means approval.
 Bind that directory and its manifest SHA-256 in packaging/release-candidate.json,
 then assemble and check a fresh directory. The current review set is
-candidate-staging/worker-0.1.0-policy/:
+candidate-staging/worker-0.1.0-permissions/:
 
 ```bat
 node scripts\assemble_release.cjs candidate-staging\NEW-worker
-node scripts\assemble_release.cjs --check candidate-staging\worker-0.1.0-policy
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File candidate-staging\worker-0.1.0-policy\verify-checksums.ps1
+node scripts\assemble_release.cjs --check candidate-staging\worker-0.1.0-permissions
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File candidate-staging\worker-0.1.0-permissions\verify-checksums.ps1
 ```
 
 Assembly/check exit 0 establishes technical validity even with disclosed findings.
@@ -97,12 +105,12 @@ The checksum verifier reports integrity only. Review the manifest, source identi
 and mandatory decisions, then explicitly approve with your own name:
 
 ```bat
-node scripts\assemble_release.cjs --approve candidate-staging\worker-0.1.0-policy --maintainer "Your name"
-node scripts\assemble_release.cjs --verify-approved candidate-staging\worker-0.1.0-policy
+node scripts\assemble_release.cjs --approve candidate-staging\worker-0.1.0-permissions --maintainer "Your name"
+node scripts\assemble_release.cjs --verify-approved candidate-staging\worker-0.1.0-permissions
 ```
 
 Approval rechecks all mandatory requirements and writes the adjacent
-worker-0.1.0-policy.approval.json audit record without altering the eight assets.
+worker-0.1.0-permissions.approval.json audit record without altering the eight assets.
 It binds every asset hash, source/executable identity, inventory and assembly
 inputs. Verification rejects missing, stale or ineligible approval. Keep the
 record with maintainer release evidence; it is an explicit declaration, not a
@@ -119,13 +127,13 @@ working tree, failed command, conflict or existing v0.1.0 tag. After approval:
 ```bat
 git switch development
 git status --short
-node scripts\assemble_release.cjs --verify-approved candidate-staging\worker-0.1.0-policy
+node scripts\assemble_release.cjs --verify-approved candidate-staging\worker-0.1.0-permissions
 git fetch origin
 git switch main
 git merge --ff-only origin/main
 git merge --no-ff development -m "Release translation-engine v0.1.0"
 git diff --exit-code development -- .
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File candidate-staging\worker-0.1.0-policy\verify-checksums.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File candidate-staging\worker-0.1.0-permissions\verify-checksums.ps1
 git tag -a v0.1.0 -m "translation-engine v0.1.0; binary source b064e29517fb793b2fcf0bf309b6fc78f623367d"
 git push origin main
 git push origin v0.1.0

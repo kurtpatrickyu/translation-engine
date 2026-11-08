@@ -5793,16 +5793,20 @@
     {
       "id": "openblas",
       "name": "SciPy OpenBLAS / LAPACK / GCC runtime",
-      "version": "OpenBLAS build 0.3.34.106.0; nested revisions unresolved",
+      "version": "scipy-openblas64 0.3.34.106.0",
       "redistributed_form": "Native DLL or statically incorporated code",
-      "license": "BSD-3-Clause; LAPACK BSD-style; GPL-3.0-or-later WITH GCC-exception-3.1",
+      "license": "BSD-2-Clause (supplier wrapper); BSD-3-Clause OpenBLAS/LAPACK; GPL-3.0-or-later WITH GCC-exception-3.1 (statically incorporated runtime)",
       "license_identity_verified": true,
-      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "license_evidence": "LICENSES/openblas/LICENSE.txt; packaging/sources/openblas/build_steps_windows.sh",
       "matching_source_required": "conditional",
       "source_identity": {
-        "revision": null,
-        "sha256": null,
-        "identity_status": "not-established"
+        "supplier_archive": "downloads/permission-inputs/scipy_openblas64-0.3.34.106.0-py3-none-win_amd64.whl",
+        "supplier_archive_sha256": "ea34bf76b8427ac2eca7a99334cbd8937a040303fa8364f9ed8e667d7c8e2c7d",
+        "supplier_url": "https://files.pythonhosted.org/packages/0c/17/ffc91653b566011d7c790116759266ec0a588fdd0e2f839d0343f3f79e0e/scipy_openblas64-0.3.34.106.0-py3-none-win_amd64.whl",
+        "supplier_member": "scipy_openblas64/lib/libscipy_openblas64_.dll",
+        "binary_sha256": "ed4f167a5330424524f45258e7ca2c8d7f03c0cba1f30ee4985553ac1f88ecf8",
+        "recipe_commit": "78fc0eaf6de71d92fd98f74f7e5bfa356a2f83e3",
+        "identity_status": "Exact supplier wheel DLL equals NumPy wheel and frozen DLL; supplier tag identifies the retained GCC recipe. No bit-for-bit rebuild is claimed."
       },
       "status": "incomplete",
       "blockers": [
@@ -5812,7 +5816,47 @@
       "worker_files": [
         "_internal/numpy.libs/libscipy_openblas64_-ed4f167a5330424524f45258e7ca2c8d.dll"
       ],
-      "materials": [],
+      "materials": [
+        {
+          "kind": "license",
+          "required": true,
+          "destination": "licenses/openblas/LICENSE.txt",
+          "source": {
+            "path": "LICENSES/openblas/LICENSE.txt",
+            "sha256": "7317b3a9eb806cc83a0cc6b1c7c2fbe6018eed556daa9996e6e3a727a2a5bfbe"
+          },
+          "provenance": {
+            "url": "https://files.pythonhosted.org/packages/0c/17/ffc91653b566011d7c790116759266ec0a588fdd0e2f839d0343f3f79e0e/scipy_openblas64-0.3.34.106.0-py3-none-win_amd64.whl",
+            "path": "downloads/permission-inputs/scipy_openblas64-0.3.34.106.0-py3-none-win_amd64.whl",
+            "archive_sha256": "ea34bf76b8427ac2eca7a99334cbd8937a040303fa8364f9ed8e667d7c8e2c7d",
+            "member": "scipy_openblas64-0.3.34.106.0.dist-info/licenses/LICENSE.txt"
+          }
+        },
+        {
+          "kind": "supplier-build-recipe",
+          "required": true,
+          "destination": "sources/openblas/build_steps_windows.sh",
+          "source": {
+            "path": "packaging/sources/openblas/build_steps_windows.sh",
+            "sha256": "4a6220eaf499d5b401c0d6bd9d881b7566cbf81c3d2903e247daff6db97f454f"
+          },
+          "provenance": {
+            "url": "https://raw.githubusercontent.com/MacPython/openblas-libs/78fc0eaf6de71d92fd98f74f7e5bfa356a2f83e3/tools/build_steps_windows.sh"
+          }
+        },
+        {
+          "kind": "license",
+          "required": true,
+          "destination": "sources/openblas/LICENSE_win32.txt",
+          "source": {
+            "path": "packaging/sources/openblas/LICENSE_win32.txt",
+            "sha256": "1ce4c83d89bc30a0a97d4bc18d72ccaa9d3cb7c90ba1408c6b3e29ebf0c5a71c"
+          },
+          "provenance": {
+            "url": "https://raw.githubusercontent.com/MacPython/openblas-libs/78fc0eaf6de71d92fd98f74f7e5bfa356a2f83e3/tools/LICENSE_win32.txt"
+          }
+        }
+      ],
       "evidence_materials_from": [
         "numpy"
       ]
@@ -5820,16 +5864,19 @@
     {
       "id": "intel-openmp",
       "name": "Intel OpenMP",
-      "version": "PE resource 5.0.2025.910",
+      "version": "intel-openmp 2025.3.0; PE file version 20250910",
       "redistributed_form": "Native DLL or statically incorporated code",
-      "license": "UNRESOLVED Intel supplier grant",
-      "license_identity_verified": false,
-      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "license": "Intel Developer Tools EULA (August 2024), with separately licensed third-party components",
+      "license_identity_verified": true,
+      "license_evidence": "LICENSES/intel-openmp/LICENSE.txt; LICENSES/intel-openmp/third-party-programs.txt",
       "matching_source_required": "conditional",
       "source_identity": {
-        "revision": null,
-        "sha256": null,
-        "identity_status": "not-established"
+        "supplier_archive": "downloads/permission-inputs/intel_openmp-2025.3.0-py2.py3-none-win_amd64.whl",
+        "supplier_archive_sha256": "8ff899d01a41b92ffe0e618b221ea633127d16df726086082d381c431c31339d",
+        "supplier_url": "https://files.pythonhosted.org/packages/79/69/05addedd727061b61a85b4fd989754edb628b5be1cd5d161727f98cf4d86/intel_openmp-2025.3.0-py2.py3-none-win_amd64.whl",
+        "supplier_member": "intel_openmp-2025.3.0.data/data/Library/bin/libiomp5md.dll",
+        "binary_sha256": "982233366b0afcda1e0f55a0b134097e35b779613f54ddb69e685e6cd06b755f",
+        "identity_status": "Exact Intel 2025.3.0 supplier DLL equals CTranslate2 wheel and frozen DLL; Intel Authenticode signature verified valid. Redistribution designation is not established."
       },
       "status": "blocked",
       "blockers": [
@@ -5839,7 +5886,38 @@
       "worker_files": [
         "_internal/ctranslate2/libiomp5md.dll"
       ],
-      "materials": [],
+      "materials": [
+        {
+          "kind": "license",
+          "required": true,
+          "destination": "licenses/intel-openmp/LICENSE.txt",
+          "source": {
+            "path": "LICENSES/intel-openmp/LICENSE.txt",
+            "sha256": "febfb69a5b058f55892dc7f341108a9ca29d50e9fe85723a57eebbb826436958"
+          },
+          "provenance": {
+            "url": "https://files.pythonhosted.org/packages/79/69/05addedd727061b61a85b4fd989754edb628b5be1cd5d161727f98cf4d86/intel_openmp-2025.3.0-py2.py3-none-win_amd64.whl",
+            "path": "downloads/permission-inputs/intel_openmp-2025.3.0-py2.py3-none-win_amd64.whl",
+            "archive_sha256": "8ff899d01a41b92ffe0e618b221ea633127d16df726086082d381c431c31339d",
+            "member": "intel_openmp-2025.3.0.dist-info/LICENSE.txt"
+          }
+        },
+        {
+          "kind": "notice",
+          "required": true,
+          "destination": "licenses/intel-openmp/third-party-programs.txt",
+          "source": {
+            "path": "LICENSES/intel-openmp/third-party-programs.txt",
+            "sha256": "f8ce918fe7311ce279e68380a2e233f8a42b1cd3dda8f4c48d6de97a0255c1d7"
+          },
+          "provenance": {
+            "url": "https://files.pythonhosted.org/packages/79/69/05addedd727061b61a85b4fd989754edb628b5be1cd5d161727f98cf4d86/intel_openmp-2025.3.0-py2.py3-none-win_amd64.whl",
+            "path": "downloads/permission-inputs/intel_openmp-2025.3.0-py2.py3-none-win_amd64.whl",
+            "archive_sha256": "8ff899d01a41b92ffe0e618b221ea633127d16df726086082d381c431c31339d",
+            "member": "intel_openmp-2025.3.0.data/data/share/doc/compiler/licensing/openmp/third-party-programs.txt"
+          }
+        }
+      ],
       "evidence_materials_from": []
     },
     {
@@ -5847,14 +5925,16 @@
       "name": "Microsoft renamed NumPy VC++ DLL",
       "version": "14.40.33810.0",
       "redistributed_form": "Native DLL or statically incorporated code",
-      "license": "UNRESOLVED Microsoft product grant",
+      "license": "Microsoft runtime use terms; applicable downstream redistribution grant unresolved",
       "license_identity_verified": false,
-      "license_evidence": "docs/redistribution-review.md; versioned supplier metadata/text when available",
+      "license_evidence": "LICENSES/msvc-numpy/Visual-C-Runtime-2015-2022-License-1.docx; Microsoft Visual Studio 2022 redistribution documentation",
       "matching_source_required": "conditional",
       "source_identity": {
-        "revision": null,
-        "sha256": null,
-        "identity_status": "not-established"
+        "supplier_archive": "downloads/wheels/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+        "supplier_archive_sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+        "supplier_member": "numpy.libs/msvcp140-a4c2229bdc2a2a630acdc095b4d86008.dll",
+        "binary_sha256": "a4c2229bdc2a2a630acdc095b4d86008e5c3e3bc7773174354f3da4f5beb9cde",
+        "identity_status": "NumPy wheel and frozen DLL match; valid Microsoft Authenticode signature; OriginalFilename msvcp140.dll and version 14.40.33810.0. Wheel DELVEWHEEL records repair version 1.11.2. A downstream Microsoft distribution grant is not established."
       },
       "status": "blocked",
       "blockers": [
@@ -5864,7 +5944,20 @@
       "worker_files": [
         "_internal/numpy.libs/msvcp140-a4c2229bdc2a2a630acdc095b4d86008.dll"
       ],
-      "materials": [],
+      "materials": [
+        {
+          "kind": "license-reference",
+          "required": true,
+          "destination": "licenses/msvc-numpy/Visual-C-Runtime-2015-2022-License-1.docx",
+          "source": {
+            "path": "LICENSES/msvc-numpy/Visual-C-Runtime-2015-2022-License-1.docx",
+            "sha256": "f1e3d56ceb2ad68aae0711b910375009e651ac5530fa0760f0dea6e81e54fae1"
+          },
+          "provenance": {
+            "url": "https://visualstudio.microsoft.com/wp-content/uploads/2021/09/Visual-C-Runtime-2015-2022-License-1.docx"
+          }
+        }
+      ],
       "evidence_materials_from": []
     },
     {
@@ -6132,24 +6225,85 @@
       "id": "review",
       "finding_sha256": "113164510d35b00b9c901a3aea3c6d48d0d381201db5700f613a3ce8451479a6",
       "classification": "requires-decision",
-      "rationale": "OpenBLAS GCC runtime exception eligibility and any resulting covered-source duties require an evidence-backed disposition.",
-      "disposition": null
+      "rationale": "Permitted for this unmodified supplier OpenBLAS/GCC-runtime Target Code combination under the retained BSD terms and GCC Runtime Library Exception 3.1; preserve complete supplier notices. Exact compiler revisions are not an additional distribution condition.",
+      "disposition": {
+        "outcome": "permitted",
+        "reviewer": "Codex evidence review (not maintainer publication approval)",
+        "rationale": "The frozen DLL is byte-identical to scipy-openblas64 0.3.34.106.0 and the locked NumPy wheel. The supplier license expressly identifies OpenBLAS/LAPACK plus statically incorporated GCC runtime with Exception 3.1. The version-tagged supplier Windows recipe uses ordinary GCC/gfortran compilation into this independent OpenBLAS/GCC-runtime Target Code combination. Applying Exception section 1 to that supplier-described combination is the documented interpretation: it may be conveyed under the BSD terms of the independent modules; no separate standalone libgfortran runtime DLL is shipped. Complete BSD, GPLv3 and exception texts are retained. No extra GCC source delivery is required for this combination under that exception; this does not waive source duties for independent runtime-library distributions or modified builds.",
+        "evidence": [
+          {
+            "path": "build/diagnostic-20261107-211131/native-static-audit.json",
+            "sha256": "f7a5e7462b671cd9703c373a4c920e8da73589f8ede057b0ee64775a8879f7e8"
+          },
+          {
+            "path": "LICENSES/openblas/LICENSE.txt",
+            "sha256": "7317b3a9eb806cc83a0cc6b1c7c2fbe6018eed556daa9996e6e3a727a2a5bfbe"
+          },
+          {
+            "path": "packaging/sources/openblas/build_steps_windows.sh",
+            "sha256": "4a6220eaf499d5b401c0d6bd9d881b7566cbf81c3d2903e247daff6db97f454f"
+          },
+          {
+            "path": "LICENSES/numpy/numpy-2.5.4.dist-info/licenses/LICENSE.txt",
+            "sha256": "a804dff0ead9fadc5293456410bcbfc32bf024be9c4513459663fb7b442d2341"
+          }
+        ]
+      },
+      "references": [
+        "https://www.gnu.org/licenses/gcc-exception-3.1-faq.html",
+        "https://github.com/MacPython/openblas-libs/tree/v0.3.34.106.0"
+      ]
     },
     {
       "component": "intel-openmp",
       "id": "review",
       "finding_sha256": "37bd54efc2a564208e33f594ddda15146a77a629a97a904a980b584ed01b8259",
       "classification": "requires-decision",
-      "rationale": "Intel OpenMP redistribution grant, required notices and compatibility with MiniSBD AGPL require an evidence-backed disposition.",
-      "disposition": null
+      "rationale": "Intel 2025.3.0 DLL provenance and applicable August 2024 EULA are now established. EULA sections 1.I, 2.1.D and 3.1 require a redistribution designation, executable-only/end-user restrictions and a reciprocal-license assessment; the collected package supplies no redist designation. Permission for this package remains undisposed.",
+      "disposition": null,
+      "question": "Under what version-matched Intel authorization and end-user/notice conditions may DLL SHA-256 982233366b0afcda1e0f55a0b134097e35b779613f54ddb69e685e6cd06b755f be redistributed in this MiniSBD-AGPL worker, satisfying EULA 1.I, 2.1.D and 3.1(x), including any applicable nested oneTBB notices?",
+      "evidence": [
+        {
+          "path": "build/diagnostic-20261107-211131/native-static-audit.json",
+          "sha256": "f7a5e7462b671cd9703c373a4c920e8da73589f8ede057b0ee64775a8879f7e8"
+        },
+        {
+          "path": "LICENSES/intel-openmp/LICENSE.txt",
+          "sha256": "febfb69a5b058f55892dc7f341108a9ca29d50e9fe85723a57eebbb826436958"
+        },
+        {
+          "path": "LICENSES/intel-openmp/third-party-programs.txt",
+          "sha256": "f8ce918fe7311ce279e68380a2e233f8a42b1cd3dda8f4c48d6de97a0255c1d7"
+        }
+      ],
+      "references": [
+        "https://pypi.org/project/intel-openmp/2025.3.0/",
+        "https://www.intel.com/content/www/us/en/developer/articles/license/end-user-license-agreement.html"
+      ]
     },
     {
       "component": "msvc-numpy",
       "id": "review",
       "finding_sha256": "8c3c8f73328908f357423b1c49b03973fb01d518cc411934ad91d23249907b97",
       "classification": "requires-decision",
-      "rationale": "NumPy wheel-local renamed MSVC DLL redistribution entitlement and any repair/renaming conditions require an evidence-backed disposition.",
-      "disposition": null
+      "rationale": "The byte-identical NumPy DLL has valid Microsoft-signed contents, original filename msvcp140.dll and version 14.40.33810.0. The standalone runtime EULA grants installation/use, not this distribution; Microsoft directs redistribution to an applicable Visual Studio grant. Neither the hash-renamed form nor this downstream package entitlement is established by wheel inclusion or signature validity.",
+      "disposition": null,
+      "question": "Which applicable Microsoft grant authorizes this downstream NumPy/MiniSBD worker to redistribute signed DLL SHA-256 a4c2229bdc2a2a630acdc095b4d86008e5c3e3bc7773174354f3da4f5beb9cde under its existing hash-renamed filename, and what filename/end-user conditions apply?",
+      "evidence": [
+        {
+          "path": "build/diagnostic-20261107-211131/native-static-audit.json",
+          "sha256": "f7a5e7462b671cd9703c373a4c920e8da73589f8ede057b0ee64775a8879f7e8"
+        },
+        {
+          "path": "LICENSES/msvc-numpy/Visual-C-Runtime-2015-2022-License-1.docx",
+          "sha256": "f1e3d56ceb2ad68aae0711b910375009e651ac5530fa0760f0dea6e81e54fae1"
+        }
+      ],
+      "references": [
+        "https://learn.microsoft.com/en-us/cpp/windows/redistributing-visual-cpp-files",
+        "https://learn.microsoft.com/en-us/visualstudio/releases/2022/redistribution",
+        "https://visualstudio.microsoft.com/license-terms/vs2022-cruntime/"
+      ]
     },
     {
       "component": "openssl",

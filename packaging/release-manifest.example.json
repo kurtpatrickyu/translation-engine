@@ -342,20 +342,20 @@
   "artifacts": [
     {
       "name": "translation-engine-worker-win-x64.zip",
-      "bytes": 58830440,
-      "sha256": "4b8b6f9a1aa4a4c2ae2a69cbf14f6f8bf210d7eb2be4dd4aa6b43cd111e3048b",
+      "bytes": 58898269,
+      "sha256": "d08329067f9ac3888da673cd967de94c7bc2786f08dabe762bfe382ce133fe11",
       "role": "worker"
     },
     {
       "name": "translation-engine-compliance.zip",
-      "bytes": 4963823,
-      "sha256": "9405ed824a36bb9ea358f09b7d5ddbfab800e4e024880d0f7731e5f487f8a51b",
+      "bytes": 5053818,
+      "sha256": "55253c84cb78034b33ce03498175a2f7aef30334eff9a756859c0c98741b2448",
       "role": "compliance"
     },
     {
       "name": "translation-engine-corresponding-source.zip",
-      "bytes": 4963941,
-      "sha256": "3111891c6d737c8c55cb534bd4bd9b8e4f799b2f105042c18e8ae07fa89b7099",
+      "bytes": 5052608,
+      "sha256": "4e0b4d5d3ce098869242033965e212e173f5381bde823077624d0dc5dbd7723f",
       "role": "corresponding-source-preparation"
     },
     {
@@ -1270,13 +1270,13 @@
     },
     {
       "name": "translation-engine-worker/release-info/THIRD_PARTY_NOTICES.md",
-      "bytes": 7755,
-      "sha256": "8f6cec69a7a8cb5029124ea55c892781548d880558aed1d10be0c200474d0938"
+      "bytes": 8458,
+      "sha256": "55e7a09c8d8566844f7ca02bc051a4c42b862a5f12c7feff14401020a6118bee"
     },
     {
       "name": "translation-engine-worker/release-info/THIRD_PARTY_NOTICES.txt",
-      "bytes": 4583,
-      "sha256": "64f26e61503f02b116159ae86a06f23f2a6734d395faf595e40d91367930e582"
+      "bytes": 5323,
+      "sha256": "667147ec2ff28fe8190b392d0b9619252d4cf4bda2cee89a7c2d169abb0240cf"
     },
     {
       "name": "translation-engine-worker/release-info/WINDOWS-CANDIDATE.md",
@@ -1310,8 +1310,8 @@
     },
     {
       "name": "translation-engine-worker/release-info/docs/releasing.md",
-      "bytes": 7639,
-      "sha256": "2a8054aaa35b17aab8be682b33b846941ec5666b0cc16705ae5fa67013c088d3"
+      "bytes": 8260,
+      "sha256": "b3fa4308e7e9700dbaf9c1462ea476194b7b39cd2d587b702451eda94c101e88"
     },
     {
       "name": "translation-engine-worker/release-info/docs/troubleshooting.md",
@@ -1354,6 +1354,16 @@
       "sha256": "608c89d5060ae9921adccf3236695bc654a9946e12323ef6c021dfa04e294d48"
     },
     {
+      "name": "translation-engine-worker/release-info/licenses/intel-openmp/LICENSE.txt",
+      "bytes": 25224,
+      "sha256": "febfb69a5b058f55892dc7f341108a9ca29d50e9fe85723a57eebbb826436958"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/intel-openmp/third-party-programs.txt",
+      "bytes": 31578,
+      "sha256": "f8ce918fe7311ce279e68380a2e233f8a42b1cd3dda8f4c48d6de97a0255c1d7"
+    },
+    {
       "name": "translation-engine-worker/release-info/licenses/joblib/joblib-1.6.0.dist-info/licenses/LICENSE.txt",
       "bytes": 1527,
       "sha256": "42612911c1872c5e4b43f6ae0e8ee59467cd350332241cf72ce90640264fae6a"
@@ -1382,6 +1392,11 @@
       "name": "translation-engine-worker/release-info/licenses/minisbd/minisbd/modules/LICENSE.txt",
       "bytes": 602,
       "sha256": "2da66d20a8cff881d048b3157b604609f8f19db97177bb4fc0fc083dcfd7371c"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/msvc-numpy/Visual-C-Runtime-2015-2022-License-1.docx",
+      "bytes": 39644,
+      "sha256": "f1e3d56ceb2ad68aae0711b910375009e651ac5530fa0760f0dea6e81e54fae1"
     },
     {
       "name": "translation-engine-worker/release-info/licenses/numpy/numpy-2.5.4.dist-info/licenses/LICENSE.txt",
@@ -1492,6 +1507,11 @@
       "name": "translation-engine-worker/release-info/licenses/onnxruntime/onnxruntime/ThirdPartyNotices.txt",
       "bytes": 344457,
       "sha256": "c53a76501ef60db6f865f20599f220761201ac4057683acefdab37d861b86622"
+    },
+    {
+      "name": "translation-engine-worker/release-info/licenses/openblas/LICENSE.txt",
+      "bytes": 46462,
+      "sha256": "7317b3a9eb806cc83a0cc6b1c7c2fbe6018eed556daa9996e6e3a727a2a5bfbe"
     },
     {
       "name": "translation-engine-worker/release-info/licenses/packaging/packaging-26.3.dist-info/licenses/LICENSE",
@@ -1660,36 +1680,30 @@
     "ready": false,
     "archive": "translation-engine-compliance.zip",
     "source_archive": "translation-engine-corresponding-source.zip",
-    "inventory_sha256": "a6b10357dfb6cac7937ad88b4ea2fa47fa6d29aa6ce5bbf2baf4a5001fecea58",
-    "staged_manifest_sha256": "4a5627ad16b119d70f9537af40da7886f2dbaca6615b698608fcea10b10c0f77",
+    "inventory_sha256": "b0d1045bc25e4d17e3a1704772294d2b87c60141d0d68d2b1dafbb5d83306d5b",
+    "staged_manifest_sha256": "bfedf3f6d4b508f83d1a0d35b2028f28761f555f7e55b8218610c90f5ea3ab4a",
     "blockers": [
       {
         "component": "intel-openmp",
         "id": "review",
-        "reason": "Intel OpenMP redistribution grant, required notices and compatibility with MiniSBD AGPL require an evidence-backed disposition."
+        "reason": "Intel 2025.3.0 DLL provenance and applicable August 2024 EULA are now established. EULA sections 1.I, 2.1.D and 3.1 require a redistribution designation, executable-only/end-user restrictions and a reciprocal-license assessment; the collected package supplies no redist designation. Permission for this package remains undisposed."
       },
       {
         "component": "msvc-numpy",
         "id": "review",
-        "reason": "NumPy wheel-local renamed MSVC DLL redistribution entitlement and any repair/renaming conditions require an evidence-backed disposition."
-      },
-      {
-        "component": "openblas",
-        "id": "review",
-        "reason": "OpenBLAS GCC runtime exception eligibility and any resulting covered-source duties require an evidence-backed disposition."
+        "reason": "The byte-identical NumPy DLL has valid Microsoft-signed contents, original filename msvcp140.dll and version 14.40.33810.0. The standalone runtime EULA grants installation/use, not this distribution; Microsoft directs redistribution to an applicable Visual Studio grant. Neither the hash-renamed form nor this downstream package entitlement is established by wheel inclusion or signature validity."
       }
     ]
   },
   "blockers": [
-    "Intel OpenMP redistribution grant, required notices and compatibility with MiniSBD AGPL require an evidence-backed disposition.",
-    "NumPy wheel-local renamed MSVC DLL redistribution entitlement and any repair/renaming conditions require an evidence-backed disposition.",
-    "OpenBLAS GCC runtime exception eligibility and any resulting covered-source duties require an evidence-backed disposition.",
+    "Intel 2025.3.0 DLL provenance and applicable August 2024 EULA are now established. EULA sections 1.I, 2.1.D and 3.1 require a redistribution designation, executable-only/end-user restrictions and a reciprocal-license assessment; the collected package supplies no redist designation. Permission for this package remains undisposed.",
+    "The byte-identical NumPy DLL has valid Microsoft-signed contents, original filename msvcp140.dll and version 14.40.33810.0. The standalone runtime EULA grants installation/use, not this distribution; Microsoft directs redistribution to an applicable Visual Studio grant. Neither the hash-renamed form nor this downstream package entitlement is established by wheel inclusion or signature validity.",
     "Explicit maintainer publication approval is required."
   ],
   "assembly": {
     "node": "22.11.0",
     "zlib": "1.3.0.1-motley-71660e1",
-    "config_sha256": "1cd72e4bbfd1b64a5311f3ee4947f9f7bd26bccf7465d7af58b60ad3323d6905",
+    "config_sha256": "fd74028db87bfc104b0c14b0b4dbdefe4d076a6f9bcbbb75efad345672c76c77",
     "tool_sha256": "562063cef2dcb02462d0a612a4763557959ad027e2bab354c8bfc9943f836731"
   }
 }

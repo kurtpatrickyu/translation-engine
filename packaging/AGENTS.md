@@ -22,8 +22,9 @@ components. Target machines need no Python or Node. See
 - `compliance-inventory.json` is the active candidate component/material/evidence
   inventory. Preserve exact file ownership, supplier bytes, source correspondence
   and classified review findings. Its `release_review` distinguishes mandatory
-  conditions and material decisions from informational research. `sources/` contains original MiniSBD/tqdm
-  source archives; `../LICENSES/` holds collected supplier texts.
+  conditions and material decisions from informational research. `sources/` contains
+  original source archives and supplier build/terms evidence; `../LICENSES/` holds
+  collected supplier texts. Preserve their original bytes using `.gitattributes`.
 - `release-candidate.json` pins binary-source and materials commits, compliance
   manifest, external asset metadata and regression evidence.
   `release-manifest.schema.json` defines the candidate/prepared stable contract;

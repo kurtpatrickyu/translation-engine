@@ -35,3 +35,6 @@ also cover incorporated components; retain the complete texts without filtering.
 | translation-engine | 0.1.0 | MIT | [LICENSE](LICENSES/translation-engine/LICENSE) |
 | CPython | 3.12.10 | PSF-2.0 and historical/incorporated licenses | [LICENSE.txt](LICENSES/python/LICENSE.txt) |
 | PyInstaller embedded runtime | 6.22.3 | GPL-2.0-or-later WITH bootloader exception; Apache-2.0 runtime hooks | [COPYING.txt](LICENSES/pyinstaller/COPYING.txt); [Apache-2.0.txt](LICENSES/pyinstaller/Apache-2.0.txt) |
+| OpenBLAS / LAPACK / incorporated GCC runtime | scipy-openblas64 0.3.34.106.0 | Supplier BSD-2-Clause; OpenBLAS/LAPACK BSD terms; GPLv3 with GCC Runtime Library Exception 3.1 | [Complete supplier license](LICENSES/openblas/LICENSE.txt) |
+| Intel OpenMP runtime | intel-openmp 2025.3.0 | Developer Tools EULA, August 2024; separately licensed components | [EULA](LICENSES/intel-openmp/LICENSE.txt); [complete component notices](LICENSES/intel-openmp/third-party-programs.txt) |
+| Microsoft NumPy wheel-local MSVC DLL | 14.40.33810.0 | Microsoft runtime terms; distribution requires an applicable separate grant | [Original runtime terms](LICENSES/msvc-numpy/Visual-C-Runtime-2015-2022-License-1.docx) |

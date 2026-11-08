@@ -4,8 +4,8 @@
   "worker_version": "0.1.0",
   "source_commit": "b064e29517fb793b2fcf0bf309b6fc78f623367d",
   "materials_commit": "6faf8a8d40713e7f5bafb787a2e900b104995ddb",
-  "compliance_directory": "candidate-staging/release-0.1.0-materials",
-  "compliance_manifest_sha256": "4a5627ad16b119d70f9537af40da7886f2dbaca6615b698608fcea10b10c0f77",
+  "compliance_directory": "candidate-staging/release-0.1.0-permissions-materials",
+  "compliance_manifest_sha256": "bfedf3f6d4b508f83d1a0d35b2028f28761f555f7e55b8218610c90f5ea3ab4a",
   "provenance_sha256": "158fb4456db6edcb70776216da1f44a4935bf04ba5dc487af852a57ee207f2f9",
   "models": {
     "translation": {
