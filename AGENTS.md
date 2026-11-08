@@ -11,10 +11,13 @@ fallback.
 
 Windows 10 clean-VM core smoke testing passed with disclosed limitations.
 Windows 11 is **expected compatible, UNTESTED**; separate acceptance is deferred
-for v0.1.0. Additional unperformed coverage remains a limitation, not a test pass.
-Follow the [release policy](docs/releasing.md): required distribution materials,
-integrity, source identity, material legal dispositions and explicit approval
-govern publication. Historical research checklists are not independent gates.
+for v0.1.0. Remaining testing, evidence collection and provenance research are
+deferred until after v0.1.0; unperformed coverage is not a test pass. The two
+unresolved permission reviews are also deferred for this release by maintainer
+direction, without asserting legal clearance. Follow the [release policy](docs/releasing.md):
+required distribution materials, integrity, source identity, demonstrated
+redistribution prohibitions and explicit approval still govern publication.
+Reassess deferrals before the next release. Historical checklists are not gates.
 
 README.md and docs/ describe current installation, usage, architecture and release
 procedures. OpenSpec is development history and optional change tracking; it is

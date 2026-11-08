@@ -58,4 +58,6 @@ notices and applicable MiniSBD AGPL/tqdm MPL source. The
 [release policy](../docs/releasing.md) is authoritative for publication conditions,
 platform limitations and explicit approval. Prepared manifests do not claim
 approval; a separate record binds the exact verified assets and source identity.
+The v0.1.0 permission deferrals are recorded as non-blocking reviews with null
+dispositions; they do not establish permission. Reassess before the next release.
 Research completeness and historic component status labels are not blanket vetoes.

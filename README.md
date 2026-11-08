@@ -7,8 +7,11 @@ independently of the consuming application; the host owns process supervision.
 
 Windows 10 x64 build 19045.3803 has passed core smoke testing with limitations.
 Windows 11 is **expected compatible, UNTESTED**; separate acceptance is deferred
-for v0.1.0. **No production release is published.**
-The prepared stable asset set is `0.1.0`; see [release status and requirements](docs/releasing.md).
+until after v0.1.0, along with the remaining testing and evidence collection.
+Version **0.1.0** is being prepared for publication. The maintainer has also
+deferred two unresolved redistribution permission reviews for this release;
+this does not establish legal clearance. See the [release policy and deferred work](docs/releasing.md)
+for the retained requirements and follow-up scope.
 
 ## Install and try the Windows worker
 

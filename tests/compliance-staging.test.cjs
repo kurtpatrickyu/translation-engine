@@ -322,7 +322,7 @@ test('the three permission reviews bind exact supplier DLLs and preserve require
   if (!fs.existsSync(path.join(root, inv.candidate.audit.path))) return t.skip('Retained worker dossier is not available.');
   const audit = JSON.parse(s.pinned(path.join(root, inv.candidate.audit.path), inv.candidate.audit.sha256));
   const remaining = s.publicationBlockers(root, inv).map(b => b.component + '/' + b.id).sort();
-  assert.deepEqual(remaining, ['intel-openmp/review', 'msvc-numpy/review']);
+  assert.deepEqual(remaining, []);
   for (const id of ['openblas', 'intel-openmp', 'msvc-numpy']) {
     const c = inv.components.find(c => c.id === id), r = inv.release_review.find(r => r.component === id);
     const identity = c.source_identity;
@@ -334,7 +334,12 @@ test('the three permission reviews bind exact supplier DLLs and preserve require
       assert.equal(s.hash(wheel.get(identity.supplier_member)()), identity.binary_sha256);
     }
     if (id === 'openblas') assert.equal(r.disposition.outcome, 'permitted');
-    else { assert.equal(r.disposition, null); assert(r.question.endsWith('?')); }
+    else {
+      assert.equal(r.disposition, null); assert(r.question.endsWith('?'));
+      assert.equal(r.classification, 'non-blocking');
+      assert.equal(r.deferral.release, '0.1.0');
+      assert.equal(r.deferral.status, 'unresolved');
+    }
   }
   const license = fs.readFileSync(path.join(root, 'LICENSES/openblas/LICENSE.txt'), 'utf8');
   for (const term of ['MacPython', 'OpenBLAS', 'LAPACK', 'GCC RUNTIME LIBRARY EXCEPTION', 'GNU GENERAL PUBLIC LICENSE'])

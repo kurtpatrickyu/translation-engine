@@ -6258,8 +6258,8 @@
       "component": "intel-openmp",
       "id": "review",
       "finding_sha256": "37bd54efc2a564208e33f594ddda15146a77a629a97a904a980b584ed01b8259",
-      "classification": "requires-decision",
-      "rationale": "Intel 2025.3.0 DLL provenance and applicable August 2024 EULA are now established. EULA sections 1.I, 2.1.D and 3.1 require a redistribution designation, executable-only/end-user restrictions and a reciprocal-license assessment; the collected package supplies no redist designation. Permission for this package remains undisposed.",
+      "classification": "non-blocking",
+      "rationale": "Intel 2025.3.0 DLL provenance and applicable August 2024 EULA are now established. EULA sections 1.I, 2.1.D and 3.1 require a redistribution designation, executable-only/end-user restrictions and a reciprocal-license assessment; the collected package supplies no redist designation. Permission for this package remains undisposed. Maintainer-directed policy change on 2026-11-08: defer this unresolved permission review until after v0.1.0; it is non-blocking for this release only. This deferral supplies no redistribution grant or legal clearance. Reassess before the next release.",
       "disposition": null,
       "question": "Under what version-matched Intel authorization and end-user/notice conditions may DLL SHA-256 982233366b0afcda1e0f55a0b134097e35b779613f54ddb69e685e6cd06b755f be redistributed in this MiniSBD-AGPL worker, satisfying EULA 1.I, 2.1.D and 3.1(x), including any applicable nested oneTBB notices?",
       "evidence": [
@@ -6279,14 +6279,21 @@
       "references": [
         "https://pypi.org/project/intel-openmp/2025.3.0/",
         "https://www.intel.com/content/www/us/en/developer/articles/license/end-user-license-agreement.html"
-      ]
+      ],
+      "deferral": {
+        "release": "0.1.0",
+        "date": "2026-11-08",
+        "authority": "Maintainer instruction to defer permission gates for v0.1.0",
+        "follow_up": "After v0.1.0; reassess before the next release",
+        "status": "unresolved"
+      }
     },
     {
       "component": "msvc-numpy",
       "id": "review",
       "finding_sha256": "8c3c8f73328908f357423b1c49b03973fb01d518cc411934ad91d23249907b97",
-      "classification": "requires-decision",
-      "rationale": "The byte-identical NumPy DLL has valid Microsoft-signed contents, original filename msvcp140.dll and version 14.40.33810.0. The standalone runtime EULA grants installation/use, not this distribution; Microsoft directs redistribution to an applicable Visual Studio grant. Neither the hash-renamed form nor this downstream package entitlement is established by wheel inclusion or signature validity.",
+      "classification": "non-blocking",
+      "rationale": "The byte-identical NumPy DLL has valid Microsoft-signed contents, original filename msvcp140.dll and version 14.40.33810.0. The standalone runtime EULA grants installation/use, not this distribution; Microsoft directs redistribution to an applicable Visual Studio grant. Neither the hash-renamed form nor this downstream package entitlement is established by wheel inclusion or signature validity. Maintainer-directed policy change on 2026-11-08: defer this unresolved permission review until after v0.1.0; it is non-blocking for this release only. This deferral supplies no redistribution grant or legal clearance. Reassess before the next release.",
       "disposition": null,
       "question": "Which applicable Microsoft grant authorizes this downstream NumPy/MiniSBD worker to redistribute signed DLL SHA-256 a4c2229bdc2a2a630acdc095b4d86008e5c3e3bc7773174354f3da4f5beb9cde under its existing hash-renamed filename, and what filename/end-user conditions apply?",
       "evidence": [
@@ -6303,7 +6310,14 @@
         "https://learn.microsoft.com/en-us/cpp/windows/redistributing-visual-cpp-files",
         "https://learn.microsoft.com/en-us/visualstudio/releases/2022/redistribution",
         "https://visualstudio.microsoft.com/license-terms/vs2022-cruntime/"
-      ]
+      ],
+      "deferral": {
+        "release": "0.1.0",
+        "date": "2026-11-08",
+        "authority": "Maintainer instruction to defer permission gates for v0.1.0",
+        "follow_up": "After v0.1.0; reassess before the next release",
+        "status": "unresolved"
+      }
     },
     {
       "component": "openssl",

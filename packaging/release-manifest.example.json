@@ -342,26 +342,26 @@
   "artifacts": [
     {
       "name": "translation-engine-worker-win-x64.zip",
-      "bytes": 58898269,
-      "sha256": "d08329067f9ac3888da673cd967de94c7bc2786f08dabe762bfe382ce133fe11",
+      "bytes": 58899472,
+      "sha256": "ed9b62cf936344ffb3c0ca87cd42952071aae19629d84c18e208e6aa2bc1c628",
       "role": "worker"
     },
     {
       "name": "translation-engine-compliance.zip",
-      "bytes": 5053818,
-      "sha256": "55253c84cb78034b33ce03498175a2f7aef30334eff9a756859c0c98741b2448",
+      "bytes": 5054447,
+      "sha256": "a2dd4808c102d36bf72a43f5f4b1e1dde50af90b021813732739ad0e6501fff3",
       "role": "compliance"
     },
     {
       "name": "translation-engine-corresponding-source.zip",
-      "bytes": 5052608,
-      "sha256": "4e0b4d5d3ce098869242033965e212e173f5381bde823077624d0dc5dbd7723f",
+      "bytes": 5055035,
+      "sha256": "0486aa19134edc16ab0d9c8c7c4d56cf6afeea15391cdc83fa21f0b2b96d3d87",
       "role": "corresponding-source-preparation"
     },
     {
       "name": "WINDOWS-CANDIDATE.md",
-      "bytes": 5127,
-      "sha256": "557e1493973aa88993104618fa3bdb5e34298b820a808dfbb2dfc5072e609a29",
+      "bytes": 5360,
+      "sha256": "ef5243ea0e6bd859a0d96ba9e27665b6afcdeaafc3d9970df8dbaa2423fbdbca",
       "role": "usage"
     },
     {
@@ -1260,8 +1260,8 @@
     },
     {
       "name": "translation-engine-worker/release-info/README.md",
-      "bytes": 5127,
-      "sha256": "557e1493973aa88993104618fa3bdb5e34298b820a808dfbb2dfc5072e609a29"
+      "bytes": 5360,
+      "sha256": "ef5243ea0e6bd859a0d96ba9e27665b6afcdeaafc3d9970df8dbaa2423fbdbca"
     },
     {
       "name": "translation-engine-worker/release-info/SOURCE_AVAILABILITY.md",
@@ -1280,8 +1280,8 @@
     },
     {
       "name": "translation-engine-worker/release-info/WINDOWS-CANDIDATE.md",
-      "bytes": 5127,
-      "sha256": "557e1493973aa88993104618fa3bdb5e34298b820a808dfbb2dfc5072e609a29"
+      "bytes": 5360,
+      "sha256": "ef5243ea0e6bd859a0d96ba9e27665b6afcdeaafc3d9970df8dbaa2423fbdbca"
     },
     {
       "name": "translation-engine-worker/release-info/docs/argos-migration.md",
@@ -1310,8 +1310,8 @@
     },
     {
       "name": "translation-engine-worker/release-info/docs/releasing.md",
-      "bytes": 8260,
-      "sha256": "b3fa4308e7e9700dbaf9c1462ea476194b7b39cd2d587b702451eda94c101e88"
+      "bytes": 11118,
+      "sha256": "5dd6f787d6b0d3ae327b60bcb7cc6cc6dec00494a6cfcc82308396451cd8e002"
     },
     {
       "name": "translation-engine-worker/release-info/docs/troubleshooting.md",
@@ -1677,33 +1677,20 @@
     }
   ],
   "compliance": {
-    "ready": false,
+    "ready": true,
     "archive": "translation-engine-compliance.zip",
     "source_archive": "translation-engine-corresponding-source.zip",
-    "inventory_sha256": "b0d1045bc25e4d17e3a1704772294d2b87c60141d0d68d2b1dafbb5d83306d5b",
-    "staged_manifest_sha256": "bfedf3f6d4b508f83d1a0d35b2028f28761f555f7e55b8218610c90f5ea3ab4a",
-    "blockers": [
-      {
-        "component": "intel-openmp",
-        "id": "review",
-        "reason": "Intel 2025.3.0 DLL provenance and applicable August 2024 EULA are now established. EULA sections 1.I, 2.1.D and 3.1 require a redistribution designation, executable-only/end-user restrictions and a reciprocal-license assessment; the collected package supplies no redist designation. Permission for this package remains undisposed."
-      },
-      {
-        "component": "msvc-numpy",
-        "id": "review",
-        "reason": "The byte-identical NumPy DLL has valid Microsoft-signed contents, original filename msvcp140.dll and version 14.40.33810.0. The standalone runtime EULA grants installation/use, not this distribution; Microsoft directs redistribution to an applicable Visual Studio grant. Neither the hash-renamed form nor this downstream package entitlement is established by wheel inclusion or signature validity."
-      }
-    ]
+    "inventory_sha256": "8732d816a78900027ebc8c49d2f3bf622b31ed79db28c686927560183f1425c3",
+    "staged_manifest_sha256": "183713c5846c51686218ffc28464f9a8289f0570c0aaf130fbe0dcf6e8d3cf95",
+    "blockers": []
   },
   "blockers": [
-    "Intel 2025.3.0 DLL provenance and applicable August 2024 EULA are now established. EULA sections 1.I, 2.1.D and 3.1 require a redistribution designation, executable-only/end-user restrictions and a reciprocal-license assessment; the collected package supplies no redist designation. Permission for this package remains undisposed.",
-    "The byte-identical NumPy DLL has valid Microsoft-signed contents, original filename msvcp140.dll and version 14.40.33810.0. The standalone runtime EULA grants installation/use, not this distribution; Microsoft directs redistribution to an applicable Visual Studio grant. Neither the hash-renamed form nor this downstream package entitlement is established by wheel inclusion or signature validity.",
     "Explicit maintainer publication approval is required."
   ],
   "assembly": {
     "node": "22.11.0",
     "zlib": "1.3.0.1-motley-71660e1",
-    "config_sha256": "fd74028db87bfc104b0c14b0b4dbdefe4d076a6f9bcbbb75efad345672c76c77",
+    "config_sha256": "32cd22bd3a927d958fb5d174ee4f4bdedbb95ecf3fb5b36de384c2587267b38e",
     "tool_sha256": "562063cef2dcb02462d0a612a4763557959ad027e2bab354c8bfc9943f836731"
   }
 }

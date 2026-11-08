@@ -52,3 +52,8 @@ is `scripts/validate_windows.py`, separate from pytest. Follow
 [Unicode evidence](../docs/unicode-path-validation.md) for target-host
 checks, with fresh reports and explicit candidate identity. No development-host
 test alone establishes clean Windows support, legal clearance or release readiness.
+
+For v0.1.0, remaining target-host testing and missing acceptance artifacts are
+explicitly deferred until after release in the linked release policy. Preserve
+existing reports; do not create placeholder passes. This does not waive focused
+checks for changed tooling or validation of the exact release assets.
